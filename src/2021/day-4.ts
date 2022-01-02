@@ -27,6 +27,8 @@ function calculateScore(winner?: Winner) {
       return winningNumbers * winningNumber
     }
   }
+  
+  return undefined
 }
 
 class BingoBoard {

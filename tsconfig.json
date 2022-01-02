@@ -4,7 +4,11 @@
   "compilerOptions": {
     "module": "es2022",
     "moduleResolution": "node",
-    "outDir": "dist"
+    "outDir": "dist",
+    "noImplicitReturns": true,
+		"inlineSourceMap": true,
+		"pretty": true,
+		"strict": true,
   },
   "include": [
     "src"

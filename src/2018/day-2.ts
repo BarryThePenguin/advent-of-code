@@ -52,4 +52,6 @@ export const partTwo = (input: string[]) => {
         .join('');
     }
   }
+  
+  return undefined
 };

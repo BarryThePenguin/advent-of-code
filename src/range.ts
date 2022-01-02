@@ -27,10 +27,10 @@ export function rangeFill(...args: RangeArgs) {
   return range(start, end + 1, step)
 }
 
-export function zeroFill(length: number | { length: number }) {
+export function zeroFill(length: number | { length: number }): number[] {
   if (typeof length !== 'number') {
     length = length.length
   }
   
-  return Array.from({ length }).fill(0)
+  return Array.from<number>({ length }).fill(0)
 }

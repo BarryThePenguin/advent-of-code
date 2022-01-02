@@ -1,0 +1,19 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - uses: actions/setup-node@v2.5.0
+      with:
+        node-version: '14'
+        cache: 'npm'
+
+    - run: npm ci
+    - run: npm test
+    - uses: codecov/codecov-action@v2.1.0
