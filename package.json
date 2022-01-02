@@ -7,7 +7,7 @@
   "scripts": {
     "build": "del-cli dist && tsc",
     "pretest": "npm run build",
-    "test": "c8 ava"
+    "test": "xo && c8 ava"
   },
   "repository": {
     "type": "git",

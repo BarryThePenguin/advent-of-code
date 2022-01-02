@@ -1,6 +1,6 @@
-import { frequency } from '../frequency.js'
+import {frequency} from '../frequency.js';
 
-function createFish(fish = new Map()) {
+function createFish(fish = new Map<string, number>()): Map<string, number> {
   return new Map([
     ['0', fish.get('1') ?? 0],
     ['1', fish.get('2') ?? 0],
@@ -10,52 +10,52 @@ function createFish(fish = new Map()) {
     ['5', fish.get('6') ?? 0],
     ['6', fish.get('7') ?? 0],
     ['7', fish.get('8') ?? 0],
-  ])
+  ]);
 }
 
 class School {
-  fish = createFish()
-  
+  fish = createFish();
+
   get count() {
-    let count = 0
-    
-    for (let fishCount of this.fish.values()) {
-        count += fishCount
+    let count = 0;
+
+    for (const fishCount of this.fish.values()) {
+      count += fishCount;
     }
-    
-    return count
+
+    return count;
   }
-  
+
   constructor(fish: string[]) {
-    this.fish = frequency(fish)
+    this.fish = frequency(fish);
   }
-  
+
   nextDay() {
-    const reproduceCount = this.fish.get('0') ?? 0
-    
-    this.fish = createFish(this.fish)
-    
-    this.fish.set('6', reproduceCount + (this.fish.get('6') ?? 0))
-    this.fish.set('8', reproduceCount)
+    const reproduceCount = this.fish.get('0') ?? 0;
+
+    this.fish = createFish(this.fish);
+
+    this.fish.set('6', reproduceCount + (this.fish.get('6') ?? 0));
+    this.fish.set('8', reproduceCount);
   }
 }
 
 export const partOne = (input: string[], days: number) => {
-  const school = new School(input)
-  
+  const school = new School(input);
+
   for (let i = 0; i < days; i++) {
-    school.nextDay()
+    school.nextDay();
   }
-  
-  return school.count
-}
+
+  return school.count;
+};
 
 export const partTwo = (input: string[], days: number) => {
-  const school = new School(input)
-  
+  const school = new School(input);
+
   for (let i = 0; i < days; i++) {
-    school.nextDay()
+    school.nextDay();
   }
-  
-  return school.count
-}
+
+  return school.count;
+};

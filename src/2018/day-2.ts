@@ -1,9 +1,9 @@
-import { frequency } from '../frequency.js'
+import {frequency} from '../frequency.js';
 
-const count = (num: number) => (input: string[]) => {
-  const hashMap = frequency(input)
+const count = (number_: number) => (input: string[]) => {
+  const hashMap = frequency(input);
 
-  if ([...hashMap.values()].some(val => val === num)) {
+  if ([...hashMap.values()].includes(number_)) {
     return 1;
   }
 
@@ -14,33 +14,32 @@ const count2 = count(2);
 const count3 = count(3);
 
 export const partOne = (boxes: string[]) => {
-  const result = boxes.reduce(
-    (acc, val) => {
-      const counted2 = count2(val.split(''));
-      const counted3 = count3(val.split(''));
-      const [two, three] = acc;
-      return [two + counted2, three + counted3];
-    },
-    [0, 0]
-  );
+  let result = [0, 0];
+
+  for (const value of boxes) {
+    const counted2 = count2(value.split(''));
+    const counted3 = count3(value.split(''));
+    const [two, three] = result;
+    result = [two + counted2, three + counted3];
+  }
 
   return result.reduce((a, b) => a * b);
 };
 
 export const partTwo = (input: string[]) => {
-  for (const val1 of input) {
-    const split = val1.split('');
+  for (const value1 of input) {
+    const split = value1.split('');
 
     const found = input
-      .filter(val => val !== val1)
-      .find(val2 => {
-        const found = split.reduce((acc, item, index) => {
-          if (item === val2[index]) {
-            return acc;
-          }
+      .filter((value) => value !== value1)
+      .find((value2) => {
+        let found = 0;
 
-          return acc + 1;
-        }, 0);
+        for (const [index, item] of split.entries()) {
+          if (item !== value2[index]) {
+            found += 1;
+          }
+        }
 
         return found === 1;
       });
@@ -48,10 +47,10 @@ export const partTwo = (input: string[]) => {
     if (found) {
       return found
         .split('')
-        .filter((x, i) => val1[i] === x)
+        .filter((x, i) => value1[i] === x)
         .join('');
     }
   }
-  
-  return undefined
+
+  return undefined;
 };
