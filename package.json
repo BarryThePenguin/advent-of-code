@@ -1,0 +1,40 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src",
+  "type": "module",
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BarryThePenguin/advent-of-code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BarryThePenguin/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/BarryThePenguin/advent-of-code#readme",
+  "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "@tsconfig/node16": "^1.0.2",
+    "ava": "4.0.0-rc.1",
+    "typescript": "^4.5.4",
+    "xo": "^0.39.1"
+  },
+  "ava": {
+    "typescript": {
+      "compile": false,
+      "rewritePaths": {
+        "src/": "dist/"
+      }
+    }
+  },
+  "xo": {
+    "prettier": true,
+    "space": true
+  }
+}
