@@ -1,14 +1,9 @@
 import test from 'ava';
-import readInput from '../read-input.js';
+import {createDayMacro} from '../create-day-macro.js';
+import {readLines} from '../read-input.js';
 import * as dayTwo from './day-2.js';
 
-const partOne = test.macro((t, input: string[], expected: number) => {
-  t.is(dayTwo.partOne(input), expected);
-});
-
-const partTwo = test.macro((t, input: string[], expected?: string) => {
-  t.is(dayTwo.partTwo(input), expected);
-});
+const {partOne, partTwo} = createDayMacro(dayTwo);
 
 const testInput = [
   'abcdef',
@@ -20,13 +15,9 @@ const testInput = [
   'ababab',
 ];
 
-test('example', partOne, testInput, 12);
+test('part one: example', partOne, testInput, 12);
 
-test('day two', async (t) => {
-  const input = await readInput('2018/day-2');
-  const parsedInput = input.toString().split('\n');
-  t.is(dayTwo.partOne(parsedInput), 6370);
-});
+test('part one', partOne, readLines('2018/day-2'), 6370);
 
 const partTwoTestInput = [
   'abcde',
@@ -38,10 +29,6 @@ const partTwoTestInput = [
   'wvxyz',
 ];
 
-test('example part two', partTwo, partTwoTestInput, 'fgij');
+test('part two: example', partTwo, partTwoTestInput, 'fgij');
 
-test('day two part two', async (t) => {
-  const input = await readInput('2018/day-2');
-  const parsedInput = input.toString().split('\n');
-  t.is(dayTwo.partTwo(parsedInput), 'rmyxgdlihczskunpfijqcebtv');
-});
+test('part two', partTwo, readLines('2018/day-2'), 'rmyxgdlihczskunpfijqcebtv');

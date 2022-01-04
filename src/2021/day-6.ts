@@ -40,7 +40,7 @@ class School {
   }
 }
 
-export const partOne = (input: string[], days: number) => {
+export const partOne = ({input, days}: {input: string[]; days: number}) => {
   const school = new School(input);
 
   for (let i = 0; i < days; i++) {
@@ -50,7 +50,7 @@ export const partOne = (input: string[], days: number) => {
   return school.count;
 };
 
-export const partTwo = (input: string[], days: number) => {
+export const partTwo = ({input, days}: {input: string[]; days: number}) => {
   const school = new School(input);
 
   for (let i = 0; i < days; i++) {

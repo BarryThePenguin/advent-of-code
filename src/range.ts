@@ -16,7 +16,7 @@ export type RangeArgs = Parameters<typeof rangeArgs>;
 export function range(...args: RangeArgs) {
   const {start, end, step} = rangeArgs(...args);
 
-  const length = Math.max(Math.ceil((end - start) / (step || 1)), 0);
+  const length = Math.max(Math.ceil((end - start) / step), 0);
 
   return Array.from({length}, (_, k) => k * step + start);
 }

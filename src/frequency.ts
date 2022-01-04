@@ -8,3 +8,18 @@ export function frequency<T>(sequence: T[]): Map<T, number> {
 
   return map;
 }
+
+export function reverseMap<K, V>(map: Map<K, V>): Map<V, K[]> {
+  const reverse = new Map<V, K[]>();
+
+  for (const [k, v] of map) {
+    const value = reverse.get(v) ?? [];
+    reverse.set(v, [...value, k]);
+  }
+
+  return reverse;
+}
+
+export function countFrequency<T>(sequence: T[]): Map<number, T[]> {
+  return reverseMap(frequency(sequence));
+}

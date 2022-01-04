@@ -1,14 +1,9 @@
 import test from 'ava';
-import readInput from '../read-input.js';
+import {createDayMacro} from '../create-day-macro.js';
+import {readLines} from '../read-input.js';
 import * as dayTwo from './day-2.js';
 
-const partOne = test.macro((t, input: string[], expected: number) => {
-  t.is(dayTwo.partOne(input), expected);
-});
-
-const partTwo = test.macro((t, input: string[], expected: number) => {
-  t.is(dayTwo.partTwo(input), expected);
-});
+const {partOne, partTwo} = createDayMacro(dayTwo);
 
 const testInput = [
   'forward 5',
@@ -19,18 +14,10 @@ const testInput = [
   'forward 2',
 ];
 
-test('example', partOne, testInput, 150);
+test('part one: example', partOne, testInput, 150);
 
-test('part one', async (t) => {
-  const input = await readInput('2021/day-2');
-  const parsedInput = input.split('\n');
-  t.is(dayTwo.partOne(parsedInput), 1_804_520);
-});
+test('part one', partOne, readLines('2021/day-2'), 1_804_520);
 
-test('example two', partTwo, testInput, 900);
+test('part two: example', partTwo, testInput, 900);
 
-test('part two', async (t) => {
-  const input = await readInput('2021/day-2');
-  const parsedInput = input.split('\n');
-  t.is(dayTwo.partTwo(parsedInput), 1_971_095_320);
-});
+test('part two', partTwo, readLines('2021/day-2'), 1_971_095_320);

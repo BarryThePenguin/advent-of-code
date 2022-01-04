@@ -1,7 +1,12 @@
-import {readFile} from 'node:fs/promises';
+import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 
-export default async function readInput(inputPath: string) {
+export function readInput(inputPath: string) {
   const filePath = resolve('./input', inputPath);
-  return readFile(filePath, 'utf8');
+  return readFileSync(filePath, 'utf8');
+}
+
+export function readLines(inputPath: string, split = '\n') {
+  const input = readInput(inputPath);
+  return input.split(split);
 }

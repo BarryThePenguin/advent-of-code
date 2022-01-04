@@ -1,56 +1,60 @@
-import {frequency} from '../frequency.js';
-
-const count = (number_: number) => (input: string[]) => {
-  const hashMap = frequency(input);
-
-  if ([...hashMap.values()].includes(number_)) {
-    return 1;
-  }
-
-  return 0;
-};
-
-const count2 = count(2);
-const count3 = count(3);
+import {countFrequency} from '../frequency.js';
 
 export const partOne = (boxes: string[]) => {
-  let result = [0, 0];
+  let count2 = 0;
+  let count3 = 0;
 
   for (const value of boxes) {
-    const counted2 = count2(value.split(''));
-    const counted3 = count3(value.split(''));
-    const [two, three] = result;
-    result = [two + counted2, three + counted3];
-  }
+    const counted = countFrequency(value.split(''));
 
-  return result.reduce((a, b) => a * b);
-};
+    if (counted.has(2)) {
+      count2 += 1;
+    }
 
-export const partTwo = (input: string[]) => {
-  for (const value1 of input) {
-    const split = value1.split('');
-
-    const found = input
-      .filter((value) => value !== value1)
-      .find((value2) => {
-        let found = 0;
-
-        for (const [index, item] of split.entries()) {
-          if (item !== value2[index]) {
-            found += 1;
-          }
-        }
-
-        return found === 1;
-      });
-
-    if (found) {
-      return found
-        .split('')
-        .filter((x, i) => value1[i] === x)
-        .join('');
+    if (counted.has(3)) {
+      count3 += 1;
     }
   }
 
-  return undefined;
+  return count2 * count3;
+};
+
+function difference(stringOne: string, stringTwo: string): string[] {
+  const diff = [];
+
+  for (const [index, char] of Array.from(stringOne).entries()) {
+    if (stringTwo.charAt(index) !== char) {
+      diff.push(char);
+    }
+  }
+
+  return diff;
+}
+
+function union(stringOne: string, stringTwo: string): string[] {
+  const diff = [];
+
+  for (const [index, char] of Array.from(stringOne).entries()) {
+    if (stringTwo.charAt(index) === char) {
+      diff.push(char);
+    }
+  }
+
+  return diff;
+}
+
+export const partTwo = (input: string[]) => {
+  let found;
+
+  for (const value1 of input) {
+    if (typeof found === 'undefined') {
+      found = input.find((value2) => difference(value1, value2).length === 1);
+
+      if (typeof found === 'string') {
+        found = union(found, value1).join('');
+      }
+    }
+  }
+
+  return found;
 };

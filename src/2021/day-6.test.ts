@@ -1,34 +1,37 @@
 import test from 'ava';
-import readInput from '../read-input.js';
+import {createDayMacro} from '../create-day-macro.js';
+import {readLines} from '../read-input.js';
 import * as daySix from './day-6.js';
 
-const partOne = test.macro(
-  (t, [input, days]: [string[], number], expected: number) => {
-    t.is(daySix.partOne(input, days), expected);
-  },
-);
-
-const partTwo = test.macro(
-  (t, [input, days]: [string[], number], expected: number) => {
-    t.is(daySix.partTwo(input, days), expected);
-  },
-);
+const {partOne, partTwo} = createDayMacro(daySix);
 
 const testInput = ['3', '4', '3', '1', '2'];
 
-test('example 18 days', partOne, [testInput, 18], 26);
-test('example 80 days', partOne, [testInput, 80], 5934);
+test('part one: example - 18 days', partOne, {input: testInput, days: 18}, 26);
+test(
+  'part one: example - 80 days',
+  partOne,
+  {input: testInput, days: 80},
+  5934,
+);
 
-test('part one', async (t) => {
-  const input = await readInput('2021/day-6');
-  const parsedInput = input.split(',');
-  t.is(daySix.partOne(parsedInput, 80), 396_210);
-});
+test(
+  'part one',
+  partOne,
+  {input: readLines('2021/day-6', ','), days: 80},
+  396_210,
+);
 
-test('example two 256 days', partTwo, [testInput, 256], 26_984_457_539);
+test(
+  'part two: example - 256 days',
+  partTwo,
+  {input: testInput, days: 256},
+  26_984_457_539,
+);
 
-test('part two', async (t) => {
-  const input = await readInput('2021/day-6');
-  const parsedInput = input.split(',');
-  t.is(daySix.partTwo(parsedInput, 256), 1_770_823_541_496);
-});
+test(
+  'part two',
+  partTwo,
+  {input: readLines('2021/day-6', ','), days: 256},
+  1_770_823_541_496,
+);

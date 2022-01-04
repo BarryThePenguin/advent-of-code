@@ -1,5 +1,6 @@
-export const partOne = (input: string[]) =>
-  input.reduce((acc, value) => acc + Number.parseInt(value, 10), 0);
+export const partOne = (input: string[]) => {
+  return input.reduce((acc, value) => acc + Number.parseInt(value, 10), 0);
+};
 
 export const partTwo = (input: string[]) => {
   const seen = new Set();
