@@ -1,35 +1,66 @@
-export function difference<T>(...sets: Array<Set<T>>) {
-  let differenceSet = new Set();
-
-  if (sets.length > 1) {
-    const [first, ...rest] = sets;
-    differenceSet = new Set(first);
-    for (const set of rest) {
-      for (const item of set) {
-        if (differenceSet.has(item)) {
-          differenceSet.delete(item);
-        }
-      }
-    }
-  }
-
-  return differenceSet;
+export function union<T>(...sets: Array<Set<T>>) {
+	return new Set(sets.flatMap((set) => Array.from(set)));
 }
 
-export function symmetricDifference<T>(...sets: Array<Set<T>>) {
-  const differenceSet = new Set();
+export function intersection<T>(...[first, ...sets]: Array<Set<T>>) {
+	let intersectionSet = first;
 
-  if (sets.length > 1) {
-    for (const set of sets) {
-      for (const item of set) {
-        if (differenceSet.has(item)) {
-          differenceSet.delete(item);
-        } else {
-          differenceSet.add(item);
-        }
-      }
-    }
-  }
+	for (const set of sets) {
+		intersectionSet = new Set(
+			Array.from(intersectionSet).filter((value) => set.has(value)),
+		);
+	}
 
-  return differenceSet;
+	return intersectionSet;
+}
+
+export function relativeComplement<T>(...[first, ...sets]: Array<Set<T>>) {
+	let complementSet = first;
+
+	for (const set of sets) {
+		complementSet = new Set(
+			Array.from(complementSet).filter((value) => !set.has(value)),
+		);
+	}
+
+	return complementSet;
+}
+
+export function difference<T>(...sets: Array<Set<T>>) {
+	let differenceSet = new Set();
+
+	if (sets.length > 1) {
+		const [first, ...rest] = sets;
+		differenceSet = new Set(first);
+		for (const set of rest) {
+			for (const item of set) {
+				if (differenceSet.has(item)) {
+					differenceSet.delete(item);
+				}
+			}
+		}
+	}
+
+	return differenceSet;
+}
+
+export function symmetricDifference<T>(
+	first?: Set<T>,
+	second?: Set<T>,
+	...rest: Array<Set<T>>
+) {
+	let result = new Set<T>();
+
+	if (first && second) {
+		result = union(
+			relativeComplement(first, second),
+			relativeComplement(second, first),
+		);
+	}
+
+	if (rest.length > 0) {
+		result = symmetricDifference(result, ...rest);
+	}
+
+	return result;
 }

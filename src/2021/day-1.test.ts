@@ -6,16 +6,16 @@ import * as dayOne from './day-1.js';
 const {partOne, partTwo} = createDayMacro(dayOne);
 
 const testInput = [
-  '199',
-  '200',
-  '208',
-  '210',
-  '200',
-  '207',
-  '240',
-  '269',
-  '260',
-  '263',
+	'199',
+	'200',
+	'208',
+	'210',
+	'200',
+	'207',
+	'240',
+	'269',
+	'260',
+	'263',
 ];
 
 test('part one: example', partOne, testInput, 7);
