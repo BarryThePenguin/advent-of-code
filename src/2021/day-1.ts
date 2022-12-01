@@ -3,7 +3,7 @@ class Measurements {
 
 	add(...measurements: string[]) {
 		for (const measurement of measurements) {
-			const value = Number.parseInt(measurement, 10);
+			const value = Number(measurement);
 
 			if (typeof value === 'number') {
 				this.measurements.push(value);
@@ -17,7 +17,7 @@ class Measurements {
 		let window = 0;
 
 		for (const depth of measurements) {
-			const value = Number.parseInt(depth, 10);
+			const value = Number(depth);
 
 			if (typeof value === 'number') {
 				window += value;

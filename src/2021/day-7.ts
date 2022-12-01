@@ -6,7 +6,7 @@ function maxKey<K, V>(map: Map<K, V>) {
 
 	for (const key of map.keys()) {
 		if (typeof key === 'string') {
-			max = Math.max(max, Number.parseInt(key, 10));
+			max = Math.max(max, Number(key));
 		}
 
 		if (typeof key === 'number') {
@@ -29,10 +29,10 @@ class SubPosition {
 
 		for (const position of this.positions.keys()) {
 			let fuelCost = 0;
-			const pos = Number.parseInt(position, 10);
+			const pos = Number(position);
 
 			for (const [distance, count] of this.positions) {
-				const dis = Number.parseInt(distance, 10);
+				const dis = Number(distance);
 				fuelCost += Math.abs(dis - pos) * count;
 			}
 
@@ -52,7 +52,7 @@ class SubPosition {
 			let fuelCost = 0;
 
 			for (const [distance, count] of this.positions) {
-				const dis = Number.parseInt(distance, 10);
+				const dis = Number(distance);
 				const moves = Math.abs(dis - position);
 
 				if (!moveCost.has(moves)) {

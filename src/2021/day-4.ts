@@ -23,10 +23,10 @@ function isWinner(numbers: MarkedNumber[]) {
 function calculateScore(winner?: Winner) {
 	if (winner) {
 		const winningNumbers = winner.board.unmarkedNumbers.reduce(
-			(score, {number}) => score + Number.parseInt(number, 10),
+			(score, {number}) => score + Number(number),
 			0,
 		);
-		const winningNumber = Number.parseInt(winner.winningNumber, 10);
+		const winningNumber = Number(winner.winningNumber);
 
 		if (typeof winningNumbers === 'number') {
 			return winningNumbers * winningNumber;

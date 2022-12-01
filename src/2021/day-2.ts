@@ -2,7 +2,7 @@ class Dive {
 	static parse(command: string) {
 		const [direction, units] = command.split(' ');
 
-		return {direction, units: Number.parseInt(units, 10)};
+		return {direction, units: Number(units)};
 	}
 
 	aim = 0;

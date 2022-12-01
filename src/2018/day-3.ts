@@ -13,11 +13,8 @@ type Claim = {
 const parse = (input: string) => {
 	// #elf, @, X,X: YxY
 	const [elf, , cords, area] = input.split(' ');
-	const [x, y] = cords
-		.replace(':', '')
-		.split(',')
-		.map((number) => Number.parseInt(number, 10));
-	const [a, b] = area.split('x').map((number) => Number.parseInt(number, 10));
+	const [x, y] = cords.replace(':', '').split(',').map(Number);
+	const [a, b] = area.split('x').map(Number);
 	return {elf, cords: {x, y}, area: {x: a, y: b}};
 };
 

@@ -105,7 +105,7 @@ class Display {
 				value = `${value}${entries.get(entry) ?? ''}`;
 			}
 
-			values.push(Number.parseInt(value, 10));
+			values.push(Number(value));
 		}
 
 		return values;
