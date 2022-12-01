@@ -3,11 +3,7 @@ class Measurements {
 
 	add(...measurements: string[]) {
 		for (const measurement of measurements) {
-			const value = Number(measurement);
-
-			if (typeof value === 'number') {
-				this.measurements.push(value);
-			}
+			this.measurements.push(Number(measurement));
 		}
 
 		return this;
@@ -17,11 +13,7 @@ class Measurements {
 		let window = 0;
 
 		for (const depth of measurements) {
-			const value = Number(depth);
-
-			if (typeof value === 'number') {
-				window += value;
-			}
+			window += Number(depth);
 		}
 
 		this.measurements.push(window);
