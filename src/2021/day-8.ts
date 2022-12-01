@@ -25,17 +25,20 @@ function buildEntries(input: string[]) {
 
 		if (typeof digit === 'string') {
 			switch (digit) {
-				case '235':
+				case '235': {
 					fiveDigit.push(entry);
 					break;
+				}
 
-				case '069':
+				case '069': {
 					sixDigit.push(entry);
 					break;
+				}
 
-				default:
+				default: {
 					entries.set(digit, entry);
 					break;
+				}
 			}
 		}
 	}

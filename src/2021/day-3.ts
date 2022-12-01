@@ -22,8 +22,6 @@ class Diagnostic {
 		return {zeros, ones};
 	}
 
-	report: string[];
-
 	zeros: number[];
 
 	ones: number[];
@@ -88,9 +86,7 @@ class Diagnostic {
 		return this.oxygenGeneratorRating * this.co2ScrubberRating;
 	}
 
-	constructor(report: string[]) {
-		this.report = report;
-
+	constructor(protected report: string[]) {
 		const {zeros, ones} = Diagnostic.generate(report);
 
 		this.zeros = zeros;
