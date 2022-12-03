@@ -5,6 +5,7 @@ import {
 	intersection,
 	union,
 	relativeComplement,
+	equivalence,
 } from './set.js';
 
 test('difference', (t) => {
@@ -56,4 +57,18 @@ test('intersection', (t) => {
 	t.deepEqual(intersection(x), new Set([1, 2, 3]));
 	t.deepEqual(intersection(x, y), new Set([2, 3]));
 	t.deepEqual(intersection(x, y, z), new Set([3]));
+});
+
+test('equivalence', (t) => {
+	const x = new Set([1, 2, 3]);
+	const y = new Set([3, 1, 2]);
+	const z = new Set([2, 3, 1]);
+	const w = new Set([1, 2, 3, 4]);
+
+	t.true(equivalence(x));
+	t.true(equivalence(x, y));
+	t.true(equivalence(x, y, z));
+	t.false(equivalence(x, w));
+	t.false(equivalence(x, y, w));
+	t.false(equivalence(x, y, z, w));
 });

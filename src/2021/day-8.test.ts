@@ -22,12 +22,12 @@ const largeTestInput = [
 	'gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce',
 ];
 
-test.skip('part one: example', partOne, largeTestInput, 26);
+test('part one: example', partOne, largeTestInput, 26);
 
-test.skip('part one', partOne, readLines('2021/day-8'), 543);
+test('part one', partOne, readLines('2021/day-8'), 543);
 
-test.skip('part two: example', partTwo, testInput, 5353);
+test('part two: example', partTwo, testInput, 5353);
 
-test.skip('part two: example - large', partTwo, largeTestInput, 61_229);
+test('part two: example - large', partTwo, largeTestInput, 61_229);
 
-test.skip('part two', partTwo, readLines('2021/day-8'), 0);
+test('part two', partTwo, readLines('2021/day-8'), 994_266);

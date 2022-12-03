@@ -1,8 +1,8 @@
-export function union<T>(...sets: Array<Set<T>>) {
+export function union<T>(...sets: Array<Iterable<T>>) {
 	return new Set(sets.flatMap((set) => Array.from(set)));
 }
 
-export function intersection<T>(...[first, ...sets]: Array<Set<T>>) {
+export function intersection<T>(first: Set<T>, ...sets: Array<Set<T>>) {
 	let intersectionSet = first;
 
 	for (const set of sets) {
@@ -14,7 +14,7 @@ export function intersection<T>(...[first, ...sets]: Array<Set<T>>) {
 	return intersectionSet;
 }
 
-export function relativeComplement<T>(...[first, ...sets]: Array<Set<T>>) {
+export function relativeComplement<T>(first: Set<T>, ...sets: Array<Set<T>>) {
 	let complementSet = first;
 
 	for (const set of sets) {
@@ -24,6 +24,18 @@ export function relativeComplement<T>(...[first, ...sets]: Array<Set<T>>) {
 	}
 
 	return complementSet;
+}
+
+export function equivalence<T>(first: Set<T>, ...sets: Array<Set<T>>) {
+	if (sets.length === 0) {
+		return true;
+	}
+
+	const unionSet = union(first, ...sets);
+
+	return (
+		unionSet.size === first.size && sets.every((set) => set.size === first.size)
+	);
 }
 
 export function difference<T>(...sets: Array<Set<T>>) {

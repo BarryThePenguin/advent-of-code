@@ -1,20 +1,11 @@
-import {difference} from '../set.js';
+import {difference, equivalence} from '../set.js';
 import {uniqueReverseMap} from '../frequency.js';
-
-const digits = new Map([
-	[2, '1'],
-	[4, '4'],
-	[3, '7'],
-	[7, '8'],
-	[5, '235'],
-	[6, '069'],
-]);
 
 function differenceOf(diff: number, digit = '', entry = '') {
 	return diff === difference(new Set(digit), new Set(entry)).size;
 }
 
-function buildEntries(input: string[]) {
+function buildEntries(input: string[], digits: Map<number, string>) {
 	const entries = new Map<string, string>();
 
 	const fiveDigit = [];
@@ -66,18 +57,30 @@ function buildEntries(input: string[]) {
 	return uniqueReverseMap(entries);
 }
 
+function decode(entry: string, entries: Map<string, string>) {
+	let value = '';
+
+	for (const entryKey of entries.keys()) {
+		if (equivalence(new Set(entry), new Set(entryKey))) {
+			value = entries.get(entryKey) ?? '';
+		}
+	}
+
+	return value;
+}
+
 class Display {
 	entries: Array<{entries: Map<string, string>; output: string[]}> = [];
 
 	output: string[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: string[], protected digits: Map<number, string>) {
 		for (const entry of input) {
 			const [patterns, output] = entry
 				.split(' | ')
 				.map((value) => value.split(' '));
 			this.output.push(...output);
-			this.entries.push({entries: buildEntries(patterns), output});
+			this.entries.push({entries: buildEntries(patterns, this.digits), output});
 		}
 	}
 
@@ -85,7 +88,7 @@ class Display {
 		let count = 0;
 
 		for (const output of this.output) {
-			const value = digits.get(output.length);
+			const value = this.digits.get(output.length);
 
 			if (typeof value === 'string') {
 				count += 1;
@@ -102,7 +105,7 @@ class Display {
 			let value = '';
 
 			for (const entry of output) {
-				value = `${value}${entries.get(entry) ?? ''}`;
+				value = `${value}${decode(entry, entries)}`;
 			}
 
 			values.push(Number(value));
@@ -123,13 +126,29 @@ class Display {
 }
 
 export const partOne = (input: string[]) => {
-	const display = new Display(input);
+	const digits = new Map([
+		[2, '1'],
+		[4, '4'],
+		[3, '7'],
+		[7, '8'],
+	]);
+
+	const display = new Display(input, digits);
 
 	return display.outputCount;
 };
 
 export const partTwo = (input: string[]) => {
-	const display = new Display(input);
+	const digits = new Map([
+		[2, '1'],
+		[4, '4'],
+		[3, '7'],
+		[7, '8'],
+		[5, '235'],
+		[6, '069'],
+	]);
+
+	const display = new Display(input, digits);
 
 	return display.outputTotal;
 };
