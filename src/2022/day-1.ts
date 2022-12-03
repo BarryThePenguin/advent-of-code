@@ -17,8 +17,6 @@ class CalorieCounter {
 				elf += Number(calories);
 			}
 		}
-
-		this.inTopThree(elf);
 	}
 
 	inTopThree(elf: number) {

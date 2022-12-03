@@ -1,16 +1,15 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
-  "compileOnSave": true,
-  "compilerOptions": {
-    "module": "es2022",
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "noImplicitReturns": true,
+	"extends": "@tsconfig/node16/tsconfig.json",
+	"compileOnSave": true,
+	"compilerOptions": {
+		"module": "es2022",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"noImplicitReturns": true,
 		"inlineSourceMap": true,
 		"pretty": true,
-		"strict": true,
-  },
-  "include": [
-    "src"
-  ]
+		"strict": true
+	},
+	"include": ["src"],
+	"exclude": ["plop-templates"]
 }

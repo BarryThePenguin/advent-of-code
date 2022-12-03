@@ -25,6 +25,7 @@
     "@tsconfig/node16": "^1.0.3",
     "ava": "5.1.0",
     "c8": "^7.12.0",
+    "plop": "^3.1.1",
     "typescript": "^4.9.3",
     "xo": "^0.53.1"
   },
@@ -37,6 +38,7 @@
     }
   },
   "xo": {
+		"ignores": ["plop-templates"],
     "prettier": true,
     "rules": {
       "ava/no-skip-test": "warn"
