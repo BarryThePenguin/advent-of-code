@@ -25,7 +25,6 @@ const testInput = [
 	'18  8 23 26 20',
 	'22 11 13  6  5',
 	' 2  0 12  3  7',
-	'',
 ];
 
 test('part one: example', partOne, testInput, 4512);

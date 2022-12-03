@@ -39,7 +39,7 @@ export function equivalence<T>(first: Set<T>, ...sets: Array<Set<T>>) {
 }
 
 export function difference<T>(...sets: Array<Set<T>>) {
-	let differenceSet = new Set();
+	let differenceSet = new Set<T>();
 
 	if (sets.length > 1) {
 		const [first, ...rest] = sets;

@@ -101,6 +101,8 @@ class Bingo {
 				board.addNumbers(numbers);
 			}
 		}
+
+		this.boards.push(board);
 	}
 
 	play(numbers: string[]): Winner | undefined {

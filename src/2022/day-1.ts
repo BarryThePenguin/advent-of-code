@@ -9,7 +9,6 @@ class CalorieCounter {
 		for (const calories of input) {
 			if (calories === '') {
 				this.elves.push(elf);
-
 				this.inTopThree(elf);
 
 				elf = 0;
@@ -17,6 +16,9 @@ class CalorieCounter {
 				elf += Number(calories);
 			}
 		}
+
+		this.elves.push(elf);
+		this.inTopThree(elf);
 	}
 
 	inTopThree(elf: number) {

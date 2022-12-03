@@ -20,7 +20,6 @@ const testInput = [
 	'9000',
 	'',
 	'10000',
-	'',
 ];
 
 test('part one: example', partOne, testInput, 24_000);

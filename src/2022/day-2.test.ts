@@ -5,7 +5,7 @@ import * as dayOne from './day-2.js';
 
 const {partOne, partTwo} = createDayMacro(dayOne);
 
-const testInput = ['A Y', 'B X', 'C Z', ''];
+const testInput = ['A Y', 'B X', 'C Z'];
 
 test('part one: example', partOne, testInput, 15);
 
