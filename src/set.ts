@@ -76,3 +76,19 @@ export function symmetricDifference<T>(
 
 	return result;
 }
+
+export function superset<T>(first: Set<T>, ...sets: Array<Set<T>>): boolean {
+	if (sets.some((set) => first.size < set.size)) {
+		return false;
+	}
+
+	for (const set of sets) {
+		for (const element of set) {
+			if (!first.has(element)) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
