@@ -138,8 +138,7 @@ class Bingo {
 			}
 		}
 
-		// eslint-disable-next-line no-use-extend-native/no-use-extend-native
-		return [...winningBoards.values()].at(-1);
+		return Array.from(winningBoards.values()).at(-1);
 	}
 }
 
