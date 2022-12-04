@@ -1,0 +1,169 @@
+import {
+	adjacentDown,
+	adjacentDownLeft,
+	adjacentDownRight,
+	adjacentLeft,
+	adjacentRight,
+	adjacentUp,
+	adjacentUpLeft,
+	adjacentUpRight,
+	toCoordinates,
+	toGrid,
+} from '../to-grid.js';
+
+class Octopus {
+	flashed = false;
+
+	constructor(public x: number, public y: number, public energyLevel: number) {}
+
+	get coordinates() {
+		return toCoordinates(this.x, this.y);
+	}
+
+	charge() {
+		this.energyLevel++;
+	}
+
+	flash() {
+		if (!this.flashed) {
+			this.flashed = this.energyLevel > 9;
+			return this.flashed;
+		}
+
+		return false;
+	}
+
+	reset() {
+		if (this.flashed) {
+			this.energyLevel = 0;
+			this.flashed = false;
+		}
+	}
+}
+
+class Cavern {
+	grid = new Map<string, Octopus>();
+
+	constructor(input: string[]) {
+		this.grid = toGrid(
+			input,
+			({x, y, value}) => new Octopus(x, y, Number(value)),
+		);
+	}
+
+	step() {
+		const highlighted = new Map<string, Octopus>();
+
+		for (const octopus of this.grid.values()) {
+			octopus.charge();
+		}
+
+		for (const octopus of this.grid.values()) {
+			this.flash(octopus, highlighted);
+		}
+
+		for (const octopus of this.grid.values()) {
+			octopus.reset();
+		}
+
+		return highlighted;
+	}
+
+	flash(octopus: Octopus, highlighted: Map<string, Octopus>) {
+		if (octopus.flash()) {
+			highlighted.set(octopus.coordinates, octopus);
+			this.chargeAdjacent(octopus, highlighted);
+		}
+	}
+
+	charge(octopus: Octopus, highlighted: Map<string, Octopus>) {
+		octopus.charge();
+		this.flash(octopus, highlighted);
+	}
+
+	chargeAdjacent(octopus: Octopus, highlighted: Map<string, Octopus>) {
+		const up = adjacentUp(this.grid, octopus);
+		const down = adjacentDown(this.grid, octopus);
+		const left = adjacentLeft(this.grid, octopus);
+		const right = adjacentRight(this.grid, octopus);
+		const upLeft = adjacentUpLeft(this.grid, octopus);
+		const upRight = adjacentUpRight(this.grid, octopus);
+		const downLeft = adjacentDownLeft(this.grid, octopus);
+		const downRight = adjacentDownRight(this.grid, octopus);
+
+		if (up) {
+			this.charge(up, highlighted);
+		}
+
+		if (down) {
+			this.charge(down, highlighted);
+		}
+
+		if (left) {
+			this.charge(left, highlighted);
+		}
+
+		if (right) {
+			this.charge(right, highlighted);
+		}
+
+		if (upLeft) {
+			this.charge(upLeft, highlighted);
+		}
+
+		if (upRight) {
+			this.charge(upRight, highlighted);
+		}
+
+		if (downLeft) {
+			this.charge(downLeft, highlighted);
+		}
+
+		if (downRight) {
+			this.charge(downRight, highlighted);
+		}
+	}
+}
+
+function energyLevels(grid: Map<string, Octopus>) {
+	const value: number[][] = [];
+
+	for (const octopus of grid.values()) {
+		const row = value[octopus.y] ?? [];
+		row[octopus.x] = octopus.energyLevel;
+		value[octopus.y] = row;
+	}
+
+	return value.flat();
+}
+
+function every(items: number[], value: number) {
+	return items.every((item) => item === value);
+}
+
+export const partOne = (input: string[]) => {
+	const cavern = new Cavern(input);
+
+	const flashes = [];
+
+	for (let i = 0; i < 100; i++) {
+		flashes.push(...cavern.step().values());
+	}
+
+	return flashes.length;
+};
+
+export const partTwo = (input: string[]) => {
+	const cavern = new Cavern(input);
+
+	let step = 0;
+	let levels: number[] = [1];
+
+	while (!every(levels, 0)) {
+		cavern.step();
+		levels = energyLevels(cavern.grid);
+		step++;
+	}
+
+	return step;
+};
