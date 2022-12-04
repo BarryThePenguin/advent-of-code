@@ -1,8 +1,10 @@
+import {type Coordinates, toCoordinates, toGrid} from '../to-grid.js';
+
 class Location {
 	constructor(public x: number, public y: number, public height: number) {}
 
 	get coordinates() {
-		return `${this.x}${this.y}`;
+		return toCoordinates(this.x, this.y);
 	}
 }
 
@@ -24,43 +26,30 @@ class Basin {
 	}
 }
 
-type AdjacentLocation = (location: Location) => (location: Location) => boolean;
+type AdjacentLocation = (location: Location) => Coordinates;
 
-const adjacentUp: AdjacentLocation =
-	(location) =>
-	({x, y}) =>
-		x === location.x && y === location.y - 1;
+const adjacentUp: AdjacentLocation = ({x, y}) => toCoordinates(x, y - 1);
 
-const adjacentDown: AdjacentLocation =
-	(location) =>
-	({x, y}) =>
-		x === location.x && y === location.y + 1;
+const adjacentDown: AdjacentLocation = ({x, y}) => toCoordinates(x, y + 1);
 
-const adjacentLeft: AdjacentLocation =
-	(location) =>
-	({x, y}) =>
-		y === location.y && x === location.x - 1;
+const adjacentLeft: AdjacentLocation = ({x, y}) => toCoordinates(x - 1, y);
 
-const adjacentRight: AdjacentLocation =
-	(location) =>
-	({x, y}) =>
-		y === location.y && x === location.x + 1;
+const adjacentRight: AdjacentLocation = ({x, y}) => toCoordinates(x + 1, y);
 
 class HeightMap {
-	locations: Location[] = [];
+	locations: Map<string, Location>;
 
 	constructor(input: string[]) {
-		for (const [y, entries] of input.entries()) {
-			for (const [x, height] of Array.from(entries).entries()) {
-				this.locations.push(new Location(x, y, Number(height)));
-			}
-		}
+		this.locations = toGrid(
+			input,
+			({x, y, value}) => new Location(x, y, Number(value)),
+		);
 	}
 
 	findLowPoints() {
 		const lowpoints: Location[] = [];
 
-		for (const location of this.locations) {
+		for (const location of this.locations.values()) {
 			if (this.isLowpoint(location)) {
 				lowpoints.push(location);
 			}
@@ -70,10 +59,10 @@ class HeightMap {
 	}
 
 	isLowpoint(location: Location) {
-		const up = this.locations.find(adjacentUp(location));
-		const down = this.locations.find(adjacentDown(location));
-		const left = this.locations.find(adjacentLeft(location));
-		const right = this.locations.find(adjacentRight(location));
+		const up = this.locations.get(adjacentUp(location));
+		const down = this.locations.get(adjacentDown(location));
+		const left = this.locations.get(adjacentLeft(location));
+		const right = this.locations.get(adjacentRight(location));
 
 		let isLowpoint = true;
 
@@ -109,24 +98,24 @@ class HeightMap {
 	}
 
 	findBasinLocations(location: Location, basin: Basin) {
-		const up = this.locations.find(adjacentUp(location));
-		const down = this.locations.find(adjacentDown(location));
-		const left = this.locations.find(adjacentLeft(location));
-		const right = this.locations.find(adjacentRight(location));
+		const up = this.locations.get(adjacentUp(location));
+		const down = this.locations.get(adjacentDown(location));
+		const left = this.locations.get(adjacentLeft(location));
+		const right = this.locations.get(adjacentRight(location));
 
-		if (up && up?.height !== 9 && basin.addLocation(up)) {
+		if (up && up.height !== 9 && basin.addLocation(up)) {
 			this.findBasinLocations(up, basin);
 		}
 
-		if (down && down?.height !== 9 && basin.addLocation(down)) {
+		if (down && down.height !== 9 && basin.addLocation(down)) {
 			this.findBasinLocations(down, basin);
 		}
 
-		if (left && left?.height !== 9 && basin.addLocation(left)) {
+		if (left && left.height !== 9 && basin.addLocation(left)) {
 			this.findBasinLocations(left, basin);
 		}
 
-		if (right && right?.height !== 9 && basin.addLocation(right)) {
+		if (right && right.height !== 9 && basin.addLocation(right)) {
 			this.findBasinLocations(right, basin);
 		}
 
