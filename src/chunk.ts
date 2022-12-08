@@ -18,3 +18,7 @@ export function* chunk<T>(
 export function entries<T>(items: Iterable<T> | ArrayLike<T>) {
 	return Array.from(items).entries();
 }
+
+export function sum(items: Iterable<number>) {
+	return Array.from(items).reduce((a, b) => a + b, 0);
+}
