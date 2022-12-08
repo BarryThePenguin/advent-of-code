@@ -1,11 +1,20 @@
-export function chunk<T>(items: T[], chunkSize = items.length): T[][] {
+type Chunkable<T> = {
+	length: number;
+
+	slice(start?: number, end?: number): T;
+};
+
+export function* chunk<T>(
+	items: Chunkable<T>,
+	chunkSize = items.length,
+): Generator<T> {
 	let start = 0;
 
-	return Array.from({
-		*[Symbol.iterator]() {
-			while (start < items.length) {
-				yield items.slice(start, (start += chunkSize));
-			}
-		},
-	});
+	while (start < items.length) {
+		yield items.slice(start, (start += chunkSize));
+	}
+}
+
+export function entries<T>(items: Iterable<T> | ArrayLike<T>) {
+	return Array.from(items).entries();
 }
