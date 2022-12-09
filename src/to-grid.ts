@@ -35,7 +35,7 @@ function* coordinatesFrom(input: string[]) {
 	}
 }
 
-type AdjacentCell = <T extends Cell>(
+export type AdjacentCell = <T extends Cell>(
 	grid: Map<string, T>,
 	location: T,
 ) => T | undefined;
