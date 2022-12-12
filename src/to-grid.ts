@@ -27,6 +27,11 @@ export function toCoordinates(x: number, y: number): Coordinates {
 	return `${x},${y}`;
 }
 
+export function fromCoordinates(coordinates: Coordinates): Cell {
+	const [x, y] = coordinates.split(',');
+	return {x: Number(x), y: Number(y)};
+}
+
 function* coordinatesFrom(input: string[]) {
 	for (const [y, entries] of input.entries()) {
 		for (const [x, value] of entries.split('').entries()) {

@@ -22,3 +22,12 @@ export function entries<T>(items: Iterable<T> | ArrayLike<T>) {
 export function sum(items: Iterable<number>) {
 	return Array.from(items).reduce((a, b) => a + b, 0);
 }
+
+export function* walk<T>(items: Iterable<T>) {
+	let previous;
+
+	for (const current of items) {
+		yield {previous, current};
+		previous = current;
+	}
+}
