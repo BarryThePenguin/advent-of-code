@@ -23,6 +23,19 @@ export function toGrid<T extends {readonly coordinates: string}>(
 	return grid;
 }
 
+export function fromGrid<T>(grid: Map<Coordinates, T>) {
+	const output: string[][] = [];
+
+	for (const [cell, data] of grid) {
+		const {x, y} = fromCoordinates(cell);
+		const row = output[y] ?? [];
+		row[x] = String(data);
+		output[y] = row;
+	}
+
+	return output.map((row) => row.join('')).join('\n');
+}
+
 export function toCoordinates(x: number, y: number): Coordinates {
 	return `${x},${y}`;
 }
