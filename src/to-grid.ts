@@ -81,3 +81,30 @@ export const adjacentDownLeft: AdjacentCell = (grid, {x, y}) =>
 
 export const adjacentDownRight: AdjacentCell = (grid, {x, y}) =>
 	grid.get(toCoordinates(x + 1, y + 1));
+
+export function adjacent<T extends Cell>(grid: Map<string, T>, location: T) {
+	const edges = [];
+
+	const up = adjacentUp(grid, location);
+	const down = adjacentDown(grid, location);
+	const left = adjacentLeft(grid, location);
+	const right = adjacentRight(grid, location);
+
+	if (up) {
+		edges.push(up);
+	}
+
+	if (down) {
+		edges.push(down);
+	}
+
+	if (left) {
+		edges.push(left);
+	}
+
+	if (right) {
+		edges.push(right);
+	}
+
+	return edges;
+}
