@@ -23,13 +23,16 @@ export function toGrid<T extends {readonly coordinates: string}>(
 	return grid;
 }
 
-export function fromGrid<T>(grid: Map<Coordinates, T>) {
+export function fromGrid<T>(
+	grid: Map<Coordinates, T>,
+	stringify: (value: T) => string = String,
+) {
 	const output: string[][] = [];
 
 	for (const [cell, data] of grid) {
 		const {x, y} = fromCoordinates(cell);
 		const row = output[y] ?? [];
-		row[x] = String(data);
+		row[x] = stringify(data);
 		output[y] = row;
 	}
 
@@ -53,9 +56,9 @@ function* coordinatesFrom(input: string[]) {
 	}
 }
 
-export type AdjacentCell = <T extends Cell>(
+export type AdjacentCell = <T extends Cell, U extends Cell>(
 	grid: Map<string, T>,
-	location: T,
+	location: U,
 ) => T | undefined;
 
 export const adjacentUp: AdjacentCell = (grid, {x, y}) =>
@@ -82,7 +85,10 @@ export const adjacentDownLeft: AdjacentCell = (grid, {x, y}) =>
 export const adjacentDownRight: AdjacentCell = (grid, {x, y}) =>
 	grid.get(toCoordinates(x + 1, y + 1));
 
-export function adjacent<T extends Cell>(grid: Map<string, T>, location: T) {
+export function adjacent<T extends Cell, U extends Cell>(
+	grid: Map<string, T>,
+	location: U,
+) {
 	const edges = [];
 
 	const up = adjacentUp(grid, location);
