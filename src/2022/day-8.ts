@@ -1,12 +1,4 @@
-import {
-	type AdjacentCell,
-	adjacentUp,
-	toCoordinates,
-	toGrid,
-	adjacentDown,
-	adjacentLeft,
-	adjacentRight,
-} from '../to-grid.js';
+import {toCoordinates, Grid} from '../to-grid.js';
 
 class Tree {
 	constructor(public x: number, public y: number, public height: number) {}
@@ -16,21 +8,30 @@ class Tree {
 	}
 }
 
-class TreeHouse {
-	trees = new Map<string, Tree>();
+class TreeHouse extends Grid<Tree> {
+	get trees() {
+		return this.grid;
+	}
 
 	constructor(input: string[]) {
-		this.trees = toGrid(
-			input,
-			({x, y, value}) => new Tree(x, y, Number(value)),
+		super(
+			Grid.coordinatesFrom(input, function* (x, y, value) {
+				yield new Tree(x, y, Number(value));
+			}),
 		);
 	}
 
 	isVisible(tree: Tree) {
-		const upRow = this.getRow(tree, adjacentUp);
-		const downRow = this.getRow(tree, adjacentDown);
-		const leftRow = this.getRow(tree, adjacentLeft);
-		const rightRow = this.getRow(tree, adjacentRight);
+		const upRow = this.getAdjacentRow(tree, (item) => this.adjacentUp(item));
+		const downRow = this.getAdjacentRow(tree, (item) =>
+			this.adjacentDown(item),
+		);
+		const leftRow = this.getAdjacentRow(tree, (item) =>
+			this.adjacentLeft(item),
+		);
+		const rightRow = this.getAdjacentRow(tree, (item) =>
+			this.adjacentRight(item),
+		);
 
 		const visibleUp = Array.from(upRow).every(
 			(row) => tree.height > row.height,
@@ -51,11 +52,11 @@ class TreeHouse {
 		return visibleUp || visibleDown || visibleLeft || visibleRight;
 	}
 
-	*getRow(tree: Tree, adjacent: AdjacentCell) {
+	*getAdjacentRow(tree: Tree, adjacent: (item: Tree) => Tree | undefined) {
 		let current: Tree | undefined = tree;
 
 		while (typeof current !== 'undefined') {
-			current = adjacent(this.trees, current);
+			current = adjacent(current);
 
 			if (current) {
 				yield current;
@@ -87,10 +88,16 @@ class TreeHouse {
 
 	*calculateScenicScore() {
 		for (const tree of this.trees.values()) {
-			const upRow = this.getRow(tree, adjacentUp);
-			const downRow = this.getRow(tree, adjacentDown);
-			const leftRow = this.getRow(tree, adjacentLeft);
-			const rightRow = this.getRow(tree, adjacentRight);
+			const upRow = this.getAdjacentRow(tree, (item) => this.adjacentUp(item));
+			const downRow = this.getAdjacentRow(tree, (item) =>
+				this.adjacentDown(item),
+			);
+			const leftRow = this.getAdjacentRow(tree, (item) =>
+				this.adjacentLeft(item),
+			);
+			const rightRow = this.getAdjacentRow(tree, (item) =>
+				this.adjacentRight(item),
+			);
 
 			const upDistance = this.viewingDistance(tree, upRow);
 			const downDistance = this.viewingDistance(tree, downRow);

@@ -1,7 +1,6 @@
 import {chunk, sum} from '../chunk.js';
 
 function comparePacket(left: unknown, right: unknown): number {
-	// Console.log({left, right});
 	if (typeof left === 'number' && typeof right === 'number') {
 		return left - right;
 	}

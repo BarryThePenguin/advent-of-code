@@ -1,15 +1,4 @@
-import {
-	adjacentDown,
-	adjacentDownLeft,
-	adjacentDownRight,
-	adjacentLeft,
-	adjacentRight,
-	adjacentUp,
-	adjacentUpLeft,
-	adjacentUpRight,
-	toCoordinates,
-	toGrid,
-} from '../to-grid.js';
+import {toCoordinates, Grid} from '../to-grid.js';
 
 class Octopus {
 	flashed = false;
@@ -41,13 +30,12 @@ class Octopus {
 	}
 }
 
-class Cavern {
-	grid = new Map<string, Octopus>();
-
+class Cavern extends Grid<Octopus> {
 	constructor(input: string[]) {
-		this.grid = toGrid(
-			input,
-			({x, y, value}) => new Octopus(x, y, Number(value)),
+		super(
+			Grid.coordinatesFrom(input, function* (x, y, value) {
+				yield new Octopus(x, y, Number(value));
+			}),
 		);
 	}
 
@@ -82,14 +70,14 @@ class Cavern {
 	}
 
 	chargeAdjacent(octopus: Octopus, highlighted: Map<string, Octopus>) {
-		const up = adjacentUp(this.grid, octopus);
-		const down = adjacentDown(this.grid, octopus);
-		const left = adjacentLeft(this.grid, octopus);
-		const right = adjacentRight(this.grid, octopus);
-		const upLeft = adjacentUpLeft(this.grid, octopus);
-		const upRight = adjacentUpRight(this.grid, octopus);
-		const downLeft = adjacentDownLeft(this.grid, octopus);
-		const downRight = adjacentDownRight(this.grid, octopus);
+		const up = this.adjacentUp(octopus);
+		const down = this.adjacentDown(octopus);
+		const left = this.adjacentLeft(octopus);
+		const right = this.adjacentRight(octopus);
+		const upLeft = this.adjacentUpLeft(octopus);
+		const upRight = this.adjacentUpRight(octopus);
+		const downLeft = this.adjacentDownLeft(octopus);
+		const downRight = this.adjacentDownRight(octopus);
 
 		if (up) {
 			this.charge(up, highlighted);

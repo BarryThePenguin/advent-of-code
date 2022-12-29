@@ -1,4 +1,4 @@
-import {adjacent, type Coordinates, toCoordinates, toGrid} from '../to-grid.js';
+import {type Coordinates, toCoordinates, Grid} from '../to-grid.js';
 
 class Elevation {
 	constructor(public x: number, public y: number, public value: string) {}
@@ -30,27 +30,39 @@ class Elevation {
 	}
 }
 
-class HillClimb {
-	grid: Map<string, Elevation>;
-
+class HillClimb extends Grid<Elevation> {
 	start: Elevation[] = [];
 
 	end?: Elevation;
 
-	constructor(input: string[], start?: string) {
-		this.grid = toGrid(input, ({x, y, value}) => {
-			const elevation = new Elevation(x, y, value === start ? 'S' : value);
+	constructor(input: string[], startValue?: string) {
+		const start: Elevation[] = [];
 
-			if (elevation.start) {
-				this.start.push(elevation);
-			}
+		let end: Elevation | undefined;
 
-			if (elevation.end) {
-				this.end = elevation;
-			}
+		super(
+			Grid.coordinatesFrom(input, function* (x, y, value) {
+				const elevation = new Elevation(
+					x,
+					y,
+					value === startValue ? 'S' : value,
+				);
 
-			return elevation;
-		});
+				if (elevation.start) {
+					start.push(elevation);
+				}
+
+				if (elevation.end) {
+					end = elevation;
+				}
+
+				yield elevation;
+			}),
+		);
+
+		this.start = start;
+
+		this.end = end;
 	}
 
 	climb() {
@@ -100,7 +112,7 @@ class HillClimb {
 			const current = frontier.shift();
 
 			if (current) {
-				for (const next of adjacent(this.grid, current)) {
+				for (const next of this.adjacent(current)) {
 					const elevationDifference = next.elevation - current.elevation;
 
 					if (elevationDifference < 2 && !cameFrom.has(next.coordinates)) {

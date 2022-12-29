@@ -1,11 +1,4 @@
-import {
-	toCoordinates,
-	toGrid,
-	adjacentUp,
-	adjacentDown,
-	adjacentLeft,
-	adjacentRight,
-} from '../to-grid.js';
+import {toCoordinates, Grid} from '../to-grid.js';
 
 class Location {
 	constructor(public x: number, public y: number, public height: number) {}
@@ -33,13 +26,16 @@ class Basin {
 	}
 }
 
-class HeightMap {
-	locations: Map<string, Location>;
+class HeightMap extends Grid<Location> {
+	get locations() {
+		return this.grid;
+	}
 
 	constructor(input: string[]) {
-		this.locations = toGrid(
-			input,
-			({x, y, value}) => new Location(x, y, Number(value)),
+		super(
+			Grid.coordinatesFrom(input, function* (x, y, value) {
+				yield new Location(x, y, Number(value));
+			}),
 		);
 	}
 
@@ -56,10 +52,10 @@ class HeightMap {
 	}
 
 	isLowpoint(location: Location) {
-		const up = adjacentUp(this.locations, location);
-		const down = adjacentDown(this.locations, location);
-		const left = adjacentLeft(this.locations, location);
-		const right = adjacentRight(this.locations, location);
+		const up = this.adjacentUp(location);
+		const down = this.adjacentDown(location);
+		const left = this.adjacentLeft(location);
+		const right = this.adjacentRight(location);
 
 		let isLowpoint = true;
 
@@ -95,10 +91,10 @@ class HeightMap {
 	}
 
 	findBasinLocations(location: Location, basin: Basin) {
-		const up = adjacentUp(this.locations, location);
-		const down = adjacentDown(this.locations, location);
-		const left = adjacentLeft(this.locations, location);
-		const right = adjacentRight(this.locations, location);
+		const up = this.adjacentUp(location);
+		const down = this.adjacentDown(location);
+		const left = this.adjacentLeft(location);
+		const right = this.adjacentRight(location);
 
 		if (up && up.height !== 9 && basin.addLocation(up)) {
 			this.findBasinLocations(up, basin);

@@ -1,13 +1,10 @@
 import {walk} from '../chunk.js';
 import {range} from '../range.js';
 import {
-	adjacentDown,
-	adjacentDownLeft,
-	adjacentDownRight,
 	fromCoordinates,
 	toCoordinates,
-	fromGrid,
 	type Coordinates,
+	Grid,
 } from '../to-grid.js';
 
 class Rock {
@@ -40,25 +37,19 @@ class Sand {
 	}
 }
 
-class Cave {
-	cave = new Map<Coordinates, Rock | Sand>();
+class Cave extends Grid<Rock | Sand> {
+	get cave() {
+		return this.grid;
+	}
 
 	sandSource = fromCoordinates('500,0');
 
-	minX = this.sandSource.x;
-
-	maxX = this.sandSource.x;
-
-	maxY = this.sandSource.y;
-
 	constructor(input: string[], protected withFloor = false) {
-		for (const {x, y} of walkPath(input)) {
-			this.minX = Math.min(x, this.minX);
-			this.maxX = Math.max(x, this.maxX);
-			this.maxY = Math.max(y, this.maxY);
-			const rock = new Rock(x, y);
-			this.cave.set(rock.coordinates, rock);
-		}
+		super(walkPath(input));
+
+		this.minX = Math.min(this.minX, this.sandSource.x);
+		this.maxX = Math.max(this.maxX, this.sandSource.x);
+		this.maxY = Math.max(this.maxY, this.sandSource.y);
 
 		if (withFloor) {
 			this.maxY += 2;
@@ -92,7 +83,7 @@ class Cave {
 	}
 
 	canMoveDown(sand: Sand) {
-		let adjacent = adjacentDown(this.cave, sand);
+		let adjacent = this.adjacentDown(sand);
 
 		if (this.withFloor && this.onFloor(sand)) {
 			adjacent = new Rock(sand.x, this.maxY);
@@ -102,7 +93,7 @@ class Cave {
 	}
 
 	canMoveDownLeft(sand: Sand) {
-		let adjacent = adjacentDownLeft(this.cave, sand);
+		let adjacent = this.adjacentDownLeft(sand);
 
 		if (this.withFloor && this.onFloor(sand)) {
 			adjacent = new Rock(sand.x - 1, this.maxY);
@@ -112,7 +103,7 @@ class Cave {
 	}
 
 	canMoveDownRight(sand: Sand) {
-		let adjacent = adjacentDownRight(this.cave, sand);
+		let adjacent = this.adjacentDownRight(sand);
 
 		if (this.withFloor && this.onFloor(sand)) {
 			adjacent = new Rock(sand.x + 1, this.maxY);
@@ -142,19 +133,19 @@ function* walkPath(input: string[]) {
 
 			if (start.x < end.x) {
 				for (const x of range(start.x, end.x + 1)) {
-					yield {x, y: start.y};
+					yield new Rock(x, start.y);
 				}
 			} else if (start.x > end.x) {
 				for (const x of range(end.x, start.x + 1)) {
-					yield {x, y: start.y};
+					yield new Rock(x, start.y);
 				}
 			} else if (start.y < end.y) {
 				for (const y of range(start.y, end.y + 1)) {
-					yield {x: start.x, y};
+					yield new Rock(start.x, y);
 				}
 			} else if (start.y > end.y) {
 				for (const y of range(end.y, start.y)) {
-					yield {x: start.x, y};
+					yield new Rock(start.x, y);
 				}
 			}
 		}
