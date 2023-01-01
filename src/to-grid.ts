@@ -70,35 +70,35 @@ export abstract class Grid<Item extends GridItem> {
 	}
 
 	adjacentUp({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x, y - 1));
+		return this.getCoordinates(x, y - 1);
 	}
 
 	adjacentDown({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x, y + 1));
+		return this.getCoordinates(x, y + 1);
 	}
 
 	adjacentLeft({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x - 1, y));
+		return this.getCoordinates(x - 1, y);
 	}
 
 	adjacentRight({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x + 1, y));
+		return this.getCoordinates(x + 1, y);
 	}
 
 	adjacentUpLeft({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x - 1, y - 1));
+		return this.getCoordinates(x - 1, y - 1);
 	}
 
 	adjacentUpRight({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x + 1, y - 1));
+		return this.getCoordinates(x + 1, y - 1);
 	}
 
 	adjacentDownLeft({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x - 1, y + 1));
+		return this.getCoordinates(x - 1, y + 1);
 	}
 
 	adjacentDownRight({x, y}: Cell) {
-		return this.grid.get(toCoordinates(x + 1, y + 1));
+		return this.getCoordinates(x + 1, y + 1);
 	}
 
 	debug(stringify: (value: Item) => string = String) {
@@ -106,13 +106,34 @@ export abstract class Grid<Item extends GridItem> {
 	}
 
 	*getRow(row: number) {
-		for (const [cell, data] of this.grid) {
-			const {y} = fromCoordinates(cell);
-
-			if (y === row) {
+		for (const data of this.grid.values()) {
+			if (data.y === row) {
 				yield data;
 			}
 		}
+	}
+
+	getCoordinates(x: number, y: number) {
+		return this.grid.get(toCoordinates(x, y));
+	}
+}
+
+export class Range {
+	constructor(public start: number, public end: number) {}
+
+	get distance() {
+		return this.end - this.start;
+	}
+
+	add(range: Range) {
+		if (this.continuous(range)) {
+			this.start = Math.min(this.start, range.start);
+			this.end = Math.max(this.end, range.end);
+		}
+	}
+
+	continuous(range: Range) {
+		return this.start <= range.end && range.start <= this.end;
 	}
 }
 
@@ -132,15 +153,7 @@ export function fromGrid<T>(
 	return output.map((row) => row.join('')).join('\n');
 }
 
-export function distance(a: Cell | Coordinates, b: Cell | Coordinates) {
-	if (typeof a === 'string') {
-		a = fromCoordinates(a);
-	}
-
-	if (typeof b === 'string') {
-		b = fromCoordinates(b);
-	}
-
+export function distance(a: Cell, b: Cell) {
 	return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
