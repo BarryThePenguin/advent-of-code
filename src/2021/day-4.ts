@@ -110,10 +110,10 @@ class Bingo {
 
 		for (const number of numbers) {
 			for (const board of this.boards) {
-				if (typeof winner === 'undefined') {
+				if (winner === undefined) {
 					board.mark(number);
 
-					if (typeof board.winningNumbers !== 'undefined') {
+					if (board.winningNumbers !== undefined) {
 						winner = {board, winningNumber: number};
 					}
 				}
@@ -131,7 +131,7 @@ class Bingo {
 				if (!winningBoards.has(board)) {
 					board.mark(number);
 
-					if (typeof board.winningNumbers !== 'undefined') {
+					if (board.winningNumbers !== undefined) {
 						winningBoards.set(board, {board, winningNumber: number});
 					}
 				}
