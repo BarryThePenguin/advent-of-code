@@ -3,7 +3,7 @@ function rangeArgs(start: number | {length: number}, end?: number, step = 1) {
 		start = start.length;
 	}
 
-	if (typeof end === 'undefined') {
+	if (end === undefined) {
 		end = start;
 		start = 0;
 	}

@@ -95,7 +95,7 @@ class HillClimb extends Grid<Elevation> {
 			current = cameFrom.get(current.coordinates);
 		}
 
-		if (typeof current === 'undefined') {
+		if (current === undefined) {
 			return;
 		}
 

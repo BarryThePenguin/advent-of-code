@@ -55,7 +55,7 @@ class TreeHouse extends Grid<Tree> {
 	*getAdjacentRow(tree: Tree, adjacent: (item: Tree) => Tree | undefined) {
 		let current: Tree | undefined = tree;
 
-		while (typeof current !== 'undefined') {
+		while (current !== undefined) {
 			current = adjacent(current);
 
 			if (current) {

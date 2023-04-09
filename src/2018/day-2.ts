@@ -24,7 +24,7 @@ export const partTwo = (input: string[]) => {
 	let found;
 
 	for (const value1 of input) {
-		if (typeof found === 'undefined') {
+		if (found === undefined) {
 			found = input.find((value2) => difference(value1, value2).length === 1);
 
 			if (typeof found === 'string') {

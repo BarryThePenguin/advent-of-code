@@ -89,7 +89,7 @@ class Cave extends Grid<Rock | Sand> {
 			adjacent = new Rock(sand.x, this.maxY);
 		}
 
-		return typeof adjacent === 'undefined';
+		return adjacent === undefined;
 	}
 
 	canMoveDownLeft(sand: Sand) {
@@ -99,7 +99,7 @@ class Cave extends Grid<Rock | Sand> {
 			adjacent = new Rock(sand.x - 1, this.maxY);
 		}
 
-		return typeof adjacent === 'undefined';
+		return adjacent === undefined;
 	}
 
 	canMoveDownRight(sand: Sand) {
@@ -109,7 +109,7 @@ class Cave extends Grid<Rock | Sand> {
 			adjacent = new Rock(sand.x + 1, this.maxY);
 		}
 
-		return typeof adjacent === 'undefined';
+		return adjacent === undefined;
 	}
 
 	freeFall(sand: Sand) {

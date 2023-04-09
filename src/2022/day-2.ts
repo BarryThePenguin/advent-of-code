@@ -16,7 +16,7 @@ class GameOne {
 	constructor(input: string[], protected plays: Map<string, number>) {
 		for (const round of input) {
 			const play = plays.get(round);
-			if (typeof play !== 'undefined') {
+			if (play !== undefined) {
 				this.rounds.push(play);
 			}
 		}
