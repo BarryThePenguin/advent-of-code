@@ -22,7 +22,7 @@
   "homepage": "https://github.com/BarryThePenguin/advent-of-code#readme",
   "devDependencies": {
     "@ava/typescript": "^4.0.0",
-    "@tsconfig/node18": "^1.0.1",
+    "@tsconfig/node18": "^18.2.1",
     "ava": "5.3.0",
     "c8": "^7.14.0",
     "plop": "^3.1.2",
