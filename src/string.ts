@@ -1,7 +1,7 @@
+import {equal} from 'node:assert/strict';
+
 export function hammingDistance(stringOne: string, stringTwo = ''): number {
-	if (stringOne.length !== stringTwo.length) {
-		throw new Error('Strings must be the same length');
-	}
+	equal(stringOne.length, stringTwo.length, 'Strings must be the same length');
 
 	let distance = 0;
 

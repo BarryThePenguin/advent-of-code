@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+import {ok} from 'node:assert/strict';
 import {walk} from '../chunk.js';
 import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.js';
 
@@ -31,7 +31,7 @@ class Rope {
 
 		for (const instruction of input) {
 			const [direction, count] = instruction.split(' ');
-			assert.ok(isDirection(direction));
+			ok(isDirection(direction));
 
 			for (let step = 0; step < Number(count); step++) {
 				this.moveHead(direction);

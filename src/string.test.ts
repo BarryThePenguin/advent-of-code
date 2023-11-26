@@ -1,12 +1,11 @@
-import {testProp, fc} from '@fast-check/ava';
+import {testProp, fc, test} from '@fast-check/ava';
 import {hammingDistance} from './string.js';
 
 testProp(
-	'difference',
+	'Hamming distance associative property',
 	[fc.string(), fc.string()],
-	(t, x, y) => {
-		fc.pre(x.length === y.length);
-		t.is(hammingDistance(x, y), hammingDistance(y, x));
+	(t, a, b) => {
+		fc.pre(a.length === b.length);
+		t.is(hammingDistance(a, b), hammingDistance(b, a));
 	},
-	{verbose: true},
 );
