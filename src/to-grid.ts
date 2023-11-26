@@ -1,3 +1,5 @@
+import {entries} from './chunk.js';
+
 type Cell = {
 	x: number;
 	y: number;
@@ -14,8 +16,8 @@ export abstract class Grid<Item extends GridItem> {
 		input: string[],
 		create: (x: number, y: number, value: string) => Iterable<Item>,
 	) {
-		for (const [y, entries] of input.entries()) {
-			for (const [x, value] of entries.split('').entries()) {
+		for (const [y, yValues] of input.entries()) {
+			for (const [x, value] of entries(yValues)) {
 				yield* create(x, y, value);
 			}
 		}

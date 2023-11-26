@@ -160,7 +160,7 @@ class Parser {
 
 		for (const line of this.complete) {
 			let score = 0;
-			for (const token of line.split('')) {
+			for (const token of line) {
 				score *= 5;
 
 				switch (token) {

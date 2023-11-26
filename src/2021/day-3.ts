@@ -1,3 +1,4 @@
+import {entries, keys} from '../chunk.js';
 import {zeroFill} from '../range.js';
 
 class Diagnostic {
@@ -8,7 +9,7 @@ class Diagnostic {
 		const ones = zeroFill(entry);
 
 		for (const item of report) {
-			for (const [index, bit] of item.split('').entries()) {
+			for (const [index, bit] of entries(item)) {
 				if (bit === '0') {
 					zeros[index] += 1;
 				}
@@ -56,7 +57,7 @@ class Diagnostic {
 		let report = this.report;
 		const [entry] = report;
 
-		for (const [index] of entry.split('').entries()) {
+		for (const index of keys(entry)) {
 			if (report.length > 1) {
 				const {zeros, ones} = Diagnostic.generate(report);
 				const filter = ones[index] >= zeros[index] ? '1' : '0';
@@ -71,7 +72,7 @@ class Diagnostic {
 		let report = this.report;
 		const [entry] = report;
 
-		for (const [index] of entry.split('').entries()) {
+		for (const index of keys(entry)) {
 			if (report.length > 1) {
 				const {zeros, ones} = Diagnostic.generate(report);
 				const filter = zeros[index] <= ones[index] ? '0' : '1';

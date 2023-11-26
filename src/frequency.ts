@@ -1,4 +1,4 @@
-export function frequency<T>(sequence: T[]): Map<T, number> {
+export function frequency<T>(sequence: Iterable<T>): Map<T, number> {
 	const map = new Map<T, number>();
 
 	for (const item of sequence) {
@@ -32,6 +32,6 @@ export function uniqueReverseMap<K, V>(map: Map<K, V>): Map<V, K> {
 	return reverse;
 }
 
-export function countFrequency<T>(sequence: T[]): Map<number, T[]> {
+export function countFrequency<T>(sequence: Iterable<T>): Map<number, T[]> {
 	return reverseMap(frequency(sequence));
 }

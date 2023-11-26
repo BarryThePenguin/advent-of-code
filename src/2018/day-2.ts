@@ -6,7 +6,7 @@ export const partOne = (boxes: string[]) => {
 	let count3 = 0;
 
 	for (const value of boxes) {
-		const counted = countFrequency(value.split(''));
+		const counted = countFrequency(value);
 
 		if (counted.has(2)) {
 			count2 += 1;
