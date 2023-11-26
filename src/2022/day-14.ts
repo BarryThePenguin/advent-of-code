@@ -8,7 +8,10 @@ import {
 } from '../to-grid.js';
 
 class Rock {
-	constructor(public x: number, public y: number) {}
+	constructor(
+		public x: number,
+		public y: number,
+	) {}
 
 	get coordinates() {
 		return toCoordinates(this.x, this.y);
@@ -16,7 +19,10 @@ class Rock {
 }
 
 class Sand {
-	constructor(public x: number, public y: number) {}
+	constructor(
+		public x: number,
+		public y: number,
+	) {}
 
 	get coordinates() {
 		return toCoordinates(this.x, this.y);
@@ -44,7 +50,10 @@ class Cave extends Grid<Rock | Sand> {
 
 	sandSource = fromCoordinates('500,0');
 
-	constructor(input: string[], protected withFloor = false) {
+	constructor(
+		input: string[],
+		protected withFloor = false,
+	) {
 		super(walkPath(input));
 
 		this.minX = Math.min(this.minX, this.sandSource.x);

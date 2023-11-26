@@ -13,7 +13,10 @@ enum Score {
 class GameOne {
 	rounds: number[] = [];
 
-	constructor(input: string[], protected plays: Map<string, number>) {
+	constructor(
+		input: string[],
+		protected plays: Map<string, number>,
+	) {
 		for (const round of input) {
 			const play = plays.get(round);
 			if (play !== undefined) {

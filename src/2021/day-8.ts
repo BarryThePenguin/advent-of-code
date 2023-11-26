@@ -74,7 +74,10 @@ class Display {
 
 	output: string[] = [];
 
-	constructor(input: string[], protected digits: Map<number, string>) {
+	constructor(
+		input: string[],
+		protected digits: Map<number, string>,
+	) {
 		for (const entry of input) {
 			const [patterns, output] = entry
 				.split(' | ')

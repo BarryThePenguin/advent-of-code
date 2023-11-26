@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import {walk} from '../chunk.js';
 import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.js';
 
@@ -6,6 +7,10 @@ enum Direction {
 	Left = 'L',
 	Up = 'U',
 	Down = 'D',
+}
+
+function isDirection(value: string): value is Direction {
+	return Object.values(Direction).includes(value as Direction);
 }
 
 class Section {
@@ -26,6 +31,7 @@ class Rope {
 
 		for (const instruction of input) {
 			const [direction, count] = instruction.split(' ');
+			assert.ok(isDirection(direction));
 
 			for (let step = 0; step < Number(count); step++) {
 				this.moveHead(direction);
@@ -46,7 +52,7 @@ class Rope {
 		}
 	}
 
-	moveHead(direction: string) {
+	moveHead(direction: Direction) {
 		let {x, y} = fromCoordinates(this.head.coordinates);
 
 		switch (direction) {

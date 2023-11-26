@@ -3,7 +3,11 @@ import {toCoordinates, Grid} from '../to-grid.js';
 class Octopus {
 	flashed = false;
 
-	constructor(public x: number, public y: number, public energyLevel: number) {}
+	constructor(
+		public x: number,
+		public y: number,
+		public energyLevel: number,
+	) {}
 
 	get coordinates() {
 		return toCoordinates(this.x, this.y);
