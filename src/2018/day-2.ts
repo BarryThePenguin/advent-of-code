@@ -1,5 +1,5 @@
 import {countFrequency} from '../frequency.js';
-import {difference, union} from '../string.js';
+import {hammingDistance, union} from '../string.js';
 
 export const partOne = (boxes: string[]) => {
 	let count2 = 0;
@@ -25,7 +25,7 @@ export const partTwo = (input: string[]) => {
 
 	for (const value1 of input) {
 		if (found === undefined) {
-			found = input.find((value2) => difference(value1, value2).length === 1);
+			found = input.find((value2) => hammingDistance(value1, value2) === 1);
 
 			if (typeof found === 'string') {
 				found = union(found, value1).join('');

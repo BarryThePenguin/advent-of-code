@@ -22,6 +22,7 @@
   "homepage": "https://github.com/BarryThePenguin/advent-of-code#readme",
   "devDependencies": {
     "@ava/typescript": "^4.1.0",
+    "@fast-check/ava": "^1.2.0",
     "@tsconfig/node18": "^18.2.2",
     "ava": "5.3.1",
     "c8": "^8.0.1",
@@ -38,7 +39,9 @@
     }
   },
   "xo": {
-		"ignores": ["plop-templates"],
+    "ignores": [
+      "plop-templates"
+    ],
     "prettier": true,
     "rules": {
       "ava/no-skip-test": "warn"

@@ -1,16 +1,20 @@
-export function difference(stringOne: string, stringTwo: string): string[] {
-	const diff = [];
+export function hammingDistance(stringOne: string, stringTwo = ''): number {
+	if (stringOne.length !== stringTwo.length) {
+		throw new Error('Strings must be the same length');
+	}
+
+	let distance = 0;
 
 	for (const [index, char] of Array.from(stringOne).entries()) {
 		if (stringTwo.charAt(index) !== char) {
-			diff.push(char);
+			distance += 1;
 		}
 	}
 
-	return diff;
+	return distance;
 }
 
-export function union(stringOne: string, stringTwo: string): string[] {
+export function union(stringOne: string, stringTwo = ''): string[] {
 	const diff = [];
 
 	for (const [index, char] of Array.from(stringOne).entries()) {
