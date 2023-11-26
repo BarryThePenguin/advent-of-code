@@ -1,7 +1,10 @@
 import {toCoordinates, distance, Range, Coordinates} from '../to-grid.js';
 
 class Beacon {
-	constructor(public x: number, public y: number) {}
+	constructor(
+		public x: number,
+		public y: number,
+	) {}
 
 	get coordinates() {
 		return toCoordinates(this.x, this.y);
@@ -9,7 +12,11 @@ class Beacon {
 }
 
 class Sensor {
-	constructor(public x: number, public y: number, public beacon: Beacon) {}
+	constructor(
+		public x: number,
+		public y: number,
+		public beacon: Beacon,
+	) {}
 
 	get distance() {
 		return distance(this, this.beacon);

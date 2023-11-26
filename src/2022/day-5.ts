@@ -28,7 +28,7 @@ class CargoCrane {
 		const crates = input.slice(0, middle).reverse();
 		const stacks = crates.shift() ?? '';
 
-		for (const stack of stacks.replace(/\s/g, '')) {
+		for (const stack of stacks.replaceAll(/\s/g, '')) {
 			this.stacks.set(stack, new Stack());
 		}
 
@@ -74,7 +74,7 @@ class CargoCrane {
 function* parseCrates(input: string[]) {
 	for (const row of input) {
 		for (const [index, crateInput] of entries(chunk(row, 4))) {
-			const label = crateInput.replace(/[[\]\s]?/g, '');
+			const label = crateInput.replaceAll(/[[\]\s]?/g, '');
 
 			if (label !== '') {
 				yield {index: String(index + 1), crate: new Crate(label)};

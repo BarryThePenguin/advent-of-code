@@ -9,13 +9,19 @@ const isDirectory = (line: string) => line.startsWith('dir');
 const isFile = (line: string) => startsWithNumber.test(line);
 
 class File {
-	constructor(public name: string, public size: number) {}
+	constructor(
+		public name: string,
+		public size: number,
+	) {}
 }
 
 class Directory {
 	nodes = new Map<string, Node>();
 
-	constructor(public name: string, public parent?: Directory) {
+	constructor(
+		public name: string,
+		public parent?: Directory,
+	) {
 		parent?.addNode(this);
 	}
 

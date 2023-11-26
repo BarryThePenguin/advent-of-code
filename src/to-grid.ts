@@ -119,7 +119,10 @@ export abstract class Grid<Item extends GridItem> {
 }
 
 export class Range {
-	constructor(public start: number, public end: number) {}
+	constructor(
+		public start: number,
+		public end: number,
+	) {}
 
 	get distance() {
 		return this.end - this.start;

@@ -1,7 +1,11 @@
 import {type Coordinates, toCoordinates, Grid} from '../to-grid.js';
 
 class Elevation {
-	constructor(public x: number, public y: number, public value: string) {}
+	constructor(
+		public x: number,
+		public y: number,
+		public value: string,
+	) {}
 
 	get coordinates() {
 		return toCoordinates(this.x, this.y);
