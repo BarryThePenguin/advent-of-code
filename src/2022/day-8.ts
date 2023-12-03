@@ -19,8 +19,8 @@ class TreeHouse extends Grid<Tree> {
 
 	constructor(input: string[]) {
 		super(
-			Grid.coordinatesFrom(input, function* (x, y, value) {
-				yield new Tree(x, y, Number(value));
+			Grid.coordinatesFrom(input, function (x, y, value) {
+				return new Tree(x, y, Number(value));
 			}),
 		);
 	}

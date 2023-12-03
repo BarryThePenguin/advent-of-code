@@ -37,8 +37,8 @@ class Octopus {
 class Cavern extends Grid<Octopus> {
 	constructor(input: string[]) {
 		super(
-			Grid.coordinatesFrom(input, function* (x, y, value) {
-				yield new Octopus(x, y, Number(value));
+			Grid.coordinatesFrom(input, function (x, y, value) {
+				return new Octopus(x, y, Number(value));
 			}),
 		);
 	}

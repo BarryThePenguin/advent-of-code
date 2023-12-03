@@ -37,8 +37,8 @@ class HeightMap extends Grid<Location> {
 
 	constructor(input: string[]) {
 		super(
-			Grid.coordinatesFrom(input, function* (x, y, value) {
-				yield new Location(x, y, Number(value));
+			Grid.coordinatesFrom(input, function (x, y, value) {
+				return new Location(x, y, Number(value));
 			}),
 		);
 	}
