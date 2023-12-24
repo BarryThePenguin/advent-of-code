@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "build": "tsc --build --clean && tsc --build",
+		"build:watch": "tsc --build --watch",
     "pretest": "npm run build",
-    "test": "xo && c8 ava"
+    "test": "xo && c8 ava",
+		"test:watch": "ava --watch"
   },
   "repository": {
     "type": "git",
