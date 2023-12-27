@@ -3,19 +3,19 @@ import {range, rangeFill, zeroFill, type RangeArgs} from './range.js';
 
 const rangeMacro = test.macro(
 	(t, [start, end, increment]: RangeArgs, expected: number[]) => {
-		t.deepEqual(range(start, end, increment), expected);
+		t.deepEqual(Array.from(range(start, end, increment)), expected);
 	},
 );
 
 const rangeFillMacro = test.macro(
 	(t, [start, end, increment]: RangeArgs, expected: number[]) => {
-		t.deepEqual(rangeFill(start, end, increment), expected);
+		t.deepEqual(Array.from(rangeFill(start, end, increment)), expected);
 	},
 );
 
 const zeroFillMacro = test.macro(
 	(t, length: RangeArgs[0], expected: number[]) => {
-		t.deepEqual(zeroFill(length), expected);
+		t.deepEqual(Array.from(zeroFill(length)), expected);
 	},
 );
 

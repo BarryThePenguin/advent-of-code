@@ -1,4 +1,4 @@
-import {testProp, fc, test} from '@fast-check/ava';
+import {testProp, fc} from '@fast-check/ava';
 import {hammingDistance} from './string.js';
 
 testProp(

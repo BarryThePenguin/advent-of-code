@@ -30,7 +30,7 @@ class Scratchcards {
 			const start = cardId + 1;
 
 			this.cardSize.set(cardId, size);
-			this.cardCopies.set(cardId, range(start, start + size));
+			this.cardCopies.set(cardId, Array.from(range(start, start + size)));
 		}
 	}
 
@@ -47,18 +47,17 @@ class Scratchcards {
 	}
 
 	*collect() {
-		let cards = [...this.cardSize.keys()];
+		const cards = Array.from(this.cardSize.keys());
 
 		while (cards.length > 0) {
-			const [cardId] = cards;
-			cards = cards.slice(1);
+			const cardId = cards.shift();
 
 			if (typeof cardId === 'number') {
 				yield cardId;
 				const copy = this.cardCopies.get(cardId);
 
 				if (copy) {
-					cards = [...copy, ...cards];
+					cards.unshift(...copy);
 				}
 			}
 		}

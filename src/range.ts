@@ -13,12 +13,35 @@ function rangeArgs(start: number | {length: number}, end?: number, step = 1) {
 
 export type RangeArgs = Parameters<typeof rangeArgs>;
 
+export class Range implements Iterable<number> {
+	constructor(
+		public readonly start: number,
+		public readonly end: number,
+		public readonly step: number,
+	) {}
+
+	*[Symbol.iterator](): Iterator<number> {
+		let k = 0;
+
+		while (k < this.length) {
+			yield k * this.step + this.start;
+			k++;
+		}
+	}
+
+	get length() {
+		return Math.max(Math.ceil((this.end - this.start) / this.step), 0);
+	}
+
+	includes(value: number) {
+		return this.start <= value && value <= this.end;
+	}
+}
+
 export function range(...args: RangeArgs) {
 	const {start, end, step} = rangeArgs(...args);
 
-	const length = Math.max(Math.ceil((end - start) / step), 0);
-
-	return Array.from({length}, (_, k) => k * step + start);
+	return new Range(start, end, step);
 }
 
 export function rangeFill(...args: RangeArgs) {
@@ -27,10 +50,15 @@ export function rangeFill(...args: RangeArgs) {
 	return range(start, end + 1, step);
 }
 
-export function zeroFill(length: number | {length: number}): number[] {
+export function* zeroFill(length: number | {length: number}) {
 	if (typeof length !== 'number') {
 		length = length.length;
 	}
 
-	return Array.from<number>({length}).fill(0);
+	let k = 0;
+
+	while (k < length) {
+		yield 0;
+		k++;
+	}
 }

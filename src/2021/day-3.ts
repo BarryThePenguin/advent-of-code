@@ -5,8 +5,8 @@ class Diagnostic {
 	static generate(report: string[]) {
 		const [entry] = report;
 
-		const zeros = zeroFill(entry);
-		const ones = zeroFill(entry);
+		const zeros = Array.from(zeroFill(entry));
+		const ones = Array.from(zeroFill(entry));
 
 		for (const item of report) {
 			for (const [index, bit] of entries(item)) {
