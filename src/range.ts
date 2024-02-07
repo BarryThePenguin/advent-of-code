@@ -33,6 +33,27 @@ export class Range implements Iterable<number> {
 		return Math.max(Math.ceil((this.end - this.start) / this.step), 0);
 	}
 
+	get difference() {
+		return this.end - this.start;
+	}
+
+	intersects(range: Range): boolean {
+		return this.intersection(range).length > 0;
+	}
+
+	intersection(range: Range): Range {
+		const start = Math.max(this.start, range.start);
+		const end = Math.min(this.end, range.end);
+
+		console.log({source: this, range, start, end});
+
+		if (start > end) {
+			return new Range(0, 0, 1);
+		}
+
+		return new Range(start, end, this.step);
+	}
+
 	includes(value: number) {
 		return this.start <= value && value <= this.end;
 	}

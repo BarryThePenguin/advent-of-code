@@ -6,12 +6,12 @@ type MapInput = {
 	source: Range;
 };
 
-type TransformFn = (location: number, input: MapInput) => number;
+type TransformFn = (location: Range, input: MapInput) => Range;
 
 type FindFn = (input: MapInput) => Range;
 
 function compose(...maps: GardenMap[]) {
-	return (findFn: FindFn) => (location: number, transformFn: TransformFn) => {
+	return (findFn: FindFn) => (location: Range, transformFn: TransformFn) => {
 		let result = location;
 
 		for (const map of maps) {
@@ -34,10 +34,11 @@ class GardenMap {
 		this.map.push(input);
 	}
 
-	get(location: number, fn: FindFn) {
+	get(location: Range, fn: FindFn) {
 		return this.map.find((entry) => {
 			const range = fn(entry);
-			return range.includes(location);
+			console.log({location, range, interects: range.intersects(location)});
+			return range.intersects(location);
 		});
 	}
 }
@@ -153,10 +154,10 @@ class Almanac {
 		const getLocationBySeed = this.locationBySeed(({source}) => source);
 
 		for (const seed of this.seeds) {
-			locations.push(getLocationBySeed(seed.start, fn));
+			locations.push(getLocationBySeed(seed, fn));
 		}
 
-		return Math.min(...locations);
+		return Math.min(...locations.map((range) => range.start));
 	}
 
 	firstSeedLocation(fn: TransformFn) {
@@ -164,12 +165,11 @@ class Almanac {
 
 		const getSeedByLocation = this.seedByLocation(({dest}) => dest);
 
-		for (const location of range(0, maxLocation)) {
-			const seed = getSeedByLocation(location, fn);
+		const location = range(0, maxLocation);
+		const seed = getSeedByLocation(location, fn);
 
-			if (this.isPresent(seed)) {
-				return location;
-			}
+		if (this.isPresent(seed.start)) {
+			return location;
 		}
 
 		throw new Error('No seed found');
@@ -185,9 +185,11 @@ export const partOne = (input: string[]) => {
 	});
 
 	return almanac.lowestLocation((location, {dest, source}) => {
-		const difference = location - source.start;
-		const newLocation = dest.start + difference;
-		return newLocation;
+		const difference = location.start - source.start;
+		const newStart = dest.start + difference;
+		const newEnd = dest.end - difference;
+		console.log({location, dest, source, newStart, newEnd});
+		return range(newStart, newEnd);
 	});
 };
 
@@ -202,8 +204,9 @@ export const partTwo = (input: string[]) => {
 	});
 
 	return almanac.firstSeedLocation((location, {dest, source}) => {
-		const difference = location - dest.start;
-		const newLocation = source.start + difference;
-		return newLocation;
+		const difference = location.start - source.start;
+		const newStart = dest.start + difference;
+		const newEnd = dest.end - difference;
+		return range(newStart, newEnd);
 	});
 };

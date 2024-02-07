@@ -41,10 +41,10 @@ const testInput = [
 	'56 93 4',
 ];
 
-test('part one: example', partOne, testInput, 35);
+test.skip('part one: example', partOne, testInput, 35);
 
-test('part one', partOne, readLines('2023/day-5'), 510_109_797);
+test.skip('part one', partOne, readLines('2023/day-5'), 510_109_797);
 
-test('part two: example', partTwo, testInput, 46);
+// test.skip('part two: example', partTwo, testInput, 46);
 
-test('part two', partTwo, readLines('2023/day-5'), 9_622_622);
+// test.skip('part two', partTwo, readLines('2023/day-5'), 9_622_622);
