@@ -107,7 +107,10 @@ class KeepAway {
 	}
 
 	get modulo() {
-		return this.monkeys.reduce((acc, monkey) => acc * monkey.test.testInput, 1);
+		return this.monkeys.reduce(
+			(accumulator, monkey) => accumulator * monkey.test.testInput,
+			1,
+		);
 	}
 
 	play() {

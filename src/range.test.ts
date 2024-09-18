@@ -1,20 +1,20 @@
 import test from 'ava';
-import {range, rangeFill, zeroFill, type RangeArgs} from './range.js';
+import {range, rangeFill, zeroFill, type RangeArguments} from './range.js';
 
 const rangeMacro = test.macro(
-	(t, [start, end, increment]: RangeArgs, expected: number[]) => {
+	(t, [start, end, increment]: RangeArguments, expected: number[]) => {
 		t.deepEqual(Array.from(range(start, end, increment)), expected);
 	},
 );
 
 const rangeFillMacro = test.macro(
-	(t, [start, end, increment]: RangeArgs, expected: number[]) => {
+	(t, [start, end, increment]: RangeArguments, expected: number[]) => {
 		t.deepEqual(Array.from(rangeFill(start, end, increment)), expected);
 	},
 );
 
 const zeroFillMacro = test.macro(
-	(t, length: RangeArgs[0], expected: number[]) => {
+	(t, length: RangeArguments[0], expected: number[]) => {
 		t.deepEqual(Array.from(zeroFill(length)), expected);
 	},
 );

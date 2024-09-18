@@ -108,8 +108,8 @@ class Terminal {
 }
 
 function parseCommand(line: string) {
-	const [, command, ...args] = line.split(' ');
-	return {command, args};
+	const [, command, ...arguments_] = line.split(' ');
+	return {command, args: arguments_};
 }
 
 function parseFile(line: string) {

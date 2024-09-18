@@ -6,7 +6,7 @@ export function* chunk<T>(
 		throw new Error(`Invalid chunk size: ${chunkSize}`);
 	}
 
-	const it = iter(iterable);
+	const it = iterator(iterable);
 
 	for (;;) {
 		const chunk = Array.from(take(it, chunkSize));
@@ -22,7 +22,7 @@ export function* chunk<T>(
 }
 
 export function* take<T>(iterable: Iterable<T>, n: number): Iterable<T> {
-	const it = iter(iterable);
+	const it = iterator(iterable);
 	let count = n;
 	do {
 		const s = it.next();
@@ -37,8 +37,8 @@ export function* take<T>(iterable: Iterable<T>, n: number): Iterable<T> {
 	} while (count > 0);
 }
 
-export function iter<T>(iterable: Iterable<T>): IterableIterator<T> {
-	class SelfIter implements IterableIterator<T> {
+export function iterator<T>(iterable: Iterable<T>): IterableIterator<T> {
+	class SelfIterator implements IterableIterator<T> {
 		readonly #iterator: Iterator<T>;
 
 		constructor(orig: Iterable<T>) {
@@ -53,7 +53,7 @@ export function iter<T>(iterable: Iterable<T>): IterableIterator<T> {
 			return this.#iterator.next();
 		}
 	}
-	return new SelfIter(iterable);
+	return new SelfIterator(iterable);
 }
 
 export function* flatten<T>(...iterables: Array<Iterable<T>>): Iterable<T> {

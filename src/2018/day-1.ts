@@ -1,5 +1,5 @@
 export const partOne = (input: string[]) => {
-	return input.reduce((acc, value) => acc + Number(value), 0);
+	return input.reduce((accumulator, value) => accumulator + Number(value), 0);
 };
 
 export const partTwo = (input: string[]) => {

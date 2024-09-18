@@ -1,4 +1,8 @@
-function rangeArgs(start: number | {length: number}, end?: number, step = 1) {
+function rangeArguments(
+	start: number | {length: number},
+	end?: number,
+	step = 1,
+) {
 	if (typeof start !== 'number') {
 		start = start.length;
 	}
@@ -11,7 +15,7 @@ function rangeArgs(start: number | {length: number}, end?: number, step = 1) {
 	return {start, end, step};
 }
 
-export type RangeArgs = Parameters<typeof rangeArgs>;
+export type RangeArguments = Parameters<typeof rangeArguments>;
 
 export class Range implements Iterable<number> {
 	constructor(
@@ -59,14 +63,14 @@ export class Range implements Iterable<number> {
 	}
 }
 
-export function range(...args: RangeArgs) {
-	const {start, end, step} = rangeArgs(...args);
+export function range(...arguments_: RangeArguments) {
+	const {start, end, step} = rangeArguments(...arguments_);
 
 	return new Range(start, end, step);
 }
 
-export function rangeFill(...args: RangeArgs) {
-	const {start, end, step} = rangeArgs(...args);
+export function rangeFill(...arguments_: RangeArguments) {
+	const {start, end, step} = rangeArguments(...arguments_);
 
 	return range(start, end + 1, step);
 }

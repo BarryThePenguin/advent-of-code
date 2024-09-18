@@ -6,23 +6,24 @@ type MapInput = {
 	source: Range;
 };
 
-type TransformFn = (location: Range, input: MapInput) => Range;
+type TransformFunction = (location: Range, input: MapInput) => Range;
 
-type FindFn = (input: MapInput) => Range;
+type FindFunction = (input: MapInput) => Range;
 
 function compose(...maps: GardenMap[]) {
-	return (findFn: FindFn) => (location: Range, transformFn: TransformFn) => {
-		let result = location;
+	return (find: FindFunction) =>
+		(location: Range, transform: TransformFunction) => {
+			let result = location;
 
-		for (const map of maps) {
-			const entry = map.get(result, findFn);
-			if (entry) {
-				result = transformFn(result, entry);
+			for (const map of maps) {
+				const entry = map.get(result, find);
+				if (entry) {
+					result = transform(result, entry);
+				}
 			}
-		}
 
-		return result;
-	};
+			return result;
+		};
 }
 
 class GardenMap {
@@ -34,9 +35,9 @@ class GardenMap {
 		this.map.push(input);
 	}
 
-	get(location: Range, fn: FindFn) {
+	get(location: Range, find: FindFunction) {
 		return this.map.find((entry) => {
-			const range = fn(entry);
+			const range = find(entry);
 			console.log({location, range, interects: range.intersects(location)});
 			return range.intersects(location);
 		});
@@ -133,10 +134,10 @@ class Almanac {
 				}
 
 				default: {
-					const [dest, start, count] = value.split(' ').map(Number);
+					const [destination, start, count] = value.split(' ').map(Number);
 
 					map.add({
-						dest: range(dest, dest + count - 1),
+						dest: range(destination, destination + count - 1),
 						source: range(start, start + count - 1),
 					});
 				}
@@ -148,25 +149,25 @@ class Almanac {
 		return this.seeds.some((range) => range.includes(seed));
 	}
 
-	lowestLocation(fn: TransformFn) {
+	lowestLocation(transform: TransformFunction) {
 		const locations = [];
 
 		const getLocationBySeed = this.locationBySeed(({source}) => source);
 
 		for (const seed of this.seeds) {
-			locations.push(getLocationBySeed(seed, fn));
+			locations.push(getLocationBySeed(seed, transform));
 		}
 
 		return Math.min(...locations.map((range) => range.start));
 	}
 
-	firstSeedLocation(fn: TransformFn) {
+	firstSeedLocation(transform: TransformFunction) {
 		const maxLocation = Math.max(...this.seeds.map((range) => range.end));
 
 		const getSeedByLocation = this.seedByLocation(({dest}) => dest);
 
 		const location = range(0, maxLocation);
-		const seed = getSeedByLocation(location, fn);
+		const seed = getSeedByLocation(location, transform);
 
 		if (this.isPresent(seed.start)) {
 			return location;

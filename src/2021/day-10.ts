@@ -64,7 +64,10 @@ function autocomplete(line: string) {
 					found = tokens.lastIndexOf('<');
 					break;
 				}
-				// No default
+
+				default: {
+					throw new Error(`Invalid character: ${char}`);
+				}
 			}
 
 			if (typeof found === 'number' && found >= 0) {
@@ -100,7 +103,10 @@ function autocomplete(line: string) {
 
 				break;
 			}
-			// No default
+
+			default: {
+				throw new Error(`Invalid token: ${token}`);
+			}
 		}
 	}
 
@@ -183,7 +189,10 @@ class Parser {
 						score += 4;
 						break;
 					}
-					// No default
+
+					default: {
+						throw new Error(`Invalid token: ${token}`);
+					}
 				}
 			}
 
