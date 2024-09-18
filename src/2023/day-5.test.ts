@@ -45,6 +45,6 @@ test.skip('part one: example', partOne, testInput, 35);
 
 test.skip('part one', partOne, readLines('2023/day-5'), 510_109_797);
 
-// test.skip('part two: example', partTwo, testInput, 46);
+// Test.skip('part two: example', partTwo, testInput, 46);
 
-// test.skip('part two', partTwo, readLines('2023/day-5'), 9_622_622);
+// Test.skip('part two', partTwo, readLines('2023/day-5'), 9_622_622);
