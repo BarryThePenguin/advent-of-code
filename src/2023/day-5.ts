@@ -1,5 +1,5 @@
-import {chunk} from '../iterable.js';
-import {range, type Range} from '../range.js';
+import {chunk} from '../iterable.ts';
+import {range, type Range} from '../range.ts';
 
 type MapInput = {
 	dest: Range;

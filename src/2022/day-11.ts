@@ -1,4 +1,4 @@
-import {chunk} from '../chunk.js';
+import {chunk} from '../chunk.ts';
 
 class Item {
 	constructor(public value: number) {}

@@ -1,4 +1,4 @@
-import {chunk, sum} from '../chunk.js';
+import {chunk, sum} from '../chunk.ts';
 
 function comparePacket(left: unknown, right: unknown): number {
 	if (typeof left === 'number' && typeof right === 'number') {

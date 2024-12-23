@@ -1,5 +1,5 @@
-import {entries, keys} from '../chunk.js';
-import {zeroFill} from '../range.js';
+import {entries, keys} from '../chunk.ts';
+import {zeroFill} from '../range.ts';
 
 class Diagnostic {
 	static generate(report: string[]) {

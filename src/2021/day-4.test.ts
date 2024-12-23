@@ -1,7 +1,7 @@
 import test from 'ava';
-import {createDayMacro} from '../create-day-macro.js';
-import {readLines} from '../read-input.js';
-import * as dayFour from './day-4.js';
+import {createDayMacro} from '../create-day-macro.ts';
+import {readLines} from '../read-input.ts';
+import * as dayFour from './day-4.ts';
 
 const {partOne, partTwo} = createDayMacro(dayFour);
 

@@ -1,4 +1,4 @@
-import {frequency} from '../frequency.js';
+import {frequency} from '../frequency.ts';
 
 function createFish(fish = new Map<string, number>()): Map<string, number> {
 	return new Map([

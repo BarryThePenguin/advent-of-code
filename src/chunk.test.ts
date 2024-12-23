@@ -1,5 +1,5 @@
 import test from 'ava';
-import {chunk} from './chunk.js';
+import {chunk} from './chunk.ts';
 
 const testChunk = test.macro(
 	(

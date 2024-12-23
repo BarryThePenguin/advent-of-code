@@ -1,5 +1,5 @@
 import {equal} from 'node:assert/strict';
-import {entries} from './chunk.js';
+import {entries} from './chunk.ts';
 
 export function hammingDistance(stringOne: string, stringTwo = ''): number {
 	equal(stringOne.length, stringTwo.length, 'Strings must be the same length');

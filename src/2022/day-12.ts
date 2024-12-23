@@ -1,4 +1,4 @@
-import {type Coordinates, toCoordinates, Grid} from '../to-grid.js';
+import {type Coordinates, toCoordinates, Grid} from '../to-grid.ts';
 
 class Elevation {
 	constructor(

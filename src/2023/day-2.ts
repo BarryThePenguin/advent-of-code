@@ -1,4 +1,4 @@
-import {sum} from '../chunk.js';
+import {sum} from '../chunk.ts';
 
 type Combination = {
 	red: number;

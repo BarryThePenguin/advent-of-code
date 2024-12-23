@@ -1,5 +1,5 @@
-import {difference, equivalence} from '../set.js';
-import {uniqueReverseMap} from '../frequency.js';
+import {difference, equivalence} from '../set.ts';
+import {uniqueReverseMap} from '../frequency.ts';
 
 function differenceOf(diff: number, digit = '', entry = '') {
 	return diff === difference(new Set(digit), new Set(entry)).size;

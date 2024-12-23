@@ -1,5 +1,5 @@
 import test from 'ava';
-import {frequency} from './frequency.js';
+import {frequency} from './frequency.ts';
 
 test('counts the frequency of items in an array', (t) => {
 	const result = frequency(['1', '1', '2', '3', '1', '4', '3']);

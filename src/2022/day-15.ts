@@ -1,4 +1,4 @@
-import {toCoordinates, distance, Range, Coordinates} from '../to-grid.js';
+import {toCoordinates, distance, Range} from '../to-grid.ts';
 
 class Beacon {
 	constructor(

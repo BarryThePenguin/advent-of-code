@@ -1,5 +1,5 @@
-import {sum} from '../chunk.js';
-import {Grid, toCoordinates} from '../to-grid.js';
+import {sum} from '../chunk.ts';
+import {Grid, toCoordinates} from '../to-grid.ts';
 
 class Character {
 	static digit = /\d/;

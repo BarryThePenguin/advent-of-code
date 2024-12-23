@@ -6,7 +6,7 @@ import {
 	union,
 	relativeComplement,
 	equivalence,
-} from './set.js';
+} from './set.ts';
 
 test('difference', (t) => {
 	const x = new Set([1, 2, 3]);

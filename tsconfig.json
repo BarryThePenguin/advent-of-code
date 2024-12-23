@@ -2,13 +2,10 @@
 	"extends": "@tsconfig/node22",
 	"compileOnSave": true,
 	"compilerOptions": {
-		"module": "es2022",
-		"moduleResolution": "node",
-		"outDir": "dist",
-		"noImplicitReturns": true,
+		"allowImportingTsExtensions": true,
 		"inlineSourceMap": true,
-		"pretty": true,
-		"strict": true
+		"noEmit": true,
+		"pretty": true
 	},
 	"include": ["src"],
 	"exclude": ["plop-templates"]

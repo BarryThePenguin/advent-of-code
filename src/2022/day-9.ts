@@ -1,6 +1,6 @@
 import {ok} from 'node:assert/strict';
-import {walk} from '../chunk.js';
-import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.js';
+import {walk} from '../chunk.ts';
+import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.ts';
 
 enum Direction {
 	Right = 'R',

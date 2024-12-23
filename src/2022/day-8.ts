@@ -1,4 +1,4 @@
-import {toCoordinates, Grid} from '../to-grid.js';
+import {toCoordinates, Grid} from '../to-grid.ts';
 
 class Tree {
 	constructor(

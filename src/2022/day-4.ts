@@ -1,5 +1,5 @@
-import {range} from '../range.js';
-import {intersection, superset} from '../set.js';
+import {range} from '../range.ts';
+import {intersection, superset} from '../set.ts';
 
 class Assignments {
 	superset = 0;

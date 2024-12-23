@@ -1,6 +1,6 @@
 import test from 'ava';
 import {testProp, fc} from '@fast-check/ava';
-import {chunk} from './iterable.js';
+import {chunk} from './iterable.ts';
 
 test('empty', (t) => {
 	t.deepEqual(Array.from(chunk([], 3)), []);

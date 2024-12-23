@@ -1,4 +1,4 @@
-import {sum} from '../chunk.js';
+import {sum} from '../chunk.ts';
 
 const startsWithNumber = /^\d+/;
 

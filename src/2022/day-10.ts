@@ -1,5 +1,5 @@
-import {sum} from '../chunk.js';
-import {fromGrid, type Coordinates} from '../to-grid.js';
+import {sum} from '../chunk.ts';
+import {fromGrid, type Coordinates} from '../to-grid.ts';
 
 function* createClock(): Generator<number, number, boolean> {
 	let stop = false;
@@ -18,14 +18,18 @@ class AddxInstruction {
 
 	tick = 0;
 
-	constructor(private readonly value: number) {}
+	readonly #value: number;
+
+	constructor(value: number) {
+		this.#value = value;
+	}
 
 	update() {
 		this.tick++;
 
 		if (this.tick === 2) {
 			this.complete = true;
-			return this.value;
+			return this.#value;
 		}
 
 		return undefined;

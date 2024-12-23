@@ -1,7 +1,7 @@
-import {sum} from '../chunk.js';
-import {frequency} from '../frequency.js';
-import {range} from '../range.js';
-import {intersection} from '../set.js';
+import {sum} from '../chunk.ts';
+import {frequency} from '../frequency.ts';
+import {range} from '../range.ts';
+import {intersection} from '../set.ts';
 
 const digit = /\d+/g;
 const whitespace = /\s+/g;

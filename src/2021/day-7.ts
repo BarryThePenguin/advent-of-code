@@ -1,5 +1,5 @@
-import {frequency} from '../frequency.js';
-import {rangeFill} from '../range.js';
+import {frequency} from '../frequency.ts';
+import {rangeFill} from '../range.ts';
 
 function maxKey<K, V>(map: Map<K, V>) {
 	let max = 0;

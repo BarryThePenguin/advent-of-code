@@ -1,5 +1,5 @@
-import {chunk} from '../chunk.js';
-import {intersection} from '../set.js';
+import {chunk} from '../chunk.ts';
+import {intersection} from '../set.ts';
 
 const lowercase = '`'.codePointAt(0) ?? 0;
 const uppercase = '&'.codePointAt(0) ?? 0;

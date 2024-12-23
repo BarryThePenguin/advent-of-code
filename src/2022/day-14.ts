@@ -1,11 +1,11 @@
-import {walk} from '../chunk.js';
-import {range} from '../range.js';
+import {walk} from '../chunk.ts';
+import {range} from '../range.ts';
 import {
 	fromCoordinates,
 	toCoordinates,
 	type Coordinates,
 	Grid,
-} from '../to-grid.js';
+} from '../to-grid.ts';
 
 class Rock {
 	constructor(

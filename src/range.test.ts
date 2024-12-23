@@ -1,5 +1,5 @@
 import test from 'ava';
-import {range, rangeFill, zeroFill, type RangeArguments} from './range.js';
+import {range, rangeFill, zeroFill, type RangeArguments} from './range.ts';
 
 const rangeMacro = test.macro(
 	(t, [start, end, increment]: RangeArguments, expected: number[]) => {

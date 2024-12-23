@@ -1,4 +1,4 @@
-import {entries} from './chunk.js';
+import {entries} from './chunk.ts';
 
 type Cell = {
 	x: number;

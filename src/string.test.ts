@@ -1,5 +1,5 @@
 import {testProp, fc} from '@fast-check/ava';
-import {hammingDistance} from './string.js';
+import {hammingDistance} from './string.ts';
 
 testProp(
 	'Hamming distance associative property',

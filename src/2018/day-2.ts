@@ -1,5 +1,5 @@
-import {countFrequency} from '../frequency.js';
-import {hammingDistance, union} from '../string.js';
+import {countFrequency} from '../frequency.ts';
+import {hammingDistance, union} from '../string.ts';
 
 export const partOne = (boxes: string[]) => {
 	let count2 = 0;

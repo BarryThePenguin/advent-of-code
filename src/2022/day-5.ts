@@ -1,4 +1,4 @@
-import {chunk, entries} from '../chunk.js';
+import {chunk, entries} from '../chunk.ts';
 
 class Crate {
 	constructor(public label: string) {}
