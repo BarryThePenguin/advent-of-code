@@ -13,15 +13,16 @@ class Cube {
 	) {}
 }
 
+const cubeRegex = /(\d+) (\w+)/g;
+
 class Game {
 	cubes: Cube[] = [];
 
 	constructor(input: string[]) {
 		for (const role of input) {
-			const cubes = role.split(', ');
+			const cubes = role.matchAll(cubeRegex);
 
-			for (const cube of cubes) {
-				const [number, colour] = cube.split(' ');
+			for (const [, number, colour = ''] of cubes) {
 				this.cubes.push(new Cube(Number(number), colour));
 			}
 		}
@@ -50,13 +51,14 @@ class Game {
 	}
 }
 
+const gameRegex = /Game (\d+): (.+)/;
+
 class CubeConundrum {
 	games = new Map<string, Game>();
 
 	constructor(input: string[]) {
 		for (const value of input) {
-			const [idInput, gameInput] = value.split(': ');
-			const id = idInput.replace('Game ', '');
+			const [, id = '', gameInput = ''] = gameRegex.exec(value) ?? [];
 
 			this.games.set(id, new Game(gameInput.split('; ')));
 		}

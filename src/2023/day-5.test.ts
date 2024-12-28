@@ -3,7 +3,7 @@ import {createDayMacro} from '../create-day-macro.ts';
 import {readLines} from '../read-input.ts';
 import * as dayOne from './day-5.ts';
 
-const {partOne, partTwo} = createDayMacro(dayOne);
+const {partOne} = createDayMacro(dayOne);
 
 const testInput = [
 	'seeds: 79 14 55 13',

@@ -1,14 +1,16 @@
+import * as parse from '../parse.ts';
+
 type MarkedNumber = {
-	number: string;
+	number: number;
 	marked: boolean;
 };
 
 type Winner = {
 	board: BingoBoard;
-	winningNumber: string;
+	winningNumber: number;
 };
 
-function mark(numbers: MarkedNumber[], number: string) {
+function mark(numbers: MarkedNumber[], number: number) {
 	for (const markedNumber of numbers.filter(
 		(markedNumber) => !markedNumber.marked,
 	)) {
@@ -57,21 +59,17 @@ class BingoBoard {
 		return unmarkedNumbers;
 	}
 
-	get winningNumbers() {
-		return this.markedNumbers.find((markedNumbers) => isWinner(markedNumbers));
-	}
-
 	addNumbers(numbers: string) {
 		const rows = [];
 
-		for (const number of numbers.trim().split(/\s+/)) {
+		for (const number of parse.integers(numbers)) {
 			rows.push({number, marked: false});
 		}
 
 		for (const [index, markedNumber] of rows.entries()) {
 			const column = this.columns.at(index);
 
-			if (Array.isArray(column)) {
+			if (column) {
 				column.push(markedNumber);
 			} else {
 				this.columns.push([markedNumber]);
@@ -81,10 +79,18 @@ class BingoBoard {
 		this.rows.push(rows);
 	}
 
-	mark(number: string) {
+	mark(number: number) {
+		let winningNumber;
+
 		for (const row of this.markedNumbers) {
 			mark(row, number);
+
+			if (isWinner(row)) {
+				winningNumber = number;
+			}
 		}
+
+		return winningNumber;
 	}
 }
 
@@ -105,16 +111,16 @@ class Bingo {
 		this.boards.push(board);
 	}
 
-	play(numbers: string[]): Winner | undefined {
+	play(numbers: Iterable<number>): Winner | undefined {
 		let winner;
 
 		for (const number of numbers) {
 			for (const board of this.boards) {
-				if (winner === undefined) {
-					board.mark(number);
+				if (!winner) {
+					const winningNumber = board.mark(number);
 
-					if (board.winningNumbers !== undefined) {
-						winner = {board, winningNumber: number};
+					if (winningNumber) {
+						winner = {board, winningNumber};
 					}
 				}
 			}
@@ -123,39 +129,41 @@ class Bingo {
 		return winner;
 	}
 
-	playLast(numbers: string[]): Winner | undefined {
+	playLast(numbers: Iterable<number>): Winner | undefined {
 		const winningBoards = new Map<BingoBoard, Winner>();
 
 		for (const number of numbers) {
 			for (const board of this.boards) {
 				if (!winningBoards.has(board)) {
-					board.mark(number);
+					const winningNumber = board.mark(number);
 
-					if (board.winningNumbers !== undefined) {
-						winningBoards.set(board, {board, winningNumber: number});
+					if (winningNumber) {
+						winningBoards.set(board, {board, winningNumber});
 					}
 				}
 			}
 		}
 
-		return Array.from(winningBoards.values()).at(-1);
+		const winners = [...winningBoards.values()];
+
+		return winners.at(-1);
 	}
 }
 
 export const partOne = (input: string[]) => {
-	const [numbers, ...boards] = input;
+	const [numbers = '', ...boards] = input;
 	const bingo = new Bingo(boards);
 
-	const winner = bingo.play(numbers.split(','));
+	const winner = bingo.play(parse.integers(numbers));
 
 	return calculateScore(winner);
 };
 
 export const partTwo = (input: string[]) => {
-	const [numbers, ...boards] = input;
+	const [numbers = '', ...boards] = input;
 	const bingo = new Bingo(boards);
 
-	const last = bingo.playLast(numbers.split(','));
+	const last = bingo.playLast(parse.integers(numbers));
 
 	return calculateScore(last);
 };

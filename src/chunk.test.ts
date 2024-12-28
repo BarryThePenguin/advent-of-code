@@ -7,7 +7,7 @@ const testChunk = test.macro(
 		inputs: Array<{input: unknown[]; chunkSize?: number; expected: unknown[]}>,
 	) => {
 		for (const {input, chunkSize, expected} of inputs) {
-			t.deepEqual(Array.from(chunk(input, chunkSize)), expected);
+			t.deepEqual(chunk(input, chunkSize).toArray(), expected);
 		}
 	},
 );

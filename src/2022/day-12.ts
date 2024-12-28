@@ -37,7 +37,7 @@ class Elevation {
 class HillClimb extends Grid<Elevation> {
 	start: Elevation[] = [];
 
-	end?: Elevation;
+	end: Elevation | undefined;
 
 	constructor(input: string[], startValue?: string) {
 		const start: Elevation[] = [];
@@ -82,11 +82,9 @@ class HillClimb extends Grid<Elevation> {
 			}
 		}
 
-		paths.sort((a, b) => a.length - b.length);
+		const [shortestPath] = paths.sort((a, b) => a.length - b.length);
 
-		const [shortestPath] = paths;
-
-		return shortestPath;
+		return shortestPath ?? [];
 	}
 
 	search(start: Elevation, end: Elevation) {

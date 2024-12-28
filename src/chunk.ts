@@ -15,16 +15,16 @@ export function* chunk<T>(
 	}
 }
 
-export function entries<T>(items: Iterable<T> | ArrayLike<T>) {
-	return Array.from(items).entries();
+export function entries<T>(items: Iterable<T>): ArrayIterator<[number, T]> {
+	return [...items].entries();
 }
 
-export function keys<T>(items: Iterable<T> | ArrayLike<T>) {
-	return Array.from(items).keys();
+export function keys<T>(items: Iterable<T> | undefined) {
+	return items ? [...items].keys() : [];
 }
 
 export function sum(items: Iterable<number>) {
-	return Array.from(items).reduce((a, b) => a + b, 0);
+	return Iterator.from(items).reduce((a, b) => a + b, 0);
 }
 
 export function* walk<T>(items: Iterable<T>) {

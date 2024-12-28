@@ -1,5 +1,6 @@
 import {range} from '../range.ts';
-import {intersection, superset} from '../set.ts';
+import {superset} from '../set.ts';
+import * as parse from '../parse.ts';
 
 class Assignments {
 	superset = 0;
@@ -8,10 +9,11 @@ class Assignments {
 
 	constructor(input: string[]) {
 		for (const assignment of input) {
-			const [first, second] = assignment.split(',');
+			const [firstStart, firstEnd = 0, secondStart, secondEnd = 0] =
+				parse.positiveIntegers(assignment);
 
-			const firstRange = new Set(cleanRange(first));
-			const secondRange = new Set(cleanRange(second));
+			const firstRange = range(firstStart, firstEnd + 1);
+			const secondRange = range(secondStart, secondEnd + 1);
 
 			if (
 				superset(firstRange, secondRange) ||
@@ -20,18 +22,13 @@ class Assignments {
 				this.superset++;
 			}
 
-			const intersect = intersection(firstRange, secondRange);
+			const overlap = firstRange.overlap(secondRange);
 
-			if (intersect.size > 0) {
+			if (overlap.size > 0) {
 				this.overlap++;
 			}
 		}
 	}
-}
-
-function cleanRange(assignment: string) {
-	const [start, end] = assignment.split('-');
-	return range(Number(start), Number(end) + 1);
 }
 
 export const partOne = (input: string[]) => {

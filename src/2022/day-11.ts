@@ -1,10 +1,33 @@
 import {chunk} from '../chunk.ts';
+import * as parse from '../parse.ts';
+
+type TestInput = {
+	value: number;
+	true: number;
+	false: number;
+};
 
 class Item {
-	constructor(public value: number) {}
+	constructor(private value: number) {}
+
+	add(amount: number | 'old') {
+		return this.value + this.level(amount);
+	}
 
 	inspect(operation: Operation) {
 		this.value = operation.operate(this);
+	}
+
+	level(amount: number | 'old') {
+		return amount === 'old' ? this.value : amount;
+	}
+
+	multiply(amount: number | 'old') {
+		return this.value * this.level(amount);
+	}
+
+	test(input: TestInput) {
+		return this.value % input.value === 0 ? input.true : input.false;
 	}
 }
 
@@ -20,23 +43,12 @@ class Operation {
 	}
 
 	operate(item: Item) {
-		let level = this.amount === 'old' ? item.value : this.amount;
-
-		level = this.operation === '*' ? item.value * level : item.value + level;
+		const level =
+			this.operation === '*'
+				? item.multiply(this.amount)
+				: item.add(this.amount);
 
 		return this.worry(level);
-	}
-}
-
-class Test {
-	constructor(
-		public testInput: number,
-		protected trueResult: number,
-		protected falseResult: number,
-	) {}
-
-	worry(level: number) {
-		return level % this.testInput === 0 ? this.trueResult : this.falseResult;
 	}
 }
 
@@ -46,7 +58,7 @@ class Monkey {
 	constructor(
 		protected items: Item[],
 		public operation: Operation,
-		public test: Test,
+		public testInput: TestInput,
 	) {}
 
 	inspectItems() {
@@ -56,18 +68,20 @@ class Monkey {
 	inspect(item: Item) {
 		this.inspectCount++;
 		item.inspect(this.operation);
+
+		return item.test(this.testInput);
 	}
 
-	throwItem(item: Item) {
+	throwItem(item: Item, to?: Monkey) {
 		this.items.splice(this.items.indexOf(item));
 
-		return {
-			to(monkey: Monkey) {
-				monkey.items.push(item);
-			},
-		};
+		if (to) {
+			to.items.push(item);
+		}
 	}
 }
+
+const operationRegex = /new = old ([*+]) (old|\d+)/;
 
 class KeepAway {
 	monkeys: Monkey[] = [];
@@ -77,29 +91,29 @@ class KeepAway {
 		protected worry: (this: KeepAway, level: number) => number,
 	) {
 		for (const [
-			monkeyInput,
-			startingItemsInput,
-			operationInput,
-			testInput,
-			trueInput,
-			falseInput,
+			,
+			startingItemsInput = '',
+			operationInput = '',
+			testInput = '',
+			trueInput = '',
+			falseInput = '',
 		] of chunk(input, 7)) {
-			const [, startingItems] = startingItemsInput.split('Starting items: ');
-			const [, operationAmount] = operationInput.split('Operation: new = old ');
-			const [operation, amount] = operationAmount.split(' ');
+			const items = parse
+				.integers(startingItemsInput)
+				.map((item) => new Item(item))
+				.toArray();
 
-			const [, input] = testInput.split('Test: divisible by ');
-			const [, trueTest] = trueInput.split('If true: throw to monkey ');
-			const [, falseTest] = falseInput.split('If false: throw to monkey ');
+			const [, operation = '', amount = ''] =
+				operationRegex.exec(operationInput) ?? [];
 
-			const items = startingItems
-				.split(', ')
-				.map((item) => new Item(Number(item)));
+			const [test = 0] = parse.integers(testInput);
+			const [trueTest = 0] = parse.integers(trueInput);
+			const [falseTest = 0] = parse.integers(falseInput);
 
 			const monkey = new Monkey(
 				items,
 				new Operation(amount, operation, this.worry.bind(this)),
-				new Test(Number(input), Number(trueTest), Number(falseTest)),
+				{value: test, true: trueTest, false: falseTest},
 			);
 
 			this.monkeys.push(monkey);
@@ -108,7 +122,7 @@ class KeepAway {
 
 	get modulo() {
 		return this.monkeys.reduce(
-			(accumulator, monkey) => accumulator * monkey.test.testInput,
+			(accumulator, monkey) => accumulator * monkey.testInput.value,
 			1,
 		);
 	}
@@ -116,17 +130,10 @@ class KeepAway {
 	play() {
 		for (const monkey of this.monkeys) {
 			for (const item of monkey.inspectItems()) {
-				monkey.inspect(item);
-
-				const throwTo = this.test(monkey, item);
-				monkey.throwItem(item).to(throwTo);
+				const throwTo = monkey.inspect(item);
+				monkey.throwItem(item, this.monkeys[throwTo]);
 			}
 		}
-	}
-
-	test(monkey: Monkey, item: Item) {
-		const throwTo = monkey.test.worry(item.value);
-		return this.monkeys[throwTo];
 	}
 
 	monkeyBusiness() {
@@ -134,7 +141,7 @@ class KeepAway {
 			(a, b) => b.inspectCount - a.inspectCount,
 		);
 
-		return one.inspectCount * two.inspectCount;
+		return (one?.inspectCount ?? 0) * (two?.inspectCount ?? 0);
 	}
 }
 

@@ -28,9 +28,9 @@ class Reorganizer {
 		for (const backpack of input) {
 			if (backpack.length > 0) {
 				const [one, two] = split(backpack);
-				const commonItems = Array.from(
-					intersection(new Set(one), new Set(two)),
-				).join('');
+				const commonItems = [...intersection(new Set(one), new Set(two))].join(
+					'',
+				);
 				this.priority.push(priority(commonItems));
 			}
 		}
@@ -48,9 +48,9 @@ class GroupReorganizer {
 		for (const backpacks of chunk(input, 3)) {
 			if (backpacks.length === 3) {
 				const [one, two, three] = backpacks;
-				const commonItems = Array.from(
-					intersection(new Set(one), new Set(two), new Set(three)),
-				).join('');
+				const commonItems = [
+					...intersection(new Set(one), new Set(two), new Set(three)),
+				].join('');
 				this.priority.push(priority(commonItems));
 			}
 		}

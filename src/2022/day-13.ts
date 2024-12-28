@@ -43,7 +43,7 @@ class Packet {
 
 	right: unknown[];
 
-	constructor(left: string, right: string) {
+	constructor(left = '', right = '') {
 		this.left = JSON.parse(left) as unknown[];
 		this.right = JSON.parse(right) as unknown[];
 	}
@@ -81,12 +81,11 @@ class DistressSignal {
 	}
 
 	sort(...dividers: unknown[]) {
-		const packets = this.packets
-			.flatMap((packet) => [packet.left, packet.right])
-			.concat(dividers)
-			.sort((left, right) => comparePacket(left, right));
-
-		return packets;
+		const packets = this.packets.flatMap((packet) => [
+			packet.left,
+			packet.right,
+		]);
+		return [...packets, ...dividers].sort(comparePacket);
 	}
 }
 

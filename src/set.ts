@@ -1,94 +1,49 @@
-export function union<T>(...sets: Array<Iterable<T>>) {
-	return new Set(sets.flatMap((set) => Array.from(set)));
-}
-
-export function intersection<T>(first: Set<T>, ...sets: Array<Set<T>>) {
+export function intersection<T>(
+	first: ReadonlySet<T>,
+	...sets: Array<ReadonlySetLike<T>>
+) {
 	let intersectionSet = first;
 
 	for (const set of sets) {
-		intersectionSet = new Set(
-			Array.from(intersectionSet).filter((value) => set.has(value)),
-		);
+		intersectionSet = intersectionSet.intersection(set);
 	}
 
 	return intersectionSet;
 }
 
-export function relativeComplement<T>(first: Set<T>, ...sets: Array<Set<T>>) {
-	let complementSet = first;
+export function equivalence<T>(
+	first: ReadonlySet<T>,
+	...sets: Array<ReadonlySetLike<T>>
+) {
+	for (const set of sets) {
+		if (!first.isSubsetOf(set) || !first.isSupersetOf(set)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+export function difference<T>(
+	first: ReadonlySet<T>,
+	...sets: Array<ReadonlySetLike<T>>
+) {
+	let differenceSet: ReadonlySet<T> = new Set<T>();
+
+	if (sets.length > 0) {
+		differenceSet = first;
+	}
 
 	for (const set of sets) {
-		complementSet = new Set(
-			Array.from(complementSet).filter((value) => !set.has(value)),
-		);
-	}
-
-	return complementSet;
-}
-
-export function equivalence<T>(first: Set<T>, ...sets: Array<Set<T>>) {
-	if (sets.length === 0) {
-		return true;
-	}
-
-	const unionSet = union(first, ...sets);
-
-	return (
-		unionSet.size === first.size && sets.every((set) => set.size === first.size)
-	);
-}
-
-export function difference<T>(...sets: Array<Set<T>>) {
-	let differenceSet = new Set<T>();
-
-	if (sets.length > 1) {
-		const [first, ...rest] = sets;
-		differenceSet = new Set(first);
-		for (const set of rest) {
-			for (const item of set) {
-				if (differenceSet.has(item)) {
-					differenceSet.delete(item);
-				}
-			}
-		}
+		differenceSet = differenceSet.difference(set);
 	}
 
 	return differenceSet;
 }
 
-export function symmetricDifference<T>(
-	first?: Set<T>,
-	second?: Set<T>,
-	...rest: Array<Set<T>>
-) {
-	let result = new Set<T>();
-
-	if (first && second) {
-		result = union(
-			relativeComplement(first, second),
-			relativeComplement(second, first),
-		);
-	}
-
-	if (rest.length > 0) {
-		result = symmetricDifference(result, ...rest);
-	}
-
-	return result;
-}
-
-export function superset<T>(first: Set<T>, ...sets: Array<Set<T>>): boolean {
-	if (sets.some((set) => first.size < set.size)) {
-		return false;
-	}
-
-	for (const set of sets) {
-		for (const element of set) {
-			if (!first.has(element)) {
-				return false;
-			}
-		}
-	}
-
-	return true;
+export function superset<T>(
+	first: ReadonlySet<T>,
+	second: ReadonlySetLike<T>,
+): boolean {
+	return first.isSupersetOf(second);
 }

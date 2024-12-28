@@ -1,11 +1,13 @@
 {
-	"extends": "@tsconfig/node22",
-	"compileOnSave": true,
+	"extends": ["@tsconfig/strictest", "@tsconfig/node22"],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
 		"inlineSourceMap": true,
+		"lib": ["esnext"],
 		"noEmit": true,
-		"pretty": true
+		"pretty": true,
+		"target": "esnext",
+		"types": ["node"]
 	},
 	"include": ["src"],
 	"exclude": ["plop-templates"]

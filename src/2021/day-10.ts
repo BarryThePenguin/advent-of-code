@@ -8,7 +8,7 @@ function parse(line: string) {
 	const tokens = [];
 
 	while (result === true) {
-		const char = line[current];
+		const char = line[current] as Opening | Closing | undefined;
 
 		if (char === '(' || char === '[' || char === '{' || char === '<') {
 			tokens.push(char);

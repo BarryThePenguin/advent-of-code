@@ -70,7 +70,7 @@ class Cave extends Grid<Rock | Sand> {
 	}
 
 	simulate() {
-		return Array.from(this.simulateSand());
+		return this.simulateSand().toArray();
 	}
 
 	*simulateSand() {

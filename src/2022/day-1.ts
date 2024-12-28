@@ -1,7 +1,7 @@
 class CalorieCounter {
 	elves: number[] = [];
 
-	topThree = [0, 0, 0];
+	topThree: readonly [number, number, number] = [0, 0, 0];
 
 	constructor(input: string[]) {
 		let elf = 0;
@@ -22,15 +22,15 @@ class CalorieCounter {
 	}
 
 	inTopThree(elf: number) {
-		if (elf > this.topThree[0]) {
-			this.topThree.splice(0, 0, elf);
-		} else if (elf > this.topThree[1]) {
-			this.topThree.splice(1, 0, elf);
-		} else if (elf > this.topThree[2]) {
-			this.topThree.splice(2, 1, elf);
-		}
+		const [first, second, third] = this.topThree;
 
-		this.topThree.splice(3, this.topThree.length);
+		if (elf > first) {
+			this.topThree = [elf, first, second];
+		} else if (elf > second) {
+			this.topThree = [first, elf, second];
+		} else if (elf > third) {
+			this.topThree = [first, second, elf];
+		}
 	}
 }
 

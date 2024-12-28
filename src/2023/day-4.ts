@@ -1,36 +1,38 @@
 import {sum} from '../chunk.ts';
 import {frequency} from '../frequency.ts';
-import {range} from '../range.ts';
-import {intersection} from '../set.ts';
+import {type Range, range} from '../range.ts';
+import * as parse from '../parse.ts';
 
-const digit = /\d+/g;
-const whitespace = /\s+/g;
+const cardRegex = /Card\s+(\d+):\s+(\d+(?:\s*\d+)*) \|\s+(\d+(?:\s*\d+)*)/;
 
 class Scratchcards {
 	cardSize = new Map<number, number>();
 
-	cardCopies = new Map<number, number[]>();
+	cardCopies = new Map<number, Range>();
 
 	constructor(input: string[]) {
 		for (const value of input) {
-			const [winningInput, myNumbersInput] = value.split(' | ');
-			const myNumbers = Array.from(myNumbersInput.matchAll(digit), (m) =>
-				Number(m[0]),
-			);
-			const [cardIdInput, winningNumbersInput] = winningInput.split(': ');
-			const [, cardNumberInput] = cardIdInput.split(whitespace);
-			const winningNumbers = Array.from(
-				winningNumbersInput.matchAll(digit),
-				(m) => Number(m[0]),
-			);
+			const [, cardIdInput, winningNumbersInput = '', myNumbersInput = ''] =
+				cardRegex.exec(value) ?? [];
 
-			const cardId = Number(cardNumberInput);
-			const {size} = intersection(new Set(winningNumbers), new Set(myNumbers));
+			const myNumbers = new Set();
+			const winningNumbers = new Set();
+
+			for (const input of parse.integers(myNumbersInput)) {
+				myNumbers.add(input);
+			}
+
+			for (const input of parse.integers(winningNumbersInput)) {
+				winningNumbers.add(input);
+			}
+
+			const cardId = Number(cardIdInput);
+			const {size} = winningNumbers.intersection(myNumbers);
 
 			const start = cardId + 1;
 
 			this.cardSize.set(cardId, size);
-			this.cardCopies.set(cardId, Array.from(range(start, start + size)));
+			this.cardCopies.set(cardId, range(start, start + size));
 		}
 	}
 
@@ -47,7 +49,7 @@ class Scratchcards {
 	}
 
 	*collect() {
-		const cards = Array.from(this.cardSize.keys());
+		const cards = this.cardSize.keys().toArray();
 
 		while (cards.length > 0) {
 			const cardId = cards.shift();

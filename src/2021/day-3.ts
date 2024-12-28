@@ -1,52 +1,81 @@
 import {entries, keys} from '../chunk.ts';
 import {zeroFill} from '../range.ts';
 
-class Diagnostic {
-	static generate(report: string[]) {
-		const [entry] = report;
+class Report {
+	static generate(input: string[]) {
+		const [entry] = input;
+		const report = new Report(entry);
 
-		const zeros = Array.from(zeroFill(entry));
-		const ones = Array.from(zeroFill(entry));
-
-		for (const item of report) {
+		for (const item of input) {
 			for (const [index, bit] of entries(item)) {
-				if (bit === '0') {
-					zeros[index] += 1;
-				}
-
-				if (bit === '1') {
-					ones[index] += 1;
+				if (bit === '0' || bit === '1') {
+					const value = report.get(bit, index);
+					report.set(bit, index, value + 1);
 				}
 			}
 		}
 
-		return {zeros, ones};
+		return report;
 	}
 
 	zeros: number[];
-
 	ones: number[];
 
-	get gammaRate() {
-		let result = '';
+	private constructor(entry: string | undefined) {
+		this.zeros = zeroFill(entry);
+		this.ones = zeroFill(entry);
+	}
 
-		for (const [index, bit] of this.ones.entries()) {
-			const next = bit > this.zeros[index] ? 1 : 0;
-			result = `${result}${next}`;
+	[Symbol.iterator]() {
+		return zip(this.zeros, this.ones);
+	}
+
+	set(bit: '0' | '1', index: number, count: number) {
+		if (bit === '0') {
+			this.zeros[index] = count;
 		}
 
-		return Number.parseInt(result, 2);
+		if (bit === '1') {
+			this.ones[index] = count;
+		}
+	}
+
+	get(bit: '0' | '1', index: number) {
+		return (bit === '0' ? this.zeros[index] : this.ones[index]) ?? 0;
+	}
+
+	at(index: number): [number, number] {
+		return [this.zeros[index] ?? 0, this.ones[index] ?? 0];
+	}
+}
+
+class Diagnostic {
+	report: Report;
+
+	get gammaRate() {
+		return this.run((report) => {
+			let result = '';
+
+			for (const [zeros, ones] of report) {
+				const next = ones > zeros ? 1 : 0;
+				result = `${result}${next}`;
+			}
+
+			return result;
+		});
 	}
 
 	get epsilonRate() {
-		let result = '';
+		return this.run((report) => {
+			let result = '';
 
-		for (const [index, bit] of this.zeros.entries()) {
-			const next = bit > this.ones[index] ? 1 : 0;
-			result = `${result}${next}`;
-		}
+			for (const [zeros, ones] of report) {
+				const next = zeros > ones ? 1 : 0;
+				result = `${result}${next}`;
+			}
 
-		return Number.parseInt(result, 2);
+			return result;
+		});
 	}
 
 	get powerConsumption() {
@@ -54,44 +83,67 @@ class Diagnostic {
 	}
 
 	get oxygenGeneratorRating() {
-		let report = this.report;
-		const [entry] = report;
+		let {input} = this;
+		const [entry = ''] = this.input;
 
-		for (const index of keys(entry)) {
-			if (report.length > 1) {
-				const {zeros, ones} = Diagnostic.generate(report);
-				const filter = ones[index] >= zeros[index] ? '1' : '0';
-				report = report.filter((item) => item.charAt(index) === filter);
+		return this.run(() => {
+			for (const index of keys(entry)) {
+				if (input.length > 1) {
+					const [zeros, ones] = Report.generate(input).at(index);
+					const filter = ones >= zeros ? '1' : '0';
+					input = input.filter((item) => item.charAt(index) === filter);
+				}
 			}
-		}
 
-		return Number.parseInt(report[0], 2);
+			return input[0] ?? '';
+		});
 	}
 
 	get co2ScrubberRating() {
-		let report = this.report;
-		const [entry] = report;
+		let {input} = this;
+		const [entry = ''] = input;
 
-		for (const index of keys(entry)) {
-			if (report.length > 1) {
-				const {zeros, ones} = Diagnostic.generate(report);
-				const filter = zeros[index] <= ones[index] ? '0' : '1';
-				report = report.filter((item) => item.charAt(index) === filter);
+		return this.run(() => {
+			for (const index of keys(entry)) {
+				if (input.length > 1) {
+					const [zeros, ones] = Report.generate(input).at(index);
+					const filter = ones >= zeros ? '0' : '1';
+					input = input.filter((item) => item.charAt(index) === filter);
+				}
 			}
-		}
 
-		return Number.parseInt(report[0], 2);
+			return input[0] ?? '';
+		});
 	}
 
 	get lifeSupportRating() {
 		return this.oxygenGeneratorRating * this.co2ScrubberRating;
 	}
 
-	constructor(protected report: string[]) {
-		const {zeros, ones} = Diagnostic.generate(report);
+	constructor(protected input: string[]) {
+		this.report = Report.generate(input);
+	}
 
-		this.zeros = zeros;
-		this.ones = ones;
+	run(run: (report: Report) => string) {
+		return this.fromBinary(run(this.report));
+	}
+
+	fromBinary(result: string) {
+		return Number.parseInt(result, 2);
+	}
+}
+
+function* zip<T>(a: Iterable<T>, b: Iterable<T>): Generator<[T, T]> {
+	const iteratorA = a[Symbol.iterator]();
+	const iteratorB = b[Symbol.iterator]();
+
+	let nextA = iteratorA.next();
+	let nextB = iteratorB.next();
+
+	while (!nextA.done && !nextB.done) {
+		yield [nextA.value, nextB.value];
+		nextA = iteratorA.next();
+		nextB = iteratorB.next();
 	}
 }
 

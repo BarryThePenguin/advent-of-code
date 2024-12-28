@@ -2,6 +2,8 @@ import {ok} from 'node:assert/strict';
 import {walk} from '../chunk.ts';
 import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.ts';
 
+const instructionRegex = /([RLUD]) (\d+)/;
+
 enum Direction {
 	Right = 'R',
 	Left = 'L',
@@ -30,7 +32,8 @@ class Rope {
 		}
 
 		for (const instruction of input) {
-			const [direction, count] = instruction.split(' ');
+			const [, direction = '', count = ''] =
+				instructionRegex.exec(instruction) ?? [];
 			ok(isDirection(direction));
 
 			for (let step = 0; step < Number(count); step++) {

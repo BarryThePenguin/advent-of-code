@@ -1,13 +1,12 @@
+import * as parse from '../parse.ts';
+
 type Point = `${number},${number}`;
 
 type Coordinates = Map<Point, number>;
 
-function parseSegment(segment: string, includeDiagonal: boolean) {
-	const [start, end] = segment.split(' -> ');
+function parseSegment(input: string, includeDiagonal: boolean) {
 	const coordinates: Coordinates = new Map();
-
-	let [x1, y1] = start.split(',').map(Number);
-	const [x2, y2] = end.split(',').map(Number);
+	let [x1 = 0, y1 = 0, x2 = 0, y2 = 0] = parse.integers(input);
 
 	if (!includeDiagonal && x1 !== x2 && y1 !== y2) {
 		return coordinates;

@@ -91,7 +91,7 @@ class HeightMap extends Grid<Location> {
 			basins.push(this.findBasinLocations(lowpoint, basin));
 		}
 
-		return basins;
+		return basins.sort((a, b) => b.size - a.size).map((basin) => basin.size);
 	}
 
 	findBasinLocations(location: Location, basin: Basin) {
@@ -131,11 +131,7 @@ export const partOne = (input: string[]) => {
 export const partTwo = (input: string[]) => {
 	const heightMap = new HeightMap(input);
 
-	const basins = heightMap.findBasins();
+	const [one = 0, two = 0, three = 0] = heightMap.findBasins();
 
-	basins.sort((a, b) => b.size - a.size);
-
-	const [one, two, three] = basins;
-
-	return one.size * two.size * three.size;
+	return one * two * three;
 };

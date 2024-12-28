@@ -1,5 +1,5 @@
-import {chunk} from '../iterable.ts';
-import {range, type Range} from '../range.ts';
+import {chunk} from '../chunk.ts';
+import {intersects, range, type Range} from '../range.ts';
 
 type MapInput = {
 	dest: Range;
@@ -38,14 +38,18 @@ class GardenMap {
 	get(location: Range, find: FindFunction) {
 		return this.map.find((entry) => {
 			const range = find(entry);
-			console.log({location, range, interects: range.intersects(location)});
-			return range.intersects(location);
+			console.log({location, range, interects: intersects(range, location)});
+			return intersects(range, location);
 		});
 	}
 }
 
+const categoryMap = /(\d+) (\d+) (\d+)/;
+
+const seedsRegex = /seeds: (.+)/;
+
 class Almanac {
-	seeds: Range[] = [];
+	seeds: Iterable<Range> = [];
 
 	seedToSoilMap = new GardenMap('seed-to-soil');
 
@@ -81,72 +85,71 @@ class Almanac {
 		this.humidityToLocationMap,
 	);
 
-	constructor(
-		input: string[],
-		parseSeeds: (seeds: string[]) => Iterable<Range>,
-	) {
+	constructor(input: string[], parseSeeds: (seeds: string) => Iterable<Range>) {
 		let map = this.seedToSoilMap;
 
-		const [seeds, ...otherInput] = input;
+		for (const value of input) {
+			const [, seedsInput] = seedsRegex.exec(value) ?? [];
 
-		const [, seedsInput] = seeds.split(': ');
-		this.seeds = Array.from(parseSeeds(seedsInput.split(' ')));
+			if (seedsInput) {
+				this.seeds = parseSeeds(seedsInput);
+			} else {
+				switch (value) {
+					case 'seed-to-soil map:': {
+						map = this.seedToSoilMap;
+						break;
+					}
 
-		for (const value of otherInput) {
-			switch (value) {
-				case 'seed-to-soil map:': {
-					map = this.seedToSoilMap;
-					break;
-				}
+					case 'soil-to-fertilizer map:': {
+						map = this.soilToFertilizerMap;
+						break;
+					}
 
-				case 'soil-to-fertilizer map:': {
-					map = this.soilToFertilizerMap;
-					break;
-				}
+					case 'fertilizer-to-water map:': {
+						map = this.fertilizerToWaterMap;
+						break;
+					}
 
-				case 'fertilizer-to-water map:': {
-					map = this.fertilizerToWaterMap;
-					break;
-				}
+					case 'water-to-light map:': {
+						map = this.waterToLightMap;
+						break;
+					}
 
-				case 'water-to-light map:': {
-					map = this.waterToLightMap;
-					break;
-				}
+					case 'light-to-temperature map:': {
+						map = this.lightToTemperatureMap;
+						break;
+					}
 
-				case 'light-to-temperature map:': {
-					map = this.lightToTemperatureMap;
-					break;
-				}
+					case 'temperature-to-humidity map:': {
+						map = this.temperatureToHumidityMap;
+						break;
+					}
 
-				case 'temperature-to-humidity map:': {
-					map = this.temperatureToHumidityMap;
-					break;
-				}
+					case 'humidity-to-location map:': {
+						map = this.humidityToLocationMap;
+						break;
+					}
 
-				case 'humidity-to-location map:': {
-					map = this.humidityToLocationMap;
-					break;
-				}
+					case '': {
+						break;
+					}
 
-				case '': {
-					break;
-				}
+					default: {
+						const [, destination = 0, start = 0, count = 0] =
+							categoryMap.exec(value)?.map(Number) ?? [];
 
-				default: {
-					const [destination, start, count] = value.split(' ').map(Number);
-
-					map.add({
-						dest: range(destination, destination + count - 1),
-						source: range(start, start + count - 1),
-					});
+						map.add({
+							dest: range(destination, destination + count - 1),
+							source: range(start, start + count - 1),
+						});
+					}
 				}
 			}
 		}
 	}
 
 	isPresent(seed: number) {
-		return this.seeds.some((range) => range.includes(seed));
+		return Iterator.from(this.seeds).some((range) => range.has(seed));
 	}
 
 	lowestLocation(transform: TransformFunction) {
@@ -162,7 +165,9 @@ class Almanac {
 	}
 
 	firstSeedLocation(transform: TransformFunction) {
-		const maxLocation = Math.max(...this.seeds.map((range) => range.end));
+		const maxLocation = Math.max(
+			...Array.from(this.seeds, (range) => range.end),
+		);
 
 		const getSeedByLocation = this.seedByLocation(({dest}) => dest);
 

@@ -1,11 +1,16 @@
 import {difference, equivalence} from '../set.ts';
+import {sum} from '../chunk.ts';
 import {uniqueReverseMap} from '../frequency.ts';
+import * as parse from '../parse.ts';
 
 function differenceOf(diff: number, digit = '', entry = '') {
 	return diff === difference(new Set(digit), new Set(entry)).size;
 }
 
-function buildEntries(input: string[], digits: Map<number, string>) {
+function buildEntries(
+	input: IteratorObject<string>,
+	digits: Map<number, string>,
+) {
 	const entries = new Map<string, string>();
 
 	const fiveDigit = [];
@@ -60,9 +65,9 @@ function buildEntries(input: string[], digits: Map<number, string>) {
 function decode(entry: string, entries: Map<string, string>) {
 	let value = '';
 
-	for (const entryKey of entries.keys()) {
-		if (equivalence(new Set(entry), new Set(entryKey))) {
-			value = entries.get(entryKey) ?? '';
+	for (const key of entries.keys()) {
+		if (equivalence(new Set(entry), new Set(key))) {
+			value = entries.get(key) ?? '';
 		}
 	}
 
@@ -70,30 +75,33 @@ function decode(entry: string, entries: Map<string, string>) {
 }
 
 class Display {
-	entries: Array<{entries: Map<string, string>; output: string[]}> = [];
-
-	output: string[] = [];
+	entries: Array<{
+		entries: Map<string, string>;
+		output: IteratorObject<string>;
+	}> = [];
 
 	constructor(
 		input: string[],
 		protected digits: Map<number, string>,
 	) {
 		for (const entry of input) {
-			const [patterns, output] = entry
-				.split(' | ')
-				.map((value) => value.split(' '));
-			this.output.push(...output);
-			this.entries.push({entries: buildEntries(patterns, this.digits), output});
+			const [patternInput = '', outputInput = ''] = entry.split(' | ');
+			const output = parse.words(outputInput);
+			const patterns = parse.words(patternInput);
+			this.entries.push({
+				entries: buildEntries(patterns, this.digits),
+				output,
+			});
 		}
 	}
 
 	get outputCount() {
 		let count = 0;
 
-		for (const output of this.output) {
+		for (const output of this.entries.flatMap(({output}) => output.toArray())) {
 			const value = this.digits.get(output.length);
 
-			if (typeof value === 'string') {
+			if (value) {
 				count += 1;
 			}
 		}
@@ -101,9 +109,7 @@ class Display {
 		return count;
 	}
 
-	get outputValues() {
-		const values = [];
-
+	*outputValues() {
 		for (const {entries, output} of this.entries) {
 			let value = '';
 
@@ -111,20 +117,12 @@ class Display {
 				value = `${value}${decode(entry, entries)}`;
 			}
 
-			values.push(Number(value));
+			yield Number(value);
 		}
-
-		return values;
 	}
 
 	get outputTotal() {
-		let total = 0;
-
-		for (const value of this.outputValues) {
-			total += value;
-		}
-
-		return total;
+		return sum(this.outputValues());
 	}
 }
 

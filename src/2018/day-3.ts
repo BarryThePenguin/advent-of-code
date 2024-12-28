@@ -1,5 +1,5 @@
 type Claim = {
-	elf: string;
+	id: string;
 	cords: {
 		x: number;
 		y: number;
@@ -10,26 +10,34 @@ type Claim = {
 	};
 };
 
-const parse = (input: string) => {
-	// #elf, @, X,X: YxY
-	const [elf, , cords, area] = input.split(' ');
-	const [x, y] = cords.replace(':', '').split(',').map(Number);
-	const [a, b] = area.split('x').map(Number);
-	return {elf, cords: {x, y}, area: {x: a, y: b}};
+// #elf, @, X,X: YxY
+const regex = /(#\d+) @ (\d+),(\d+): (\d+)x(\d+)/;
+
+const parse = (input: string): Claim | undefined => {
+	const [, id = '', ...numbers] = regex.exec(input) ?? [];
+	const [x = 0, y = 0, a = 0, b = 0] = numbers.map(Number);
+
+	return {id, cords: {x, y}, area: {x: a, y: b}};
 };
 
-const compile = (claims: Claim[]) => {
+const compile = (input: string[]) => {
 	const claimed = new Map<string, string[]>();
 
-	for (const {elf, cords, area} of claims) {
-		const xEnd = cords.x + area.x;
-		const yEnd = cords.y + area.y;
+	for (const claim of input) {
+		const parsed = parse(claim);
 
-		for (let x = cords.x + 1; x <= xEnd; x++) {
-			for (let y = cords.y + 1; y <= yEnd; y++) {
-				const loc = `${x}x${y}`;
-				const current = claimed.get(loc) ?? [];
-				claimed.set(loc, [...current, elf]);
+		if (parsed) {
+			const {id, cords, area} = parsed;
+
+			const xEnd = cords.x + area.x;
+			const yEnd = cords.y + area.y;
+
+			for (let x = cords.x + 1; x <= xEnd; x++) {
+				for (let y = cords.y + 1; y <= yEnd; y++) {
+					const loc = `${x}x${y}`;
+					const current = claimed.get(loc) ?? [];
+					claimed.set(loc, [...current, id]);
+				}
 			}
 		}
 	}
@@ -38,30 +46,38 @@ const compile = (claims: Claim[]) => {
 };
 
 export const partOne = (input: string[]) => {
-	const claimed = compile(input.map((claim) => parse(claim)));
+	const claimed = compile(input);
+	let count = 0;
 
-	return [...claimed.values()].filter((x) => x.length > 1).length;
+	for (const value of claimed.values()) {
+		if (value.length > 1) {
+			count++;
+		}
+	}
+
+	return count;
 };
 
 export const partTwo = (input: string[]) => {
-	const claimed = compile(input.map((claim) => parse(claim)));
+	const claimed = compile(input);
 	const elfClaims = [...claimed.values()];
 
 	const contention = new Map<string, boolean>();
 
 	for (const claims of elfClaims) {
+		const [firstClaim] = claims;
+
 		if (claims.length > 1) {
 			for (const claim of claims) {
 				contention.set(claim, true);
 			}
-		} else {
-			const [claim] = claims;
-			const claimed = Boolean(contention.get(claim));
-			contention.set(claim, claimed);
+		} else if (firstClaim) {
+			const claimed = Boolean(contention.get(firstClaim));
+			contention.set(firstClaim, claimed);
 		}
 	}
 
-	const elf = [...contention.entries()].find(([, claimed]) => !claimed);
+	const claim = [...contention.entries()].find(([, claimed]) => !claimed);
 
-	return elf ? elf[0] : undefined;
+	return claim ? claim[0] : undefined;
 };

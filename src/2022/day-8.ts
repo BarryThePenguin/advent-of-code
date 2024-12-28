@@ -37,21 +37,10 @@ class TreeHouse extends Grid<Tree> {
 			this.adjacentRight(item),
 		);
 
-		const visibleUp = Array.from(upRow).every(
-			(row) => tree.height > row.height,
-		);
-
-		const visibleDown = Array.from(downRow).every(
-			(row) => tree.height > row.height,
-		);
-
-		const visibleLeft = Array.from(leftRow).every(
-			(row) => tree.height > row.height,
-		);
-
-		const visibleRight = Array.from(rightRow).every(
-			(row) => tree.height > row.height,
-		);
+		const visibleUp = upRow.every((row) => tree.height > row.height);
+		const visibleDown = downRow.every((row) => tree.height > row.height);
+		const visibleLeft = leftRow.every((row) => tree.height > row.height);
+		const visibleRight = rightRow.every((row) => tree.height > row.height);
 
 		return visibleUp || visibleDown || visibleLeft || visibleRight;
 	}
@@ -116,12 +105,12 @@ class TreeHouse extends Grid<Tree> {
 export const partOne = (input: string[]) => {
 	const treeHouse = new TreeHouse(input);
 	const trees = treeHouse.findVisibleTrees();
-	return Array.from(trees).length;
+	return trees.toArray().length;
 };
 
 export const partTwo = (input: string[]) => {
 	const treeHouse = new TreeHouse(input);
 	const score = treeHouse.calculateScenicScore();
-	const [topScore] = Array.from(score).sort((a, b) => b - a);
+	const [topScore] = score.toArray().sort((a, b) => b - a);
 	return topScore;
 };

@@ -1,4 +1,5 @@
 import {toCoordinates, distance, Range} from '../to-grid.ts';
+import * as parse from '../parse.ts';
 
 class Beacon {
 	constructor(
@@ -101,16 +102,11 @@ class Tunnel {
 
 	constructor(input: string[]) {
 		for (const value of input) {
-			const [sensorInput, beaconInput] = value.split(': ');
-			const [sensorxInput, sensoryInput] = sensorInput.split(', ');
-			const [beaconxInput, beaconyInput] = beaconInput.split(', ');
-			const [, sensorX] = sensorxInput.split('=');
-			const [, sensorY] = sensoryInput.split('=');
-			const [, beaconX] = beaconxInput.split('=');
-			const [, beaconY] = beaconyInput.split('=');
+			const [sensorX = 0, sensorY = 0, beaconX = 0, beaconY = 0] =
+				parse.integers(value);
 
-			const beacon = new Beacon(Number(beaconX), Number(beaconY));
-			const sensor = new Sensor(Number(sensorX), Number(sensorY), beacon);
+			const beacon = new Beacon(beaconX, beaconY);
+			const sensor = new Sensor(sensorX, sensorY, beacon);
 
 			this.sensors.push(sensor);
 		}
