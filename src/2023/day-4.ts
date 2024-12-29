@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 import {frequency} from '../frequency.ts';
 import {type Range, range} from '../range.ts';
@@ -66,14 +67,16 @@ class Scratchcards {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const scratchCards = new Scratchcards(input);
-	return scratchCards.points();
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const scratchCards = new Scratchcards(input);
+		return scratchCards.points();
+	},
 
-export const partTwo = (input: string[]) => {
-	const scratchCards = new Scratchcards(input);
-	const count = frequency(scratchCards.collect());
+	partTwo(input: string[]) {
+		const scratchCards = new Scratchcards(input);
+		const count = frequency(scratchCards.collect());
 
-	return sum(count.values());
-};
+		return sum(count.values());
+	},
+});

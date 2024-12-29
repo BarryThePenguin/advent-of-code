@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {chunk} from '../chunk.ts';
 import {intersection} from '../set.ts';
 
@@ -61,14 +62,16 @@ class GroupReorganizer {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const reorganizer = new Reorganizer(input);
+export const day = createDay({
+	partOne(input: string[]) {
+		const reorganizer = new Reorganizer(input);
 
-	return reorganizer.sumOfPriorities;
-};
+		return reorganizer.sumOfPriorities;
+	},
 
-export const partTwo = (input: string[]) => {
-	const reorganizer = new GroupReorganizer(input);
+	partTwo(input: string[]) {
+		const reorganizer = new GroupReorganizer(input);
 
-	return reorganizer.sumOfPriorities;
-};
+		return reorganizer.sumOfPriorities;
+	},
+});

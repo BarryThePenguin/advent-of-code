@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 
 const digit = /\d/;
@@ -71,12 +72,14 @@ class Document {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const document = new Document(input, 'digits');
-	return document.sum();
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const document = new Document(input, 'digits');
+		return document.sum();
+	},
 
-export const partTwo = (input: string[]) => {
-	const document = new Document(input, 'words');
-	return document.sum();
-};
+	partTwo(input: string[]) {
+		const document = new Document(input, 'words');
+		return document.sum();
+	},
+});

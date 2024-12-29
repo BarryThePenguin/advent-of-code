@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {toCoordinates, Grid} from '../to-grid.ts';
 
 class Tree {
@@ -102,15 +103,17 @@ class TreeHouse extends Grid<Tree> {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const treeHouse = new TreeHouse(input);
-	const trees = treeHouse.findVisibleTrees();
-	return trees.toArray().length;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const treeHouse = new TreeHouse(input);
+		const trees = treeHouse.findVisibleTrees();
+		return trees.toArray().length;
+	},
 
-export const partTwo = (input: string[]) => {
-	const treeHouse = new TreeHouse(input);
-	const score = treeHouse.calculateScenicScore();
-	const [topScore] = score.toArray().sort((a, b) => b - a);
-	return topScore;
-};
+	partTwo(input: string[]) {
+		const treeHouse = new TreeHouse(input);
+		const score = treeHouse.calculateScenicScore();
+		const [topScore] = score.toArray().sort((a, b) => b - a);
+		return topScore;
+	},
+});

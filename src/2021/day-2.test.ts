@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayTwo from './day-2.ts';
-
-const {partOne, partTwo} = createDayMacro(dayTwo);
+import {test} from 'vitest';
+import {day} from './day-2.ts';
 
 const testInput = [
 	'forward 5',
@@ -14,10 +10,10 @@ const testInput = [
 	'forward 2',
 ];
 
-test('part one: example', partOne, testInput, 150);
+test('part one: example', day.partOne(testInput, 150));
 
-test('part one', partOne, readLines('2021/day-2'), 1_804_520);
+test('part one', day.partOne(day.readLines('2021/day-2'), 1_804_520));
 
-test('part two: example', partTwo, testInput, 900);
+test('part two: example', day.partTwo(testInput, 900));
 
-test('part two', partTwo, readLines('2021/day-2'), 1_971_095_320);
+test('part two', day.partTwo(day.readLines('2021/day-2'), 1_971_095_320));

@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {range} from '../range.ts';
 import {superset} from '../set.ts';
 import * as parse from '../parse.ts';
@@ -30,13 +31,14 @@ class Assignments {
 		}
 	}
 }
+export const day = createDay({
+	partOne(input: string[]) {
+		const assignments = new Assignments(input);
+		return assignments.superset;
+	},
 
-export const partOne = (input: string[]) => {
-	const assignments = new Assignments(input);
-	return assignments.superset;
-};
-
-export const partTwo = (input: string[]) => {
-	const assignments = new Assignments(input);
-	return assignments.overlap;
-};
+	partTwo(input: string[]) {
+		const assignments = new Assignments(input);
+		return assignments.overlap;
+	},
+});

@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {toCoordinates, distance, Range} from '../to-grid.ts';
 import * as parse from '../parse.ts';
 
@@ -143,13 +144,15 @@ class Tunnel {
 	}
 }
 
-export const partOne = ({input, row}: {input: string[]; row: number}) => {
-	const tunnel = new Tunnel(input);
-	const result = tunnel.scan(row);
-	return result.distance;
-};
+export const day = createDay({
+	partOne({input, row}: {input: string[]; row: number}) {
+		const tunnel = new Tunnel(input);
+		const result = tunnel.scan(row);
+		return result.distance;
+	},
 
-export const partTwo = ({input, max}: {input: string[]; max: number}) => {
-	const tunnel = new Tunnel(input);
-	return tunnel.tuningFrequency(max);
-};
+	partTwo({input, max}: {input: string[]; max: number}) {
+		const tunnel = new Tunnel(input);
+		return tunnel.tuningFrequency(max);
+	},
+});

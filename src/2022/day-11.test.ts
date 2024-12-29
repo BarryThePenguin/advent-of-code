@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayOne from './day-11.ts';
-
-const {partOne, partTwo} = createDayMacro(dayOne);
+import {test} from 'vitest';
+import {day} from './day-11.ts';
 
 const testInput = [
 	'Monkey 0:',
@@ -35,10 +31,10 @@ const testInput = [
 	'    If false: throw to monkey 1',
 ];
 
-test('part one: example', partOne, testInput, 10_605);
+test('part one: example', day.partOne(testInput, 10_605));
 
-test('part one', partOne, readLines('2022/day-11'), 62_491);
+test('part one', day.partOne(day.readLines('2022/day-11'), 62_491));
 
-test('part two: example', partTwo, testInput, 2_713_310_158);
+test('part two: example', day.partTwo(testInput, 2_713_310_158));
 
-test('part two', partTwo, readLines('2022/day-11'), 17_408_399_184);
+test('part two', day.partTwo(day.readLines('2022/day-11'), 17_408_399_184));

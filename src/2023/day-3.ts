@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 import {Grid, toCoordinates} from '../to-grid.ts';
 
@@ -130,12 +131,14 @@ class Schematic extends Grid<Character> {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const schematic = new Schematic(input);
-	return sum(schematic.findPartNumber());
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const schematic = new Schematic(input);
+		return sum(schematic.findPartNumber());
+	},
 
-export const partTwo = (input: string[]) => {
-	const schematic = new Schematic(input);
-	return sum(schematic.findGearRatios());
-};
+	partTwo(input: string[]) {
+		const schematic = new Schematic(input);
+		return sum(schematic.findGearRatios());
+	},
+});

@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {chunk} from '../chunk.ts';
 import * as parse from '../parse.ts';
 
@@ -145,26 +146,28 @@ class KeepAway {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const rounds = 20;
-	const game = new KeepAway(input, function (level) {
-		return Math.floor(level / 3);
-	});
-	for (let index = 0; index < rounds; index++) {
-		game.play();
-	}
+export const day = createDay({
+	partOne(input: string[]) {
+		const rounds = 20;
+		const game = new KeepAway(input, function (level) {
+			return Math.floor(level / 3);
+		});
+		for (let index = 0; index < rounds; index++) {
+			game.play();
+		}
 
-	return game.monkeyBusiness();
-};
+		return game.monkeyBusiness();
+	},
 
-export const partTwo = (input: string[]) => {
-	const rounds = 10_000;
-	const game = new KeepAway(input, function (level) {
-		return level % this.modulo;
-	});
-	for (let index = 0; index < rounds; index++) {
-		game.play();
-	}
+	partTwo(input: string[]) {
+		const rounds = 10_000;
+		const game = new KeepAway(input, function (level) {
+			return level % this.modulo;
+		});
+		for (let index = 0; index < rounds; index++) {
+			game.play();
+		}
 
-	return game.monkeyBusiness();
-};
+		return game.monkeyBusiness();
+	},
+});

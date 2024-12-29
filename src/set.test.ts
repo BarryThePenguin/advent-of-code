@@ -1,37 +1,37 @@
-import test from 'ava';
+import {expect, test} from 'vitest';
 import {difference, intersection, equivalence} from './set.ts';
 
-test('difference', (t) => {
+test('difference', () => {
 	const x = new Set([1, 2, 3]);
 	const y = new Set([4, 3, 2]);
 	const z = new Set([3, 4, 5]);
 	const w = new Set([1, 6, 7]);
-	t.deepEqual(difference(x), new Set());
-	t.deepEqual(difference(x, y), new Set([1]));
-	t.deepEqual(difference(x, z), new Set([1, 2]));
-	t.deepEqual(difference(x, y, z), new Set([1]));
-	t.deepEqual(difference(x, y, z, w), new Set([]));
+	expect(difference(x)).toEqual(new Set());
+	expect(difference(x, y)).toEqual(new Set([1]));
+	expect(difference(x, z)).toEqual(new Set([1, 2]));
+	expect(difference(x, y, z)).toEqual(new Set([1]));
+	expect(difference(x, y, z, w)).toEqual(new Set([]));
 });
 
-test('intersection', (t) => {
+test('intersection', () => {
 	const x = new Set([1, 2, 3]);
 	const y = new Set([2, 3, 4]);
 	const z = new Set([3, 4, 5]);
-	t.deepEqual(intersection(x), new Set([1, 2, 3]));
-	t.deepEqual(intersection(x, y), new Set([2, 3]));
-	t.deepEqual(intersection(x, y, z), new Set([3]));
+	expect(intersection(x)).toEqual(new Set([1, 2, 3]));
+	expect(intersection(x, y)).toEqual(new Set([2, 3]));
+	expect(intersection(x, y, z)).toEqual(new Set([3]));
 });
 
-test('equivalence', (t) => {
+test('equivalence', () => {
 	const x = new Set([1, 2, 3]);
 	const y = new Set([3, 1, 2]);
 	const z = new Set([2, 3, 1]);
 	const w = new Set([1, 2, 3, 4]);
 
-	t.true(equivalence(x));
-	t.true(equivalence(x, y));
-	t.true(equivalence(x, y, z));
-	t.false(equivalence(x, w));
-	t.false(equivalence(x, y, w));
-	t.false(equivalence(x, y, z, w));
+	expect(equivalence(x)).toBe(true);
+	expect(equivalence(x, y)).toBe(true);
+	expect(equivalence(x, y, z)).toBe(true);
+	expect(equivalence(x, w)).toBe(false);
+	expect(equivalence(x, y, w)).toBe(false);
+	expect(equivalence(x, y, z, w)).toBe(false);
 });

@@ -1,4 +1,5 @@
 import {ok} from 'node:assert/strict';
+import {createDay} from '../day-test.ts';
 import {walk} from '../chunk.ts';
 import {type Coordinates, fromCoordinates, toCoordinates} from '../to-grid.ts';
 
@@ -130,12 +131,14 @@ function isAdjacent(previous: Section, current: Section) {
 	].includes(previous.coordinates);
 }
 
-export const partOne = (input: string[]) => {
-	const rope = new Rope(input, 1);
-	return rope.tailVisited.size;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const rope = new Rope(input, 1);
+		return rope.tailVisited.size;
+	},
 
-export const partTwo = (input: string[]) => {
-	const rope = new Rope(input, 9);
-	return rope.tailVisited.size;
-};
+	partTwo(input: string[]) {
+		const rope = new Rope(input, 9);
+		return rope.tailVisited.size;
+	},
+});

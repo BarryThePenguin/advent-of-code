@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayOne from './day-5.ts';
-
-const {partOne} = createDayMacro(dayOne);
+import {test} from 'vitest';
+import {day} from './day-5.ts';
 
 const testInput = [
 	'seeds: 79 14 55 13',
@@ -41,10 +37,10 @@ const testInput = [
 	'56 93 4',
 ];
 
-test.skip('part one: example', partOne, testInput, 35);
+test.skip('part one: example', day.partOne(testInput, 35));
 
-test.skip('part one', partOne, readLines('2023/day-5'), 510_109_797);
+test.skip('part one', day.partOne(day.readLines('2023/day-5'), 510_109_797));
 
-// Test.skip('part two: example', partTwo, testInput, 46);
+// Test.skip('part two: example', day.partTwo(testInput, 46));
 
-// Test.skip('part two', partTwo, readLines('2023/day-5'), 9_622_622);
+// Test.skip('part two', day.partTwo(day.readLines('2023/day-5'), 9_622_622));

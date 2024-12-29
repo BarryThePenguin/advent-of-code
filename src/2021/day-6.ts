@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {frequency} from '../frequency.ts';
 
 function createFish(fish = new Map<string, number>()): Map<string, number> {
@@ -40,22 +41,24 @@ class School {
 	}
 }
 
-export const partOne = ({input, days}: {input: string[]; days: number}) => {
-	const school = new School(input);
+export const day = createDay({
+	partOne({input, days}: {input: string[]; days: number}) {
+		const school = new School(input);
 
-	for (let i = 0; i < days; i++) {
-		school.nextDay();
-	}
+		for (let i = 0; i < days; i++) {
+			school.nextDay();
+		}
 
-	return school.count;
-};
+		return school.count;
+	},
 
-export const partTwo = ({input, days}: {input: string[]; days: number}) => {
-	const school = new School(input);
+	partTwo({input, days}: {input: string[]; days: number}) {
+		const school = new School(input);
 
-	for (let i = 0; i < days; i++) {
-		school.nextDay();
-	}
+		for (let i = 0; i < days; i++) {
+			school.nextDay();
+		}
 
-	return school.count;
-};
+		return school.count;
+	},
+});

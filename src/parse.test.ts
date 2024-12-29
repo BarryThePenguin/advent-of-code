@@ -1,16 +1,16 @@
-import test from 'ava';
+import {expect, test} from 'vitest';
 import {integers, lines, words} from './parse.ts';
 
-test('integers', (t) => {
-	t.deepEqual([...integers('1 2 3')], [1, 2, 3]);
-	t.deepEqual([...integers('1, 2, 3')], [1, 2, 3]);
-	t.deepEqual([...integers('-1, +2, -3')], [-1, 2, -3]);
+test('integers', () => {
+	expect(integers('1 2 3').toArray()).toEqual([1, 2, 3]);
+	expect(integers('1, 2, 3').toArray()).toEqual([1, 2, 3]);
+	expect(integers('-1, +2, -3').toArray()).toEqual([-1, 2, -3]);
 });
 
-test('lines', (t) => {
-	t.deepEqual(lines('foo\nbar\nbaz'), ['foo', 'bar', 'baz']);
+test('lines', () => {
+	expect(lines('foo\nbar\nbaz')).toEqual(['foo', 'bar', 'baz']);
 });
 
-test('words', (t) => {
-	t.deepEqual([...words('foo bar baz')], ['foo', 'bar', 'baz']);
+test('words', () => {
+	expect(words('foo bar baz').toArray()).toEqual(['foo', 'bar', 'baz']);
 });

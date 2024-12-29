@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {entries, keys} from '../chunk.ts';
 import {zeroFill} from '../range.ts';
 
@@ -147,12 +148,14 @@ function* zip<T>(a: Iterable<T>, b: Iterable<T>): Generator<[T, T]> {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const diagnostic = new Diagnostic(input);
-	return diagnostic.powerConsumption;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const diagnostic = new Diagnostic(input);
+		return diagnostic.powerConsumption;
+	},
 
-export const partTwo = (input: string[]) => {
-	const diagnostic = new Diagnostic(input);
-	return diagnostic.lifeSupportRating;
-};
+	partTwo(input: string[]) {
+		const diagnostic = new Diagnostic(input);
+		return diagnostic.lifeSupportRating;
+	},
+});

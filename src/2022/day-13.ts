@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {chunk, sum} from '../chunk.ts';
 
 function comparePacket(left: unknown, right: unknown): number {
@@ -89,18 +90,20 @@ class DistressSignal {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const signal = new DistressSignal(input);
-	return sum(signal.compare());
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const signal = new DistressSignal(input);
+		return sum(signal.compare());
+	},
 
-export const partTwo = (input: string[]) => {
-	const firstDivider = [[2]];
-	const secondDivider = [[6]];
-	const signal = new DistressSignal(input);
-	const packets = signal.sort(firstDivider, secondDivider);
-	const firstIndex = packets.indexOf(firstDivider) + 1;
-	const secondIndex = packets.indexOf(secondDivider) + 1;
+	partTwo(input: string[]) {
+		const firstDivider = [[2]];
+		const secondDivider = [[6]];
+		const signal = new DistressSignal(input);
+		const packets = signal.sort(firstDivider, secondDivider);
+		const firstIndex = packets.indexOf(firstDivider) + 1;
+		const secondIndex = packets.indexOf(secondDivider) + 1;
 
-	return firstIndex * secondIndex;
-};
+		return firstIndex * secondIndex;
+	},
+});

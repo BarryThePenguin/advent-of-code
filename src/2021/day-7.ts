@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {frequency} from '../frequency.ts';
 import {rangeFill} from '../range.ts';
 
@@ -75,14 +76,16 @@ class SubPosition {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const positions = new SubPosition(input);
+export const day = createDay({
+	partOne(input: string[]) {
+		const positions = new SubPosition(input);
 
-	return Math.min(...positions.cost.values());
-};
+		return Math.min(...positions.cost.values());
+	},
 
-export const partTwo = (input: string[]) => {
-	const positions = new SubPosition(input);
+	partTwo(input: string[]) {
+		const positions = new SubPosition(input);
 
-	return Math.min(...positions.compoundCost.values());
-};
+		return Math.min(...positions.compoundCost.values());
+	},
+});

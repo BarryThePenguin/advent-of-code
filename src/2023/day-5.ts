@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {chunk} from '../chunk.ts';
 import {intersects, range, type Range} from '../range.ts';
 
@@ -182,37 +183,39 @@ class Almanac {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const almanac = new Almanac(input, function* (seeds) {
-		for (const seed of seeds) {
-			const rangeStart = Number(seed);
-			yield range(rangeStart, rangeStart);
-		}
-	});
+export const day = createDay({
+	partOne(input: string[]) {
+		const almanac = new Almanac(input, function* (seeds) {
+			for (const seed of seeds) {
+				const rangeStart = Number(seed);
+				yield range(rangeStart, rangeStart);
+			}
+		});
 
-	return almanac.lowestLocation((location, {dest, source}) => {
-		const difference = location.start - source.start;
-		const newStart = dest.start + difference;
-		const newEnd = dest.end - difference;
-		console.log({location, dest, source, newStart, newEnd});
-		return range(newStart, newEnd);
-	});
-};
+		return almanac.lowestLocation((location, {dest, source}) => {
+			const difference = location.start - source.start;
+			const newStart = dest.start + difference;
+			const newEnd = dest.end - difference;
+			console.log({location, dest, source, newStart, newEnd});
+			return range(newStart, newEnd);
+		});
+	},
 
-export const partTwo = (input: string[]) => {
-	const almanac = new Almanac(input, function* (seeds) {
-		for (const [start, count] of chunk(seeds, 2)) {
-			const rangeStart = Number(start);
-			const rangeEnd = rangeStart + Number(count) - 1;
+	partTwo(input: string[]) {
+		const almanac = new Almanac(input, function* (seeds) {
+			for (const [start, count] of chunk(seeds, 2)) {
+				const rangeStart = Number(start);
+				const rangeEnd = rangeStart + Number(count) - 1;
 
-			yield range(rangeStart, rangeEnd);
-		}
-	});
+				yield range(rangeStart, rangeEnd);
+			}
+		});
 
-	return almanac.firstSeedLocation((location, {dest, source}) => {
-		const difference = location.start - source.start;
-		const newStart = dest.start + difference;
-		const newEnd = dest.end - difference;
-		return range(newStart, newEnd);
-	});
-};
+		return almanac.firstSeedLocation((location, {dest, source}) => {
+			const difference = location.start - source.start;
+			const newStart = dest.start + difference;
+			const newEnd = dest.end - difference;
+			return range(newStart, newEnd);
+		});
+	},
+});

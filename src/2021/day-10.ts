@@ -1,3 +1,5 @@
+import {createDay} from '../day-test.ts';
+
 type Opening = '(' | '[' | '{' | '<';
 
 type Closing = ')' | ']' | '}' | '>';
@@ -207,12 +209,14 @@ class Parser {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const parser = new Parser(input);
-	return parser.score;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const parser = new Parser(input);
+		return parser.score;
+	},
 
-export const partTwo = (input: string[]) => {
-	const parser = new Parser(input);
-	return parser.autocompleteScore;
-};
+	partTwo(input: string[]) {
+		const parser = new Parser(input);
+		return parser.autocompleteScore;
+	},
+});

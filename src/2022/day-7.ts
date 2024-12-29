@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 
 const commandRegex = /^\$ (cd|ls) (.+)$/;
@@ -103,15 +104,17 @@ class Terminal {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const terminal = new Terminal(input);
-	const directories = terminal.filterDirectories(
-		(directory) => directory.size <= 100_000,
-	);
-	return sum(directories);
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const terminal = new Terminal(input);
+		const directories = terminal.filterDirectories(
+			(directory) => directory.size <= 100_000,
+		);
+		return sum(directories);
+	},
 
-export const partTwo = (input: string[]) => {
-	const terminal = new Terminal(input);
-	return terminal.findFreeSpace();
-};
+	partTwo(input: string[]) {
+		const terminal = new Terminal(input);
+		return terminal.findFreeSpace();
+	},
+});

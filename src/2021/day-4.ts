@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import * as parse from '../parse.ts';
 
 type MarkedNumber = {
@@ -150,20 +151,22 @@ class Bingo {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const [numbers = '', ...boards] = input;
-	const bingo = new Bingo(boards);
+export const day = createDay({
+	partOne(input: string[]) {
+		const [numbers = '', ...boards] = input;
+		const bingo = new Bingo(boards);
 
-	const winner = bingo.play(parse.integers(numbers));
+		const winner = bingo.play(parse.integers(numbers));
 
-	return calculateScore(winner);
-};
+		return calculateScore(winner);
+	},
 
-export const partTwo = (input: string[]) => {
-	const [numbers = '', ...boards] = input;
-	const bingo = new Bingo(boards);
+	partTwo(input: string[]) {
+		const [numbers = '', ...boards] = input;
+		const bingo = new Bingo(boards);
 
-	const last = bingo.playLast(parse.integers(numbers));
+		const last = bingo.playLast(parse.integers(numbers));
 
-	return calculateScore(last);
-};
+		return calculateScore(last);
+	},
+});

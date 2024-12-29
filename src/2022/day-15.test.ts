@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayOne from './day-15.ts';
-
-const {partOne, partTwo} = createDayMacro(dayOne);
+import {test} from 'vitest';
+import {day} from './day-15.ts';
 
 const testInput = [
 	'Sensor at x=2, y=18: closest beacon is at x=-2, y=15',
@@ -22,20 +18,19 @@ const testInput = [
 	'Sensor at x=20, y=1: closest beacon is at x=15, y=3',
 ];
 
-test('part one: example', partOne, {input: testInput, row: 10}, 26);
+test('part one: example', day.partOne({input: testInput, row: 10}, 26));
 
 test(
 	'part one',
-	partOne,
-	{input: readLines('2022/day-15'), row: 2_000_000},
-	5_688_618,
+	day.partOne({input: day.readLines('2022/day-15'), row: 2_000_000}, 5_688_618),
 );
 
-test('part two: example', partTwo, {input: testInput, max: 20}, 56_000_011);
+test('part two: example', day.partTwo({input: testInput, max: 20}, 56_000_011));
 
 test(
 	'part two',
-	partTwo,
-	{input: readLines('2022/day-15'), max: 4_000_000},
-	12_625_383_204_261,
+	day.partTwo(
+		{input: day.readLines('2022/day-15'), max: 4_000_000},
+		12_625_383_204_261,
+	),
 );

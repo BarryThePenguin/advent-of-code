@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {type Coordinates, toCoordinates, Grid} from '../to-grid.ts';
 
 class Elevation {
@@ -129,14 +130,16 @@ class HillClimb extends Grid<Elevation> {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const hill = new HillClimb(input);
-	const path = hill.climb();
-	return path.length;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const hill = new HillClimb(input);
+		const path = hill.climb();
+		return path.length;
+	},
 
-export const partTwo = (input: string[]) => {
-	const hill = new HillClimb(input, 'a');
-	const path = hill.climb();
-	return path.length;
-};
+	partTwo(input: string[]) {
+		const hill = new HillClimb(input, 'a');
+		const path = hill.climb();
+		return path.length;
+	},
+});

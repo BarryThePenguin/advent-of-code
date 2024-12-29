@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {toCoordinates, Grid} from '../to-grid.ts';
 
 class Octopus {
@@ -133,29 +134,31 @@ function every(items: number[], value: number) {
 	return items.every((item) => item === value);
 }
 
-export const partOne = (input: string[]) => {
-	const cavern = new Cavern(input);
+export const day = createDay({
+	partOne(input: string[]) {
+		const cavern = new Cavern(input);
 
-	const flashes = [];
+		const flashes = [];
 
-	for (let i = 0; i < 100; i++) {
-		flashes.push(...cavern.step().values());
-	}
+		for (let i = 0; i < 100; i++) {
+			flashes.push(...cavern.step().values());
+		}
 
-	return flashes.length;
-};
+		return flashes.length;
+	},
 
-export const partTwo = (input: string[]) => {
-	const cavern = new Cavern(input);
+	partTwo(input: string[]) {
+		const cavern = new Cavern(input);
 
-	let step = 0;
-	let levels: number[] = [1];
+		let step = 0;
+		let levels: number[] = [1];
 
-	while (!every(levels, 0)) {
-		cavern.step();
-		levels = energyLevels(cavern.grid);
-		step++;
-	}
+		while (!every(levels, 0)) {
+			cavern.step();
+			levels = energyLevels(cavern.grid);
+			step++;
+		}
 
-	return step;
-};
+		return step;
+	},
+});

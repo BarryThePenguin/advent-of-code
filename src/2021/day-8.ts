@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {difference, equivalence} from '../set.ts';
 import {sum} from '../chunk.ts';
 import {uniqueReverseMap} from '../frequency.ts';
@@ -126,30 +127,32 @@ class Display {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const digits = new Map([
-		[2, '1'],
-		[4, '4'],
-		[3, '7'],
-		[7, '8'],
-	]);
+export const day = createDay({
+	partOne(input: string[]) {
+		const digits = new Map([
+			[2, '1'],
+			[4, '4'],
+			[3, '7'],
+			[7, '8'],
+		]);
 
-	const display = new Display(input, digits);
+		const display = new Display(input, digits);
 
-	return display.outputCount;
-};
+		return display.outputCount;
+	},
 
-export const partTwo = (input: string[]) => {
-	const digits = new Map([
-		[2, '1'],
-		[4, '4'],
-		[3, '7'],
-		[7, '8'],
-		[5, '235'],
-		[6, '069'],
-	]);
+	partTwo(input: string[]) {
+		const digits = new Map([
+			[2, '1'],
+			[4, '4'],
+			[3, '7'],
+			[7, '8'],
+			[5, '235'],
+			[6, '069'],
+		]);
 
-	const display = new Display(input, digits);
+		const display = new Display(input, digits);
 
-	return display.outputTotal;
-};
+		return display.outputTotal;
+	},
+});

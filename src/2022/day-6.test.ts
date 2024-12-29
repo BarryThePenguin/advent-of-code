@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readInput} from '../read-input.ts';
-import * as dayOne from './day-6.ts';
-
-const {partOne, partTwo} = createDayMacro(dayOne);
+import {test} from 'vitest';
+import {day} from './day-6.ts';
 
 const testInput = [
 	{input: 'mjqjpqmgbljsphdztnvjfqwrcgsmlb', resultOne: 7, resultTwo: 19},
@@ -14,13 +10,13 @@ const testInput = [
 ];
 
 for (const [index, {input, resultOne}] of testInput.entries()) {
-	test(`part one: example ${index}`, partOne, input, resultOne);
+	test(`part one: example ${index}`, day.partOne(input, resultOne));
 }
 
-test('part one', partOne, readInput('2022/day-6'), 1651);
+test('part one', day.partOne(day.readFile('2022/day-6'), 1651));
 
 for (const [index, {input, resultTwo}] of testInput.entries()) {
-	test(`part two: example ${index}`, partTwo, input, resultTwo);
+	test(`part two: example ${index}`, day.partTwo(input, resultTwo));
 }
 
-test('part two', partTwo, readInput('2022/day-6'), 3837);
+test('part two', day.partTwo(day.readFile('2022/day-6'), 3837));

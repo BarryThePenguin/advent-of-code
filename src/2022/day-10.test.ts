@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayOne from './day-10.ts';
-
-const {partOne, partTwo} = createDayMacro(dayOne);
+import {test} from 'vitest';
+import {day} from './day-10.ts';
 
 const testInput = [
 	'addx 15',
@@ -154,30 +150,32 @@ const testInput = [
 	'noop',
 ];
 
-test('part one: example', partOne, testInput, 13_140);
+test('part one: example', day.partOne(testInput, 13_140));
 
-test('part one', partOne, readLines('2022/day-10'), 11_960);
+test('part one', day.partOne(day.readLines('2022/day-10'), 11_960));
 
 test(
 	'part two: example',
-	partTwo,
-	testInput,
-	`##..##..##..##..##..##..##..##..##..##..
+	day.partTwo(
+		testInput,
+		`##..##..##..##..##..##..##..##..##..##..
 ###...###...###...###...###...###...###.
 ####....####....####....####....####....
 #####.....#####.....#####.....#####.....
 ######......######......######......####
 #######.......#######.......#######.....`,
+	),
 );
 
 test(
 	'part two',
-	partTwo,
-	readLines('2022/day-10'),
-	`####...##..##..####.###...##..#....#..#.
+	day.partTwo(
+		day.readLines('2022/day-10'),
+		`####...##..##..####.###...##..#....#..#.
 #.......#.#..#.#....#..#.#..#.#....#..#.
 ###.....#.#....###..#..#.#....#....####.
 #.......#.#....#....###..#.##.#....#..#.
 #....#..#.#..#.#....#....#..#.#....#..#.
 ####..##...##..#....#.....###.####.#..#.`,
+	),
 );

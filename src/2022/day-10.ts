@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 import {fromGrid, type Coordinates} from '../to-grid.ts';
 
@@ -119,12 +120,14 @@ function parseInstruction(input: string) {
 	return new NoopInstruction();
 }
 
-export const partOne = (input: string[]) => {
-	const clock = new ClockCircuit(input);
-	return sum(clock.signalStrength);
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const clock = new ClockCircuit(input);
+		return sum(clock.signalStrength);
+	},
 
-export const partTwo = (input: string[]) => {
-	const clock = new ClockCircuit(input);
-	return fromGrid(clock.crt.pixels);
-};
+	partTwo(input: string[]) {
+		const clock = new ClockCircuit(input);
+		return fromGrid(clock.crt.pixels);
+	},
+});

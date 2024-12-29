@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {chunk, entries} from '../chunk.ts';
 
 class Crate {
@@ -98,12 +99,14 @@ function* parseInstructions(input: string[]) {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const crane = new CargoCrane(input);
-	return crane.topCrates();
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const crane = new CargoCrane(input);
+		return crane.topCrates();
+	},
 
-export const partTwo = (input: string[]) => {
-	const crane = new CargoCrane(input, '9001');
-	return crane.topCrates();
-};
+	partTwo(input: string[]) {
+		const crane = new CargoCrane(input, '9001');
+		return crane.topCrates();
+	},
+});

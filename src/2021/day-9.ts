@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {toCoordinates, Grid} from '../to-grid.ts';
 
 class Location {
@@ -120,18 +121,20 @@ class HeightMap extends Grid<Location> {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const heightMap = new HeightMap(input);
+export const day = createDay({
+	partOne(input: string[]) {
+		const heightMap = new HeightMap(input);
 
-	const lowpoints = heightMap.findLowPoints();
+		const lowpoints = heightMap.findLowPoints();
 
-	return lowpoints.reduce((a, location) => a + location.height + 1, 0);
-};
+		return lowpoints.reduce((a, location) => a + location.height + 1, 0);
+	},
 
-export const partTwo = (input: string[]) => {
-	const heightMap = new HeightMap(input);
+	partTwo(input: string[]) {
+		const heightMap = new HeightMap(input);
 
-	const [one = 0, two = 0, three = 0] = heightMap.findBasins();
+		const [one = 0, two = 0, three = 0] = heightMap.findBasins();
 
-	return one * two * three;
-};
+		return one * two * three;
+	},
+});

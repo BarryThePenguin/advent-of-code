@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {walk} from '../chunk.ts';
 import {range} from '../range.ts';
 import {
@@ -161,15 +162,17 @@ function* walkPath(input: string[]) {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const cave = new Cave(input);
-	const sand = cave.simulate();
-	return sand.length;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const cave = new Cave(input);
+		const sand = cave.simulate();
+		return sand.length;
+	},
 
-export const partTwo = (input: string[]) => {
-	const withFloor = true;
-	const cave = new Cave(input, withFloor);
-	const sand = cave.simulate();
-	return sand.length;
-};
+	partTwo(input: string[]) {
+		const withFloor = true;
+		const cave = new Cave(input, withFloor);
+		const sand = cave.simulate();
+		return sand.length;
+	},
+});

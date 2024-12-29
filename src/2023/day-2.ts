@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import {sum} from '../chunk.ts';
 
 type Combination = {
@@ -86,13 +87,15 @@ class CubeConundrum {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const game = new CubeConundrum(input);
-	return sum(game.possible({red: 12, green: 13, blue: 14}));
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const game = new CubeConundrum(input);
+		return sum(game.possible({red: 12, green: 13, blue: 14}));
+	},
 
-export const partTwo = (input: string[]) => {
-	const game = new CubeConundrum(input);
+	partTwo(input: string[]) {
+		const game = new CubeConundrum(input);
 
-	return sum(game.fewest());
-};
+		return sum(game.fewest());
+	},
+});

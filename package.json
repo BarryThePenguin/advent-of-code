@@ -5,11 +5,10 @@
 	"main": "dist/src",
 	"type": "module",
 	"scripts": {
-		"build": "tsc --build --clean && tsc --build",
+		"build": "tsc --build",
 		"build:watch": "tsc --build --watch",
-		"pretest": "npm run build",
-		"test": "xo && c8 ava",
-		"test:watch": "ava --watch"
+		"lint": "xo",
+		"test": "vitest"
 	},
 	"repository": {
 		"type": "git",
@@ -23,27 +22,18 @@
 	},
 	"homepage": "https://github.com/BarryThePenguin/advent-of-code#readme",
 	"devDependencies": {
-		"@fast-check/ava": "^2.0.1",
+		"@fast-check/vitest": "^0.1.4",
 		"@tsconfig/node22": "^22.0.0",
 		"@tsconfig/strictest": "^2.0.5",
 		"@types/node": "^22.10.2",
-		"ava": "^6.2.0",
-		"c8": "^10.1.3",
+		"@vitest/coverage-v8": "^2.1.8",
 		"plop": "^4.0.1",
 		"typescript": "^5.7.2",
+		"vitest": "^2.1.8",
 		"xo": "^0.60.0"
 	},
 	"engines": {
 		"node": "^22"
-	},
-	"ava": {
-		"extensions": {
-			"ts": "module"
-		},
-		"nodeArguments": [
-			"--experimental-transform-types",
-			"--no-warnings"
-		]
 	},
 	"xo": {
 		"ignores": [
@@ -51,7 +41,6 @@
 		],
 		"prettier": true,
 		"rules": {
-			"ava/no-skip-test": "warn",
 			"n/file-extension-in-import": "off"
 		}
 	}

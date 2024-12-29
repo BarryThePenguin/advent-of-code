@@ -1,3 +1,4 @@
+import {createDay} from '../day-test.ts';
 import * as parse from '../parse.ts';
 
 type Point = `${number},${number}`;
@@ -76,14 +77,16 @@ class Hydrothermal {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const vents = new Hydrothermal(input);
+export const day = createDay({
+	partOne(input: string[]) {
+		const vents = new Hydrothermal(input);
 
-	return vents.overlapCount;
-};
+		return vents.overlapCount;
+	},
 
-export const partTwo = (input: string[]) => {
-	const vents = new Hydrothermal(input, true);
+	partTwo(input: string[]) {
+		const vents = new Hydrothermal(input, true);
 
-	return vents.overlapCount;
-};
+		return vents.overlapCount;
+	},
+});

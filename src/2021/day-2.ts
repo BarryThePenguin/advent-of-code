@@ -1,3 +1,5 @@
+import {createDay} from '../day-test.ts';
+
 class Dive {
 	static parse(command: string) {
 		const [direction, units] = command.split(' ');
@@ -45,16 +47,18 @@ class Dive {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const dive = new Dive(input);
-	const {horizontal, depth} = dive.position;
+export const day = createDay({
+	partOne(input: string[]) {
+		const dive = new Dive(input);
+		const {horizontal, depth} = dive.position;
 
-	return horizontal * Math.abs(depth);
-};
+		return horizontal * Math.abs(depth);
+	},
 
-export const partTwo = (input: string[]) => {
-	const dive = new Dive(input);
-	const {horizontal, depth} = dive.positionTwo;
+	partTwo(input: string[]) {
+		const dive = new Dive(input);
+		const {horizontal, depth} = dive.positionTwo;
 
-	return horizontal * Math.abs(depth);
-};
+		return horizontal * Math.abs(depth);
+	},
+});

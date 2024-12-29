@@ -1,9 +1,5 @@
-import test from 'ava';
-import {createDayMacro} from '../create-day-macro.ts';
-import {readLines} from '../read-input.ts';
-import * as dayFour from './day-4.ts';
-
-const {partOne, partTwo} = createDayMacro(dayFour);
+import {test} from 'vitest';
+import {day} from './day-4.ts';
 
 const testInput = [
 	'7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1',
@@ -27,10 +23,10 @@ const testInput = [
 	' 2  0 12  3  7',
 ];
 
-test('part one: example', partOne, testInput, 4512);
+test('part one: example', day.partOne(testInput, 4512));
 
-test('part one', partOne, readLines('2021/day-4'), 65_325);
+test('part one', day.partOne(day.readLines('2021/day-4'), 65_325));
 
-test('part two: example', partTwo, testInput, 1924);
+test('part two: example', day.partTwo(testInput, 1924));
 
-test('part two', partTwo, readLines('2021/day-4'), 4624);
+test('part two', day.partTwo(day.readLines('2021/day-4'), 4624));

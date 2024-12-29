@@ -1,3 +1,5 @@
+import {createDay} from '../day-test.ts';
+
 class Measurements {
 	measurements: number[] = [];
 
@@ -34,23 +36,25 @@ class Measurements {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const measurements = new Measurements();
+export const day = createDay({
+	partOne(input: string[]) {
+		const measurements = new Measurements();
 
-	return measurements.add(...input).countIncrease();
-};
+		return measurements.add(...input).countIncrease();
+	},
 
-export const partTwo = (input: string[]) => {
-	const measurements = new Measurements();
+	partTwo(input: string[]) {
+		const measurements = new Measurements();
 
-	for (const [index, depth] of input.entries()) {
-		const first = input.at(index - 2);
-		const second = input.at(index - 1);
+		for (const [index, depth] of input.entries()) {
+			const first = input.at(index - 2);
+			const second = input.at(index - 1);
 
-		if (typeof first === 'string' && typeof second === 'string') {
-			measurements.addWindow(first, second, depth);
+			if (typeof first === 'string' && typeof second === 'string') {
+				measurements.addWindow(first, second, depth);
+			}
 		}
-	}
 
-	return measurements.countIncrease();
-};
+		return measurements.countIncrease();
+	},
+});

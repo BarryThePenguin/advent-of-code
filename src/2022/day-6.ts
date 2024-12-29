@@ -1,3 +1,5 @@
+import {createDay} from '../day-test.ts';
+
 enum MarkerLength {
 	packet = 4,
 	message = 14,
@@ -55,12 +57,14 @@ class Device {
 	}
 }
 
-export const partOne = (input: string) => {
-	const device = new Device();
-	return device.lockOn(input, MarkerLength.packet);
-};
+export const day = createDay({
+	partOne(input: string) {
+		const device = new Device();
+		return device.lockOn(input, MarkerLength.packet);
+	},
 
-export const partTwo = (input: string) => {
-	const device = new Device();
-	return device.lockOn(input, MarkerLength.message);
-};
+	partTwo(input: string) {
+		const device = new Device();
+		return device.lockOn(input, MarkerLength.message);
+	},
+});

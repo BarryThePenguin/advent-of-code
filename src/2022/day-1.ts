@@ -1,3 +1,5 @@
+import {createDay} from '../day-test.ts';
+
 class CalorieCounter {
 	elves: number[] = [];
 
@@ -34,13 +36,15 @@ class CalorieCounter {
 	}
 }
 
-export const partOne = (input: string[]) => {
-	const counter = new CalorieCounter(input);
-	const [mostCalories] = counter.topThree;
-	return mostCalories;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		const counter = new CalorieCounter(input);
+		const [mostCalories] = counter.topThree;
+		return mostCalories;
+	},
 
-export const partTwo = (input: string[]) => {
-	const counter = new CalorieCounter(input);
-	return counter.topThree.reduce((p, c) => p + c, 0);
-};
+	partTwo(input: string[]) {
+		const counter = new CalorieCounter(input);
+		return counter.topThree.reduce((p, c) => p + c, 0);
+	},
+});

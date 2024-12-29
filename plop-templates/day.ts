@@ -1,7 +1,11 @@
-export const partOne = (input: string[]) => {
-	return 0;
-};
+import {createDay} from '../day-test.ts';
 
-export const partTwo = (input: string[]) => {
-	return 0;
-};
+export const day = createDay({
+	partOne(input: string[]) {
+		return 0;
+	},
+
+	partTwo(input: string[]) {
+		return 0;
+	},
+});
