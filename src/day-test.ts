@@ -1,8 +1,6 @@
 import {type TestFunction} from 'vitest';
 import {readLines, readFile} from './read-input.ts';
 
-// type MaybePromise<T> = T | PromiseLike<T>;
-
 type DayInput<InputOne, InputTwo, ExpectedOne, ExpectedTwo> = {
 	partOne(input: InputOne): ExpectedOne;
 	partTwo(input: InputTwo): ExpectedTwo;
