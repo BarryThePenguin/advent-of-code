@@ -16,7 +16,7 @@ class GameOne {
 	rounds: number[] = [];
 
 	constructor(
-		input: string[],
+		input: Iterable<string>,
 		protected plays: Map<string, number>,
 	) {
 		for (const round of input) {
@@ -48,7 +48,7 @@ export const day = createDay({
 	 * Draw - 3
 	 * Win 6
 	 */
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const plays = new Map([
 			['A X', Play.Rock + Score.Draw],
 			['A Y', Play.Paper + Score.Win],
@@ -84,7 +84,7 @@ export const day = createDay({
 	 * Draw - 3
 	 * Win 6
 	 */
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const plays = new Map([
 			['A X', Play.Scissors + Score.Lose],
 			['A Y', Play.Rock + Score.Draw],

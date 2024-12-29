@@ -1,3 +1,4 @@
+import {ok} from 'node:assert';
 import {createDay} from '../day-test.ts';
 import {entries, keys} from '../chunk.ts';
 import {zeroFill} from '../range.ts';
@@ -11,7 +12,9 @@ class Report {
 			for (const [index, bit] of entries(item)) {
 				if (bit === '0' || bit === '1') {
 					const value = report.get(bit, index);
-					report.set(bit, index, value + 1);
+					if (typeof value === 'number') {
+						report.set(bit, index, value + 1);
+					}
 				}
 			}
 		}
@@ -42,11 +45,19 @@ class Report {
 	}
 
 	get(bit: '0' | '1', index: number) {
-		return (bit === '0' ? this.zeros[index] : this.ones[index]) ?? 0;
+		return bit === '0' ? this.zeros[index] : this.ones[index];
 	}
 
-	at(index: number): [number, number] {
-		return [this.zeros[index] ?? 0, this.ones[index] ?? 0];
+	at(index: number) {
+		let result;
+		const zeros = this.zeros[index];
+		const ones = this.ones[index];
+
+		if (typeof zeros === 'number' && typeof ones === 'number') {
+			result = {zeros, ones};
+		}
+
+		return result;
 	}
 }
 
@@ -90,13 +101,20 @@ class Diagnostic {
 		return this.run(() => {
 			for (const index of keys(entry)) {
 				if (input.length > 1) {
-					const [zeros, ones] = Report.generate(input).at(index);
-					const filter = ones >= zeros ? '1' : '0';
-					input = input.filter((item) => item.charAt(index) === filter);
+					const result = Report.generate(input).at(index);
+
+					if (result) {
+						const filter = result.ones >= result.zeros ? '1' : '0';
+						input = input.filter((item) => item.charAt(index) === filter);
+					}
 				}
 			}
 
-			return input[0] ?? '';
+			const [result] = input;
+
+			ok(result);
+
+			return result;
 		});
 	}
 
@@ -107,13 +125,20 @@ class Diagnostic {
 		return this.run(() => {
 			for (const index of keys(entry)) {
 				if (input.length > 1) {
-					const [zeros, ones] = Report.generate(input).at(index);
-					const filter = ones >= zeros ? '0' : '1';
-					input = input.filter((item) => item.charAt(index) === filter);
+					const result = Report.generate(input).at(index);
+
+					if (result) {
+						const filter = result.ones >= result.zeros ? '0' : '1';
+						input = input.filter((item) => item.charAt(index) === filter);
+					}
 				}
 			}
 
-			return input[0] ?? '';
+			const [result] = input;
+
+			ok(result);
+
+			return result;
 		});
 	}
 
@@ -149,13 +174,13 @@ function* zip<T>(a: Iterable<T>, b: Iterable<T>): Generator<[T, T]> {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
-		const diagnostic = new Diagnostic(input);
+	partOne(input: Iterable<string>) {
+		const diagnostic = new Diagnostic([...input]);
 		return diagnostic.powerConsumption;
 	},
 
-	partTwo(input: string[]) {
-		const diagnostic = new Diagnostic(input);
+	partTwo(input: Iterable<string>) {
+		const diagnostic = new Diagnostic([...input]);
 		return diagnostic.lifeSupportRating;
 	},
 });

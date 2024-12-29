@@ -45,70 +45,46 @@ function autocomplete(line: string) {
 
 		if (char === '(' || char === '[' || char === '{' || char === '<') {
 			tokens.push(char);
-		} else {
-			switch (char) {
-				case ')': {
-					found = tokens.lastIndexOf('(');
-					break;
-				}
+		}
 
-				case ']': {
-					found = tokens.lastIndexOf('[');
-					break;
-				}
+		if (char === ')') {
+			found = tokens.lastIndexOf('(');
+		}
 
-				case '}': {
-					found = tokens.lastIndexOf('{');
-					break;
-				}
+		if (char === ']') {
+			found = tokens.lastIndexOf('[');
+		}
 
-				case '>': {
-					found = tokens.lastIndexOf('<');
-					break;
-				}
+		if (char === '}') {
+			found = tokens.lastIndexOf('{');
+		}
 
-				default: {
-					throw new Error(`Invalid character: ${char}`);
-				}
-			}
+		if (char === '>') {
+			found = tokens.lastIndexOf('<');
+		}
 
-			if (typeof found === 'number' && found >= 0) {
-				tokens.splice(found, 1);
-			}
+		if (typeof found === 'number' && found >= 0) {
+			tokens.splice(found, 1);
 		}
 
 		current++;
 	}
 
 	for (const token of tokens.reverse()) {
-		switch (token) {
-			case '(': {
-				result.push(')');
+		if (token === '(') {
+			result.push(')');
+		}
 
-				break;
-			}
+		if (token === '[') {
+			result.push(']');
+		}
 
-			case '[': {
-				result.push(']');
+		if (token === '{') {
+			result.push('}');
+		}
 
-				break;
-			}
-
-			case '{': {
-				result.push('}');
-
-				break;
-			}
-
-			case '<': {
-				result.push('>');
-
-				break;
-			}
-
-			default: {
-				throw new Error(`Invalid token: ${token}`);
-			}
+		if (token === '<') {
+			result.push('>');
 		}
 	}
 
@@ -120,7 +96,7 @@ class Parser {
 
 	complete: string[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const line of input) {
 			const result = parse(line);
 
@@ -171,30 +147,20 @@ class Parser {
 			for (const token of line) {
 				score *= 5;
 
-				switch (token) {
-					case ')': {
-						score += 1;
-						break;
-					}
+				if (token === ')') {
+					score += 1;
+				}
 
-					case ']': {
-						score += 2;
-						break;
-					}
+				if (token === ']') {
+					score += 2;
+				}
 
-					case '}': {
-						score += 3;
-						break;
-					}
+				if (token === '}') {
+					score += 3;
+				}
 
-					case '>': {
-						score += 4;
-						break;
-					}
-
-					default: {
-						throw new Error(`Invalid token: ${token}`);
-					}
+				if (token === '>') {
+					score += 4;
 				}
 			}
 
@@ -210,12 +176,12 @@ class Parser {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const parser = new Parser(input);
 		return parser.score;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const parser = new Parser(input);
 		return parser.autocompleteScore;
 	},

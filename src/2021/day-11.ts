@@ -36,7 +36,7 @@ class Octopus {
 }
 
 class Cavern extends Grid<Octopus> {
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		super(
 			Grid.coordinatesFrom(input, function (x, y, value) {
 				return new Octopus(x, y, Number(value));
@@ -135,7 +135,7 @@ function every(items: number[], value: number) {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const cavern = new Cavern(input);
 
 		const flashes = [];
@@ -147,7 +147,7 @@ export const day = createDay({
 		return flashes.length;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const cavern = new Cavern(input);
 
 		let step = 0;

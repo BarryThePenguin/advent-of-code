@@ -8,10 +8,7 @@ function differenceOf(diff: number, digit = '', entry = '') {
 	return diff === difference(new Set(digit), new Set(entry)).size;
 }
 
-function buildEntries(
-	input: IteratorObject<string>,
-	digits: Map<number, string>,
-) {
+function buildEntries(input: Iterable<string>, digits: Map<number, string>) {
 	const entries = new Map<string, string>();
 
 	const fiveDigit = [];
@@ -64,11 +61,11 @@ function buildEntries(
 }
 
 function decode(entry: string, entries: Map<string, string>) {
-	let value = '';
+	let value;
 
 	for (const key of entries.keys()) {
 		if (equivalence(new Set(entry), new Set(key))) {
-			value = entries.get(key) ?? '';
+			value = entries.get(key);
 		}
 	}
 
@@ -78,11 +75,11 @@ function decode(entry: string, entries: Map<string, string>) {
 class Display {
 	entries: Array<{
 		entries: Map<string, string>;
-		output: IteratorObject<string>;
+		output: Iterable<string>;
 	}> = [];
 
 	constructor(
-		input: string[],
+		input: Iterable<string>,
 		protected digits: Map<number, string>,
 	) {
 		for (const entry of input) {
@@ -99,7 +96,7 @@ class Display {
 	get outputCount() {
 		let count = 0;
 
-		for (const output of this.entries.flatMap(({output}) => output.toArray())) {
+		for (const output of this.entries.flatMap(({output}) => [...output])) {
 			const value = this.digits.get(output.length);
 
 			if (value) {
@@ -128,7 +125,7 @@ class Display {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const digits = new Map([
 			[2, '1'],
 			[4, '4'],
@@ -141,7 +138,7 @@ export const day = createDay({
 		return display.outputCount;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const digits = new Map([
 			[2, '1'],
 			[4, '4'],

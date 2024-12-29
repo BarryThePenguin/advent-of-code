@@ -27,22 +27,29 @@ class School {
 		return count;
 	}
 
-	constructor(fish: string[]) {
+	constructor(fish: Iterable<string>) {
 		this.fish = frequency(fish);
 	}
 
 	nextDay() {
-		const reproduceCount = this.fish.get('0') ?? 0;
+		const reproduceCount = this.fish.get('0');
 
 		this.fish = createFish(this.fish);
 
-		this.fish.set('6', reproduceCount + (this.fish.get('6') ?? 0));
-		this.fish.set('8', reproduceCount);
+		const count = this.fish.get('6');
+
+		if (typeof reproduceCount === 'number') {
+			if (typeof count === 'number') {
+				this.fish.set('6', reproduceCount + count);
+			}
+
+			this.fish.set('8', reproduceCount);
+		}
 	}
 }
 
 export const day = createDay({
-	partOne({input, days}: {input: string[]; days: number}) {
+	partOne({input, days}: {input: Iterable<string>; days: number}) {
 		const school = new School(input);
 
 		for (let i = 0; i < days; i++) {
@@ -52,7 +59,7 @@ export const day = createDay({
 		return school.count;
 	},
 
-	partTwo({input, days}: {input: string[]; days: number}) {
+	partTwo({input, days}: {input: Iterable<string>; days: number}) {
 		const school = new School(input);
 
 		for (let i = 0; i < days; i++) {

@@ -5,7 +5,7 @@ class CalorieCounter {
 
 	topThree: readonly [number, number, number] = [0, 0, 0];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		let elf = 0;
 
 		for (const calories of input) {
@@ -37,13 +37,13 @@ class CalorieCounter {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const counter = new CalorieCounter(input);
 		const [mostCalories] = counter.topThree;
 		return mostCalories;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const counter = new CalorieCounter(input);
 		return counter.topThree.reduce((p, c) => p + c, 0);
 	},

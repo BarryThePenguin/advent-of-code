@@ -36,7 +36,7 @@ class HeightMap extends Grid<Location> {
 		return this.grid;
 	}
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		super(
 			Grid.coordinatesFrom(input, function (x, y, value) {
 				return new Location(x, y, Number(value));
@@ -122,7 +122,7 @@ class HeightMap extends Grid<Location> {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const heightMap = new HeightMap(input);
 
 		const lowpoints = heightMap.findLowPoints();
@@ -130,7 +130,7 @@ export const day = createDay({
 		return lowpoints.reduce((a, location) => a + location.height + 1, 0);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const heightMap = new HeightMap(input);
 
 		const [one = 0, two = 0, three = 0] = heightMap.findBasins();

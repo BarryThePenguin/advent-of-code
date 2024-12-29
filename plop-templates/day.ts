@@ -1,11 +1,11 @@
 import {createDay} from '../day-test.ts';
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		return 0;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		return 0;
 	},
 });

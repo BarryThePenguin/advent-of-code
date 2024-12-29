@@ -75,7 +75,7 @@ class CargoCrane {
 function* parseCrates(input: string[]) {
 	for (const row of input) {
 		for (const [index, crateInput] of entries(chunk(row, 4))) {
-			const label = crateInput.replaceAll(/[[\]\s]?/g, '');
+			const label = crateInput.join('').replaceAll(/[[\]\s]?/g, '');
 
 			if (label !== '') {
 				yield {index: String(index + 1), crate: new Crate(label)};
@@ -91,22 +91,24 @@ function* parseInstructions(input: string[]) {
 		const result = instructionRegex.exec(instruction);
 		if (result) {
 			const count = Number(result.at(1));
-			const from = result.at(2) ?? '';
-			const to = result.at(3) ?? '';
+			const from = result.at(2);
+			const to = result.at(3);
 
-			yield {count, from, to};
+			if (from && to) {
+				yield {count, from, to};
+			}
 		}
 	}
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
-		const crane = new CargoCrane(input);
+	partOne(input: Iterable<string>) {
+		const crane = new CargoCrane([...input]);
 		return crane.topCrates();
 	},
 
-	partTwo(input: string[]) {
-		const crane = new CargoCrane(input, '9001');
+	partTwo(input: Iterable<string>) {
+		const crane = new CargoCrane([...input], '9001');
 		return crane.topCrates();
 	},
 });

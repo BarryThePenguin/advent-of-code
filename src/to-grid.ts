@@ -13,10 +13,10 @@ type GridItem = Cell & {
 
 export abstract class Grid<Item extends GridItem> {
 	static coordinatesFrom = function* <Item>(
-		input: string[],
+		input: Iterator<string> | Iterable<string>,
 		create: (x: number, y: number, value: string) => Item,
 	) {
-		for (const [y, yValues] of input.entries()) {
+		for (const [y, yValues] of entries(input)) {
 			for (const [x, value] of entries(yValues)) {
 				yield create(x, y, value);
 			}

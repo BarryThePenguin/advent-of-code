@@ -1,36 +1,61 @@
-type Chunkable<T> = {
-	length: number;
-
-	slice(start?: number, end?: number): T;
-};
-
 export function* chunk<T>(
-	items: Chunkable<T>,
-	chunkSize = items.length,
-): Generator<T> {
-	let start = 0;
+	iterator: Iterator<T> | Iterable<T>,
+	chunkSize: number,
+): Generator<T[]> {
+	let buffer = [];
 
-	while (start < items.length) {
-		yield items.slice(start, (start += chunkSize));
+	for (const element of Iterator.from(iterator)) {
+		buffer.push(element);
+		if (buffer.length === chunkSize) {
+			yield buffer;
+			buffer = [];
+		}
+	}
+
+	if (buffer.length > 0) {
+		yield buffer;
 	}
 }
 
-export function entries<T>(items: Iterable<T>): ArrayIterator<[number, T]> {
-	return [...items].entries();
+export function* windows<T>(
+	iterator: Iterator<T> | Iterable<T>,
+	windowSize: number,
+): Generator<T[]> {
+	const buffer = [];
+
+	for (const element of Iterator.from(iterator)) {
+		if (buffer.length === windowSize) {
+			buffer.shift();
+		}
+
+		buffer.push(element);
+
+		if (buffer.length === windowSize) {
+			yield buffer.slice();
+		}
+	}
 }
 
-export function keys<T>(items: Iterable<T> | undefined) {
-	return items ? [...items].keys() : [];
+export function entries<T>(
+	items: Iterator<T> | Iterable<T>,
+): ArrayIterator<[number, T]> {
+	return Iterator.from(items).toArray().entries();
 }
 
-export function sum(items: Iterable<number>) {
+export function keys<T>(
+	items: Iterator<T> | Iterable<T>,
+): ArrayIterator<number> {
+	return Iterator.from(items).toArray().keys();
+}
+
+export function sum(items: Iterator<number> | Iterable<number>) {
 	return Iterator.from(items).reduce((a, b) => a + b, 0);
 }
 
-export function* walk<T>(items: Iterable<T>) {
+export function* walk<T>(items: Iterator<T> | Iterable<T>) {
 	let previous;
 
-	for (const current of items) {
+	for (const current of Iterator.from(items)) {
 		yield {previous, current};
 		previous = current;
 	}

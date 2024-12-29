@@ -24,7 +24,7 @@ class Document {
 	calibrationValues: number[] = [];
 
 	constructor(
-		input: string[],
+		input: Iterable<string>,
 		private readonly mode: 'digits' | 'words',
 	) {
 		for (const value of input) {
@@ -73,12 +73,12 @@ class Document {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const document = new Document(input, 'digits');
 		return document.sum();
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const document = new Document(input, 'words');
 		return document.sum();
 	},

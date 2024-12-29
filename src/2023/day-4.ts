@@ -11,7 +11,7 @@ class Scratchcards {
 
 	cardCopies = new Map<number, Range>();
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const value of input) {
 			const [, cardIdInput, winningNumbersInput = '', myNumbersInput = ''] =
 				cardRegex.exec(value) ?? [];
@@ -68,12 +68,12 @@ class Scratchcards {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const scratchCards = new Scratchcards(input);
 		return scratchCards.points();
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const scratchCards = new Scratchcards(input);
 		const count = frequency(scratchCards.collect());
 

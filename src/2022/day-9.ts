@@ -12,7 +12,7 @@ enum Direction {
 	Down = 'D',
 }
 
-function isDirection(value: string): value is Direction {
+function isDirection(value: unknown): value is Direction {
 	return Object.values(Direction).includes(value as Direction);
 }
 
@@ -27,14 +27,18 @@ class Rope {
 
 	tailVisited = new Set<Coordinates>(['0,0']);
 
-	constructor(input: string[], tailCount: number) {
+	constructor(input: Iterable<string>, tailCount: number) {
 		for (let index = 0; index < tailCount; index++) {
 			this.sections.push(new Section());
 		}
 
 		for (const instruction of input) {
-			const [, direction = '', count = ''] =
-				instructionRegex.exec(instruction) ?? [];
+			const result = instructionRegex.exec(instruction);
+
+			ok(result);
+
+			const [, direction, count] = result;
+
 			ok(isDirection(direction));
 
 			for (let step = 0; step < Number(count); step++) {
@@ -132,12 +136,12 @@ function isAdjacent(previous: Section, current: Section) {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const rope = new Rope(input, 1);
 		return rope.tailVisited.size;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const rope = new Rope(input, 9);
 		return rope.tailVisited.size;
 	},

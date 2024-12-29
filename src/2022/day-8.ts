@@ -18,7 +18,7 @@ class TreeHouse extends Grid<Tree> {
 		return this.grid;
 	}
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		super(
 			Grid.coordinatesFrom(input, function (x, y, value) {
 				return new Tree(x, y, Number(value));
@@ -104,13 +104,13 @@ class TreeHouse extends Grid<Tree> {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const treeHouse = new TreeHouse(input);
 		const trees = treeHouse.findVisibleTrees();
 		return trees.toArray().length;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const treeHouse = new TreeHouse(input);
 		const score = treeHouse.calculateScenicScore();
 		const [topScore] = score.toArray().sort((a, b) => b - a);

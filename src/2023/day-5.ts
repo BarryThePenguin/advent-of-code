@@ -86,7 +86,10 @@ class Almanac {
 		this.humidityToLocationMap,
 	);
 
-	constructor(input: string[], parseSeeds: (seeds: string) => Iterable<Range>) {
+	constructor(
+		input: Iterable<string>,
+		parseSeeds: (seeds: string) => Iterable<Range>,
+	) {
 		let map = this.seedToSoilMap;
 
 		for (const value of input) {
@@ -184,7 +187,7 @@ class Almanac {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const almanac = new Almanac(input, function* (seeds) {
 			for (const seed of seeds) {
 				const rangeStart = Number(seed);
@@ -201,7 +204,7 @@ export const day = createDay({
 		});
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const almanac = new Almanac(input, function* (seeds) {
 			for (const [start, count] of chunk(seeds, 2)) {
 				const rangeStart = Number(start);

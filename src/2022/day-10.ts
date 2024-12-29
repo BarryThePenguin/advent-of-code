@@ -72,7 +72,7 @@ class ClockCircuit {
 
 	crt = new CrtMonitor();
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		let tick = this.clock.next();
 
 		for (const instruction of input) {
@@ -121,12 +121,12 @@ function parseInstruction(input: string) {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const clock = new ClockCircuit(input);
 		return sum(clock.signalStrength);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const clock = new ClockCircuit(input);
 		return fromGrid(clock.crt.pixels);
 	},

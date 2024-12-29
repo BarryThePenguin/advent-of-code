@@ -1,3 +1,4 @@
+import {windows} from '../chunk.ts';
 import {createDay} from '../day-test.ts';
 
 class Measurements {
@@ -37,22 +38,17 @@ class Measurements {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const measurements = new Measurements();
 
 		return measurements.add(...input).countIncrease();
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const measurements = new Measurements();
 
-		for (const [index, depth] of input.entries()) {
-			const first = input.at(index - 2);
-			const second = input.at(index - 1);
-
-			if (typeof first === 'string' && typeof second === 'string') {
-				measurements.addWindow(first, second, depth);
-			}
+		for (const window of windows(input, 3)) {
+			measurements.addWindow(...window);
 		}
 
 		return measurements.countIncrease();

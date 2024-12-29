@@ -8,7 +8,7 @@ test('integers', () => {
 });
 
 test('lines', () => {
-	expect(lines('foo\nbar\nbaz')).toEqual(['foo', 'bar', 'baz']);
+	expect(lines('foo\nbar\nbaz').toArray()).toEqual(['foo', 'bar', 'baz']);
 });
 
 test('words', () => {

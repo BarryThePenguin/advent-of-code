@@ -2,11 +2,11 @@ import {createDay} from '../day-test.ts';
 import {chunk} from '../chunk.ts';
 import {intersection} from '../set.ts';
 
-const lowercase = '`'.codePointAt(0) ?? 0;
-const uppercase = '&'.codePointAt(0) ?? 0;
+const lowercase = Number('`'.codePointAt(0));
+const uppercase = Number('&'.codePointAt(0));
 
 function priority(char: string) {
-	const value = char.codePointAt(0) ?? 0;
+	const value = Number(char.codePointAt(0));
 
 	if (value < lowercase) {
 		return value - uppercase;
@@ -25,7 +25,7 @@ function split(value: string): [string, string] {
 class Reorganizer {
 	priority: number[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const backpack of input) {
 			if (backpack.length > 0) {
 				const [one, two] = split(backpack);
@@ -45,7 +45,7 @@ class Reorganizer {
 class GroupReorganizer {
 	priority: number[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const backpacks of chunk(input, 3)) {
 			if (backpacks.length === 3) {
 				const [one, two, three] = backpacks;
@@ -63,13 +63,13 @@ class GroupReorganizer {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const reorganizer = new Reorganizer(input);
 
 		return reorganizer.sumOfPriorities;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const reorganizer = new GroupReorganizer(input);
 
 		return reorganizer.sumOfPriorities;

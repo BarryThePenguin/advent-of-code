@@ -15,7 +15,7 @@ class Dive {
 
 	depthTwo = 0;
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const command of input) {
 			const {direction, units} = Dive.parse(command);
 
@@ -48,14 +48,14 @@ class Dive {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const dive = new Dive(input);
 		const {horizontal, depth} = dive.position;
 
 		return horizontal * Math.abs(depth);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const dive = new Dive(input);
 		const {horizontal, depth} = dive.positionTwo;
 

@@ -1,3 +1,4 @@
+import {ok} from 'node:assert';
 import {createDay} from '../day-test.ts';
 import {type Coordinates, toCoordinates, Grid} from '../to-grid.ts';
 
@@ -13,17 +14,21 @@ class Elevation {
 	}
 
 	get elevation() {
-		let elevation = this.value;
+		let {value} = this;
 
 		if (this.start) {
-			elevation = 'a';
+			value = 'a';
 		}
 
 		if (this.end) {
-			elevation = 'z';
+			value = 'z';
 		}
 
-		return elevation.codePointAt(0) ?? 0;
+		const elevation = value.codePointAt(0);
+
+		ok(elevation !== undefined);
+
+		return elevation;
 	}
 
 	get start() {
@@ -40,7 +45,7 @@ class HillClimb extends Grid<Elevation> {
 
 	end: Elevation | undefined;
 
-	constructor(input: string[], startValue?: string) {
+	constructor(input: Iterable<string>, startValue?: string) {
 		const start: Elevation[] = [];
 
 		let end: Elevation | undefined;
@@ -83,9 +88,7 @@ class HillClimb extends Grid<Elevation> {
 			}
 		}
 
-		const [shortestPath] = paths.sort((a, b) => a.length - b.length);
-
-		return shortestPath ?? [];
+		return paths.sort((a, b) => a.length - b.length).at(0);
 	}
 
 	search(start: Elevation, end: Elevation) {
@@ -131,15 +134,15 @@ class HillClimb extends Grid<Elevation> {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const hill = new HillClimb(input);
 		const path = hill.climb();
-		return path.length;
+		return path?.length;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const hill = new HillClimb(input, 'a');
 		const path = hill.climb();
-		return path.length;
+		return path?.length;
 	},
 });

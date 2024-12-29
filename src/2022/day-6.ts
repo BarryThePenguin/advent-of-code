@@ -31,11 +31,13 @@ class Marker<T> {
 	}
 
 	position(signal: string) {
+		let {maxLength} = this;
+
 		if (this.value) {
-			return signal.indexOf(this.value) + this.maxLength;
+			maxLength += signal.indexOf(this.value);
 		}
 
-		return undefined;
+		return maxLength;
 	}
 }
 

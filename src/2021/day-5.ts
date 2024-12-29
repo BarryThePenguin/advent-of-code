@@ -65,7 +65,7 @@ class Hydrothermal {
 		return overlapCount;
 	}
 
-	constructor(segments: string[], includeDiagonal = false) {
+	constructor(segments: Iterable<string>, includeDiagonal = false) {
 		for (const segment of segments) {
 			const coordinates = parseSegment(segment, includeDiagonal);
 
@@ -78,13 +78,13 @@ class Hydrothermal {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const vents = new Hydrothermal(input);
 
 		return vents.overlapCount;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const vents = new Hydrothermal(input, true);
 
 		return vents.overlapCount;

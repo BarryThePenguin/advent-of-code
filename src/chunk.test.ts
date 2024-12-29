@@ -11,16 +11,6 @@ test.for<[number[], number, number[][]]>([
 	},
 );
 
-test.for<[number[], number[][]]>([
-	[[1, 2, 3, 4, 5, 6, 7, 8, 9], [[1, 2, 3, 4, 5, 6, 7, 8, 9]]],
-	[[100, 100, 100, 200, 300, 400], [[100, 100, 100, 200, 300, 400]]],
-])(
-	'if only array is passed as argument, treat n as the length of array',
-	([input, expected]) => {
-		expect(chunk(input).toArray()).toEqual(expected);
-	},
-);
-
 test.for<[number[], number, number[][]]>([
 	[
 		[1, 2, 3, 4, 5, 6, 7, 8, 9],

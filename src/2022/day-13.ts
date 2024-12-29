@@ -67,7 +67,7 @@ class Packet {
 class DistressSignal {
 	packets: Packet[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const [left, right] of chunk(input, 3)) {
 			this.packets.push(new Packet(left, right));
 		}
@@ -91,12 +91,12 @@ class DistressSignal {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const signal = new DistressSignal(input);
 		return sum(signal.compare());
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const firstDivider = [[2]];
 		const secondDivider = [[6]];
 		const signal = new DistressSignal(input);

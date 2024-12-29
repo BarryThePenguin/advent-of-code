@@ -19,13 +19,11 @@ const cubeRegex = /(\d+) (\w+)/g;
 class Game {
 	cubes: Cube[] = [];
 
-	constructor(input: string[]) {
-		for (const role of input) {
-			const cubes = role.matchAll(cubeRegex);
+	constructor(input: string) {
+		const cubes = input.matchAll(cubeRegex);
 
-			for (const [, number, colour = ''] of cubes) {
-				this.cubes.push(new Cube(Number(number), colour));
-			}
+		for (const [, number, colour = ''] of cubes) {
+			this.cubes.push(new Cube(Number(number), colour));
 		}
 	}
 
@@ -57,11 +55,14 @@ const gameRegex = /Game (\d+): (.+)/;
 class CubeConundrum {
 	games = new Map<string, Game>();
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const value of input) {
-			const [, id = '', gameInput = ''] = gameRegex.exec(value) ?? [];
+			const result = gameRegex.exec(value);
 
-			this.games.set(id, new Game(gameInput.split('; ')));
+			if (result) {
+				const [, id = '', gameInput = ''] = result;
+				this.games.set(id, new Game(gameInput));
+			}
 		}
 	}
 
@@ -88,12 +89,12 @@ class CubeConundrum {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const game = new CubeConundrum(input);
 		return sum(game.possible({red: 12, green: 13, blue: 14}));
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const game = new CubeConundrum(input);
 
 		return sum(game.fewest());

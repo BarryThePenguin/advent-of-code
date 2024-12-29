@@ -1,5 +1,5 @@
 import {createDay} from '../day-test.ts';
-import {toCoordinates, distance, Range} from '../to-grid.ts';
+import {distance, Range} from '../to-grid.ts';
 import * as parse from '../parse.ts';
 
 class Beacon {
@@ -7,10 +7,6 @@ class Beacon {
 		public x: number,
 		public y: number,
 	) {}
-
-	get coordinates() {
-		return toCoordinates(this.x, this.y);
-	}
 }
 
 class Sensor {
@@ -22,10 +18,6 @@ class Sensor {
 
 	get distance() {
 		return distance(this, this.beacon);
-	}
-
-	get coordinates() {
-		return toCoordinates(this.x, this.y);
 	}
 
 	coverage(row: number) {
@@ -78,30 +70,12 @@ class ScanRange {
 
 		return range?.distance;
 	}
-
-	findUncovered() {
-		let range: Range | undefined;
-
-		for (const band of this.bands) {
-			if (range) {
-				if (range.continuous(band)) {
-					range.add(band);
-				} else {
-					return band.start - 1;
-				}
-			} else {
-				range = band;
-			}
-		}
-
-		return undefined;
-	}
 }
 
 class Tunnel {
 	sensors: Sensor[] = [];
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const value of input) {
 			const [sensorX = 0, sensorY = 0, beaconX = 0, beaconY = 0] =
 				parse.integers(value);
@@ -145,13 +119,13 @@ class Tunnel {
 }
 
 export const day = createDay({
-	partOne({input, row}: {input: string[]; row: number}) {
+	partOne({input, row}: {input: Iterable<string>; row: number}) {
 		const tunnel = new Tunnel(input);
 		const result = tunnel.scan(row);
 		return result.distance;
 	},
 
-	partTwo({input, max}: {input: string[]; max: number}) {
+	partTwo({input, max}: {input: Iterable<string>; max: number}) {
 		const tunnel = new Tunnel(input);
 		return tunnel.tuningFrequency(max);
 	},

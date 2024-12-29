@@ -30,7 +30,7 @@ class Character {
 }
 
 class Schematic extends Grid<Character> {
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		super(
 			Grid.coordinatesFrom(input, function (x, y, value) {
 				return new Character(x, y, value);
@@ -132,12 +132,12 @@ class Schematic extends Grid<Character> {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const schematic = new Schematic(input);
 		return sum(schematic.findPartNumber());
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const schematic = new Schematic(input);
 		return sum(schematic.findGearRatios());
 	},

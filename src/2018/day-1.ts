@@ -1,13 +1,16 @@
 import {createDay} from '../day-test.ts';
 
 export const day = createDay({
-	partOne(input: string[]) {
-		return input.reduce((accumulator, value) => accumulator + Number(value), 0);
+	partOne(input: Iterable<string>) {
+		return [...input].reduce(
+			(accumulator, value) => accumulator + Number(value),
+			0,
+		);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const seen = new Set();
-		const deltas = input.map(Number);
+		const deltas = [...input].map(Number);
 		let frequency = 0;
 
 		while (!seen.has(frequency)) {

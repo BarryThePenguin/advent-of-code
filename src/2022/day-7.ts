@@ -51,7 +51,7 @@ type Node = Directory | File;
 class Terminal {
 	root?: Directory;
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		let currentDirectory: Directory | undefined;
 
 		for (const line of input) {
@@ -89,7 +89,7 @@ class Terminal {
 	}
 
 	findFreeSpace() {
-		const usedSpace = this.root?.size ?? 0;
+		const usedSpace = Number(this.root?.size);
 		const totalSpace = 70_000_000;
 		const unusedSpace = totalSpace - usedSpace;
 		const target = 30_000_000;
@@ -105,7 +105,7 @@ class Terminal {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const terminal = new Terminal(input);
 		const directories = terminal.filterDirectories(
 			(directory) => directory.size <= 100_000,
@@ -113,7 +113,7 @@ export const day = createDay({
 		return sum(directories);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const terminal = new Terminal(input);
 		return terminal.findFreeSpace();
 	},

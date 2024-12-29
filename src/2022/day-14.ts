@@ -52,7 +52,7 @@ class Cave extends Grid<Rock | Sand> {
 	sandSource = fromCoordinates('500,0');
 
 	constructor(
-		input: string[],
+		input: Iterable<string>,
 		protected withFloor = false,
 	) {
 		super(walkPath(input));
@@ -64,10 +64,6 @@ class Cave extends Grid<Rock | Sand> {
 		if (withFloor) {
 			this.maxY += 2;
 		}
-	}
-
-	get floor() {
-		return this.maxY;
 	}
 
 	simulate() {
@@ -135,7 +131,7 @@ class Cave extends Grid<Rock | Sand> {
 	}
 }
 
-function* walkPath(input: string[]) {
+function* walkPath(input: Iterable<string>) {
 	for (const path of input) {
 		for (const {previous, current} of walk(path.split(' -> '))) {
 			const start = fromCoordinates((previous ?? current) as Coordinates);
@@ -163,13 +159,13 @@ function* walkPath(input: string[]) {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const cave = new Cave(input);
 		const sand = cave.simulate();
 		return sand.length;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const withFloor = true;
 		const cave = new Cave(input, withFloor);
 		const sand = cave.simulate();

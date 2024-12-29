@@ -8,7 +8,7 @@ class Assignments {
 
 	overlap = 0;
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		for (const assignment of input) {
 			const [firstStart, firstEnd = 0, secondStart, secondEnd = 0] =
 				parse.positiveIntegers(assignment);
@@ -32,12 +32,12 @@ class Assignments {
 	}
 }
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const assignments = new Assignments(input);
 		return assignments.superset;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const assignments = new Assignments(input);
 		return assignments.overlap;
 	},

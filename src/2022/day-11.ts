@@ -1,3 +1,4 @@
+import {ok} from 'node:assert';
 import {createDay} from '../day-test.ts';
 import {chunk} from '../chunk.ts';
 import * as parse from '../parse.ts';
@@ -88,7 +89,7 @@ class KeepAway {
 	monkeys: Monkey[] = [];
 
 	constructor(
-		input: string[],
+		input: Iterable<string>,
 		protected worry: (this: KeepAway, level: number) => number,
 	) {
 		for (const [
@@ -104,8 +105,11 @@ class KeepAway {
 				.map((item) => new Item(item))
 				.toArray();
 
-			const [, operation = '', amount = ''] =
-				operationRegex.exec(operationInput) ?? [];
+			const result = operationRegex.exec(operationInput);
+
+			ok(result);
+
+			const [, operation = '', amount = ''] = result;
 
 			const [test = 0] = parse.integers(testInput);
 			const [trueTest = 0] = parse.integers(trueInput);
@@ -142,12 +146,15 @@ class KeepAway {
 			(a, b) => b.inspectCount - a.inspectCount,
 		);
 
-		return (one?.inspectCount ?? 0) * (two?.inspectCount ?? 0);
+		ok(one);
+		ok(two);
+
+		return one.inspectCount * two.inspectCount;
 	}
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const rounds = 20;
 		const game = new KeepAway(input, function (level) {
 			return Math.floor(level / 3);
@@ -159,7 +166,7 @@ export const day = createDay({
 		return game.monkeyBusiness();
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const rounds = 10_000;
 		const game = new KeepAway(input, function (level) {
 			return level % this.modulo;

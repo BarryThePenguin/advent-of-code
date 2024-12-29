@@ -5,7 +5,7 @@ const positiveDigits = /\d+/g;
 const characters = /\w+/g;
 
 export function lines(input: string, separator = '\n') {
-	return input.split(separator);
+	return Iterator.from(input.split(separator));
 }
 
 export function integers(input: string) {

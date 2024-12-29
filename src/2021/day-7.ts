@@ -6,13 +6,7 @@ function maxKey<K, V>(map: Map<K, V>) {
 	let max = 0;
 
 	for (const key of map.keys()) {
-		if (typeof key === 'string') {
-			max = Math.max(max, Number(key));
-		}
-
-		if (typeof key === 'number') {
-			max = Math.max(max, key);
-		}
+		max = Math.max(max, Number(key));
 	}
 
 	return max;
@@ -21,7 +15,7 @@ function maxKey<K, V>(map: Map<K, V>) {
 class SubPosition {
 	positions: Map<string, number>;
 
-	constructor(input: string[]) {
+	constructor(input: Iterable<string>) {
 		this.positions = frequency(input);
 	}
 
@@ -77,13 +71,13 @@ class SubPosition {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const positions = new SubPosition(input);
 
 		return Math.min(...positions.cost.values());
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const positions = new SubPosition(input);
 
 		return Math.min(...positions.compoundCost.values());

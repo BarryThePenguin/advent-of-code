@@ -1,3 +1,4 @@
+import {sum} from '../chunk.ts';
 import {createDay} from '../day-test.ts';
 import * as parse from '../parse.ts';
 
@@ -24,19 +25,15 @@ function isWinner(numbers: MarkedNumber[]) {
 }
 
 function calculateScore(winner?: Winner) {
-	if (winner) {
-		const winningNumbers = winner.board.unmarkedNumbers.reduce(
-			(score, {number}) => score + Number(number),
-			0,
-		);
-		const winningNumber = Number(winner.winningNumber);
+	let winningNumber;
 
-		if (typeof winningNumbers === 'number') {
-			return winningNumbers * winningNumber;
-		}
+	if (winner) {
+		const winningNumbers = sum(winner.board.unmarkedNumbers());
+
+		winningNumber = winningNumbers * winner.winningNumber;
 	}
 
-	return undefined;
+	return winningNumber;
 }
 
 class BingoBoard {
@@ -48,16 +45,14 @@ class BingoBoard {
 		return [...this.rows, ...this.columns];
 	}
 
-	get unmarkedNumbers() {
-		const unmarkedNumbers = [];
-
+	*unmarkedNumbers() {
 		for (const markedNumbers of this.rows) {
-			unmarkedNumbers.push(
-				...markedNumbers.filter((markedNumber) => !markedNumber.marked),
-			);
+			for (const markedNumber of markedNumbers) {
+				if (!markedNumber.marked) {
+					yield markedNumber.number;
+				}
+			}
 		}
-
-		return unmarkedNumbers;
 	}
 
 	addNumbers(numbers: string) {
@@ -152,7 +147,7 @@ class Bingo {
 }
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const [numbers = '', ...boards] = input;
 		const bingo = new Bingo(boards);
 
@@ -161,7 +156,7 @@ export const day = createDay({
 		return calculateScore(winner);
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const [numbers = '', ...boards] = input;
 		const bingo = new Bingo(boards);
 

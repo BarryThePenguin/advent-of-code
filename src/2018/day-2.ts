@@ -3,11 +3,11 @@ import {countFrequency} from '../frequency.ts';
 import {hammingDistance, union} from '../string.ts';
 
 export const day = createDay({
-	partOne(boxes: string[]) {
+	partOne(input: Iterable<string>) {
 		let count2 = 0;
 		let count3 = 0;
 
-		for (const value of boxes) {
+		for (const value of input) {
 			const counted = countFrequency(value);
 
 			if (counted.has(2)) {
@@ -22,15 +22,16 @@ export const day = createDay({
 		return count2 * count3;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		let found;
+		const values = [...input];
 
-		for (const value1 of input) {
+		for (const value1 of values) {
 			if (found === undefined) {
-				found = input.find((value2) => hammingDistance(value1, value2) === 1);
+				found = values.find((value2) => hammingDistance(value1, value2) === 1);
 
 				if (typeof found === 'string') {
-					found = union(found, value1).join('');
+					found = union(found, value1).toArray().join('');
 				}
 			}
 		}

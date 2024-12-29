@@ -13,7 +13,7 @@ function* location(x = 0, y = 0, a = 0, b = 0) {
 	}
 }
 
-const compile = (input: string[]) => {
+const compile = (input: Iterable<string>) => {
 	const claimed = new Map<string, string[]>();
 
 	for (const claim of input) {
@@ -29,7 +29,7 @@ const compile = (input: string[]) => {
 };
 
 export const day = createDay({
-	partOne(input: string[]) {
+	partOne(input: Iterable<string>) {
 		const claimed = compile(input);
 		let count = 0;
 
@@ -42,7 +42,7 @@ export const day = createDay({
 		return count;
 	},
 
-	partTwo(input: string[]) {
+	partTwo(input: Iterable<string>) {
 		const claimed = compile(input);
 		const elfClaims = [...claimed.values()];
 
@@ -61,8 +61,8 @@ export const day = createDay({
 			}
 		}
 
-		const claim = [...contention.entries()].find(([, claimed]) => !claimed);
+		const claim = contention.entries().find(([, claimed]) => !claimed);
 
-		return claim ? claim[0] : undefined;
+		return claim?.[0];
 	},
 });
