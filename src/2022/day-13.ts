@@ -7,7 +7,7 @@ function comparePacket(left: unknown, right: unknown): number {
 	}
 
 	if (Array.isArray(left) && Array.isArray(right)) {
-		const {length} = left.length > right.length ? left : right;
+		const length = Math.max(left.length, right.length);
 
 		for (let index = 0; index < length; index++) {
 			if (left.length === index) {
@@ -53,11 +53,7 @@ class Packet {
 		const result = comparePacket(this.left, this.right);
 
 		if (result < 0) {
-			return result;
-		}
-
-		if (result > 0) {
-			return false;
+			return true;
 		}
 
 		return false;

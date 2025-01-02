@@ -60,3 +60,20 @@ export function* walk<T>(items: Iterator<T> | Iterable<T>) {
 		previous = current;
 	}
 }
+
+export function* zip<T>(
+	a: Iterable<T> | Iterator<T>,
+	b: Iterable<T> | Iterator<T>,
+): Generator<[T, T]> {
+	const iteratorA = Iterator.from(a);
+	const iteratorB = Iterator.from(b);
+
+	let nextA = iteratorA.next();
+	let nextB = iteratorB.next();
+
+	while (!nextA.done && !nextB.done) {
+		yield [nextA.value, nextB.value];
+		nextA = iteratorA.next();
+		nextB = iteratorB.next();
+	}
+}

@@ -1,6 +1,6 @@
 import {ok} from 'node:assert';
 import {createDay} from '../day-test.ts';
-import {entries, keys} from '../chunk.ts';
+import {entries, keys, zip} from '../chunk.ts';
 import {zeroFill} from '../range.ts';
 
 class Report {
@@ -156,20 +156,6 @@ class Diagnostic {
 
 	fromBinary(result: string) {
 		return Number.parseInt(result, 2);
-	}
-}
-
-function* zip<T>(a: Iterable<T>, b: Iterable<T>): Generator<[T, T]> {
-	const iteratorA = a[Symbol.iterator]();
-	const iteratorB = b[Symbol.iterator]();
-
-	let nextA = iteratorA.next();
-	let nextB = iteratorB.next();
-
-	while (!nextA.done && !nextB.done) {
-		yield [nextA.value, nextB.value];
-		nextA = iteratorA.next();
-		nextB = iteratorB.next();
 	}
 }
 

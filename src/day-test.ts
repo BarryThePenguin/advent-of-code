@@ -1,5 +1,7 @@
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
 import {type TestFunction} from 'vitest';
-import {readLines, readFile} from './read-input.ts';
+import * as parse from './parse.ts';
 
 type DayInput<InputOne, InputTwo, ExpectedOne, ExpectedTwo> = {
 	partOne(input: InputOne): ExpectedOne;
@@ -20,11 +22,13 @@ class Day<InputOne, InputTwo, ExpectedOne, ExpectedTwo> {
 	}
 
 	readFile(inputPath: string) {
-		return readFile(inputPath);
+		const filePath = resolve('./input', inputPath);
+		return readFileSync(filePath, 'utf8');
 	}
 
 	readLines(inputPath: string, split?: string) {
-		return readLines(inputPath, split);
+		const input = this.readFile(inputPath);
+		return parse.lines(input, split);
 	}
 
 	partOne(input: InputOne, expected: ExpectedOne): TestFunction {

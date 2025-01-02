@@ -1,6 +1,6 @@
 function rangeArguments(
 	start: {length: number} | number = 0,
-	end?: number,
+	end?: {length: number} | number,
 	step = 1,
 ) {
 	if (typeof start !== 'number') {
@@ -10,6 +10,8 @@ function rangeArguments(
 	if (end === undefined) {
 		end = start;
 		start = 0;
+	} else if (typeof end !== 'number') {
+		end = end.length;
 	}
 
 	return {start, end, step};
