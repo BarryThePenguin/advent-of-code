@@ -25,7 +25,7 @@
 		"@tsconfig/node22": "^22.0.0",
 		"@tsconfig/strictest": "^2.0.5",
 		"@types/node": "^22.10.3",
-		"@vitest/coverage-v8": "^2.1.8",
+		"@vitest/coverage-v8": "^3.0.8",
 		"plop": "^4.0.1",
 		"typescript": "^5.7.2",
 		"vitest": "^2.1.8",
