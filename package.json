@@ -21,7 +21,7 @@
 	},
 	"homepage": "https://github.com/BarryThePenguin/advent-of-code#readme",
 	"devDependencies": {
-		"@fast-check/vitest": "^0.1.4",
+		"@fast-check/vitest": "^0.2.1",
 		"@tsconfig/node22": "^22.0.0",
 		"@tsconfig/strictest": "^2.0.5",
 		"@types/node": "^22.10.3",
