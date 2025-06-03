@@ -28,7 +28,7 @@
 		"@vitest/coverage-v8": "^2.1.8",
 		"plop": "^4.0.1",
 		"typescript": "^5.7.2",
-		"vitest": "^2.1.8",
+		"vitest": "^3.2.0",
 		"xo": "^0.60.0"
 	},
 	"engines": {
