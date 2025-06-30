@@ -1,12 +1,10 @@
 {
-	"extends": ["@tsconfig/strictest", "@tsconfig/node22"],
+	"extends": ["@tsconfig/strictest", "@tsconfig/node24"],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
-		"inlineSourceMap": true,
 		"lib": ["esnext"],
 		"noEmit": true,
 		"pretty": true,
-		"target": "esnext",
 		"types": ["node"]
 	},
 	"include": ["src"],
