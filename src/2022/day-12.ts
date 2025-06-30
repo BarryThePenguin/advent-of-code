@@ -51,7 +51,7 @@ class HillClimb extends Grid<Elevation> {
 		let end: Elevation | undefined;
 
 		super(
-			Grid.coordinatesFrom(input, function (x, y, value) {
+			Grid.coordinatesFrom(input, (x, y, value) => {
 				const elevation = new Elevation(
 					x,
 					y,

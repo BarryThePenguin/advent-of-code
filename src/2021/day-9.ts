@@ -38,9 +38,10 @@ class HeightMap extends Grid<Location> {
 
 	constructor(input: Iterable<string>) {
 		super(
-			Grid.coordinatesFrom(input, function (x, y, value) {
-				return new Location(x, y, Number(value));
-			}),
+			Grid.coordinatesFrom(
+				input,
+				(x, y, value) => new Location(x, y, Number(value)),
+			),
 		);
 	}
 

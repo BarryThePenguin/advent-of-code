@@ -32,9 +32,7 @@ class Character {
 class Schematic extends Grid<Character> {
 	constructor(input: Iterable<string>) {
 		super(
-			Grid.coordinatesFrom(input, function (x, y, value) {
-				return new Character(x, y, value);
-			}),
+			Grid.coordinatesFrom(input, (x, y, value) => new Character(x, y, value)),
 		);
 	}
 
@@ -96,7 +94,7 @@ class Schematic extends Grid<Character> {
 
 				partNumber += character.value;
 
-				found ||= [
+				found ??= [
 					up,
 					down,
 					left,
