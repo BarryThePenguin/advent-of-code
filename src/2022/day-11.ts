@@ -156,9 +156,7 @@ class KeepAway {
 export const day = createDay({
 	partOne(input: Iterable<string>) {
 		const rounds = 20;
-		const game = new KeepAway(input, function (level) {
-			return Math.floor(level / 3);
-		});
+		const game = new KeepAway(input, (level) => Math.floor(level / 3));
 		for (let index = 0; index < rounds; index++) {
 			game.play();
 		}

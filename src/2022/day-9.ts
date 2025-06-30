@@ -83,8 +83,6 @@ class Rope {
 				x++;
 				break;
 			}
-
-			// No default
 		}
 
 		this.head.coordinates = toCoordinates(x, y);

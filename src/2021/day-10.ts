@@ -132,7 +132,6 @@ class Parser {
 					result += 25_137;
 					break;
 				}
-				// No default
 			}
 		}
 

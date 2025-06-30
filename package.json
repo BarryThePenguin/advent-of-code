@@ -33,14 +33,5 @@
 	},
 	"engines": {
 		"node": "^24"
-	},
-	"xo": {
-		"ignores": [
-			"plop-templates"
-		],
-		"prettier": true,
-		"rules": {
-			"n/file-extension-in-import": "off"
-		}
 	}
 }
